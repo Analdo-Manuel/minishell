@@ -1,12 +1,15 @@
 NAME = minishell
-CC = cc
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
-SRCS = srcs/main.c
+SRCS =  srcs/main.c 		\
+		srcs/ft_split.c 	\
+		srcs/ft_split_one.c
+
 OBJS = $(SRCS:.c=.o)
 
 all:	$(NAME)
 $(NAME) : $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJS) -lreadline -o $(NAME)
 
 clean:	
 		rm -f $(OBJS)

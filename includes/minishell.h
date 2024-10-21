@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/21 10:31:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:24:46 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
+
+char    **ft_split(char *str, char c);
+char    **ft_split_one(char *str);
 
 #endif
