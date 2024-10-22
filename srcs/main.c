@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/21 16:42:26 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:59:43 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,18 @@ char	*find_executable(char *comando)
 {
     char	**p;
     char	*path;
-    char	*path_copy;
 	char	*str;
 	size_t	i;
 
-    if (access(comando, X_OK) == 0)
+    if (access(comando, X_OK) == 0 || access(comando, F_OK) == 0)
 	{
-		if (access(comando, F_OK) == 0)
-			printf("O comando exit");
+		printf("O comando exit");
         return (comando);
 	}
 	path = getenv("PATH");
-	path_copy = ft_strdup(path);
-	p = ft_split(path_copy, ':');
-	free(path_copy);
+	path = ft_strdup(path);
+	p = ft_split(path, ':');
+	free(path);
 	i = 0;
     while (p[i])
 	{
@@ -104,7 +102,7 @@ char	*find_executable(char *comando)
         {
         	free_all(p);
 			return (str);
-	}
+		}
 		free(str);
 		i++;
     }
@@ -124,17 +122,8 @@ int	main(void)
 	{
 		comando = readline("minishell> ");
 		add_history(comando);
-		//printf("%s.", comando);
 		p = ft_split_one(comando);
 		path = find_executable(p[0]);
-		son = fork();
-		if (son == 0)
-		{
-			//free(path);
-			execve(path, p, NULL);
-			perror("Erro ao executar execvp");
-		}
-		wait(&son);	
 		if (strcmp(comando, "exit") == 0)
 		{
 			free(path);
@@ -142,9 +131,17 @@ int	main(void)
 			free(comando);
 			break ;
 		}
-		free(path);
-		free_all(p);
-		//free(comando);
+		if (path)
+		{
+			son = fork();
+			if (son == 0)
+				execve(path, p, NULL);
+			wait(&son);	
+			free(path);
+			free_all(p);
+		}
+		else
+			printf("Comando '%s' não encontrado\n", comando);
 	}
 	return (0);
 }
