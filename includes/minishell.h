@@ -19,6 +19,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 char    **ft_split(char *str, char c);
 char    **ft_split_one(char *str);

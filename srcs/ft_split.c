@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
 static size_t   count_alloc_1(char *str, char c)
 {
     size_t  i;
@@ -44,7 +44,7 @@ static size_t   count_alloc_2(char *str, char c, size_t i)
     }
     return (j);
 }
-
+*/
 char    **ft_split(char *str, char c)
 {
     char    **p;
@@ -52,14 +52,14 @@ char    **ft_split(char *str, char c)
     int     j;
     int     k;
     
-    p = (char **) malloc(sizeof(char *) * (count_alloc_1(str, c) + 1));
+    p = (char **) malloc(sizeof(char *) * 1024);//(count_alloc_1(str, c) + 1));
     if (!p)
         return (NULL);
     i = 0;
     j = 0;
     while (str[i])
     {
-        p[j] = (char *) malloc(sizeof(char) * (count_alloc_2(str, c, i) + 1));
+        p[j] = (char *) malloc(sizeof(char) * 4096);//(count_alloc_2(str, c, i) + 1));
         k = 0;
         while (str[i] && str[i] != c)
             p[j][k++] = str[i++];
