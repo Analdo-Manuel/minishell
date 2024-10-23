@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:09:30 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/22 23:58:04 by analdo           ###   ########.fr       */
+/*   Updated: 2024/10/23 14:36:02 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char    **ft_split(const char *str, char c)
     int     k;
     
     p = (char **) malloc(sizeof(char *) * (word_count(str, c) + 1));
-    if (!p)
-        return (NULL);
     i = 0;
     j = 0;
     while (str[i])
