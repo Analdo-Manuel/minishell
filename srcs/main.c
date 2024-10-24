@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/23 16:37:11 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/23 23:19:37 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ void	clear_screen(char **envp)
 {
 	char	**args;
 
-    args = (char **) malloc(2);
+	args = (char **) malloc(sizeof(char *) * 2);
 	args[0] = "clear";
 	args[1] = NULL;
 	if (fork() == 0)
 	{
-    	if (execve("/usr/bin/clear", args, envp) == -1)
+		if (execve("/usr/bin/clear", args, envp) == -1)
 		{
-        	perror("execve failed");
-        	return ;
-    	}
+			perror("execve failed");
+			return ;
+		}
 	}
 	wait(0);
 	free(args);
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (fork() == 0)
 				execve(data.path_main, data.matrix, envp);
-			wait(0);	
+			wait(0);
 			if (data.son == false)
 				free_total(&data);
 			else
