@@ -56,9 +56,12 @@ void	clear_screen(char **envp);
 char	**ft_split_one(char	*str);
 char	*ft_strdup(const char	*src);
 char	*find_executable(t_data	*data);
+char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	*ft_strjoin(const char	*str, const char	*src);
 
 size_t	ft_strlen(const char *str);
+
+int	ft_strcmp(const char *s1, const char *s2);
 
 #endif

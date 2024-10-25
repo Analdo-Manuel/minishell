@@ -105,7 +105,7 @@ char	*expand_empty_variable(char *input)
 
 	i = 0;
 	j = 0;
-	result = malloc(ft_strlen(input) + 1);
+	result = (char *) malloc(sizeof(char) * (ft_strlen(input) + 1));
 	while (input[i])
 	{
 		if (input[i] == '$')
