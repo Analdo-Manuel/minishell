@@ -26,6 +26,16 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t			i;
+
+	i = 0;
+	while (s1[i] && s2[i] && (s1[i] == s2[i]))
+		i++;
+	return (s1[i] - s2[i]);
+}
+
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
@@ -49,12 +59,16 @@ char	*ft_strcpy(char *dest, char *src)
 	return (aotput);
 }
 
+
+
 int	main(void)
 {
-	char	*str1 = "Marco ";
-	char	*str2 = "Carvalho";
+	char	*str1 = "Ma";
+	char	*str2 = "Marco ";
 	char	*teste = ft_strcpy(str1, str2);
+	int	teste2 = ft_strcmp(str1, str2);
 
+	printf("print strcmp %d\n", teste2);
 	printf("print cpy %s\n", teste);
 
 	free(teste);
