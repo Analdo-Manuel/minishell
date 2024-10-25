@@ -12,6 +12,26 @@
 
 #include "../includes/minishell.h"
 
+void	clear_screen(char **envp)
+{
+	char	**args;
+
+	args = (char **) malloc(sizeof(char *) * 2);
+	args[0] = "clear";
+	args[1] = NULL;
+	if (fork() == 0)
+	{
+		if (execve("/usr/bin/clear", args, envp) == -1)
+		{
+			perror("execve failed");
+			return ;
+		}
+	}
+	wait(0);
+	free(args);
+	return ;
+}
+
 char	*find_executable(t_data *data)
 {
 	char	*str;

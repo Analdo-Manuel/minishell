@@ -6,21 +6,21 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/23 14:56:49 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/25 08:36:47 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <stdbool.h>
 
 // Macros para cores de texto
 # define BOLD   "\033[1m"
@@ -41,24 +41,24 @@
 
 typedef struct s_data
 {
-    char	**p;
-	char	*path_main;
-    char	*path;
+	char	**p;
 	char	**matrix;
-    char	*command;
-	bool     son;
-} t_data;
-
+	char	*path_main;
+	char	*path;
+	char	*command;
+	bool	son;
+}	t_data;
 
 void	free_all(char **p);
 void	free_total(t_data *data);
+void	clear_screen(char **envp);
 
-char    **ft_split_one(char *str);
-char	*ft_strdup(const char   *src);
-char	*find_executable(t_data *data);
-char    **ft_split(const char *str, char c);
-char	*ft_strjoin(const char *str, const char *src);
+char	**ft_split_one(char	*str);
+char	*ft_strdup(const char	*src);
+char	*find_executable(t_data	*data);
+char	**ft_split(const char	*str, char c);
+char	*ft_strjoin(const char	*str, const char	*src);
 
-size_t  ft_strlen(const char *str);
+size_t	ft_strlen(const char *str);
 
 #endif
