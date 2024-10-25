@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/23 23:39:32 by analdo           ###   ########.fr       */
+/*   Updated: 2024/10/25 23:50:46 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,19 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 char	*ft_strcpy(char *dest, char *src)
 {
-	int	i;
-	int	j;
-	char	*output;
-	
-	
+	int		i;
+	int		j;
+	char	*output;	
+
 	output = malloc(ft_strlen(dest) + ft_strlen(src) + 1);
 	i = 0;
 	j = 0;
-	while(dest[i] != '\0')
+	while (dest[i] != '\0')
 	{
 		output[i] = dest[i];
 		i++;
 	}
-	while(src[j] != '\0')
+	while (src[j] != '\0')
 		output[i++] = src[j++];
 	output[i] = '\0';
 	return (output);

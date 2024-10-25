@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/25 16:36:23 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/25 23:38:29 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ char	*expand_variable(char *s1, char *s2, int *i)
 
 	j = *i;
 	alloc = 0;
-	while (s2[*i] && s2[*i - 1] != ' ' && s2[*i] != '$')
+	while (s2[*i] && s2[*i] != ' ' && s2[*i] != '$')
 	{
 		alloc++;
-		*i += 1;
+		(*i)++;
 	}
-	str = (char *) malloc (sizeof(char) * (alloc + 1));
+	str = (char *) malloc (sizeof(char) * alloc);
 	alloc = 0;
-	while (j <= *i)
+	while (j < *i)
 		str[alloc++] = s2[j++];
-	str[alloc] = '\0'; 
+	str[alloc] = '\0';
 	get_valuer = getenv(str);
 	free (str);
 	return (ft_strjoin(s1, get_valuer));
