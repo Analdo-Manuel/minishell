@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/23 14:35:45 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:42:06 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,32 @@ char	**ft_split_one(char *str)
 	int		i;
 	int		j;
 	int		k;
+	bool	sinal;
 
 	p = (char **) malloc(sizeof(char *) * (word_count(str, ' ') + 1));
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
+		sinal = false;
 		while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
 			i++;
 		p[j] = (char *) malloc(sizeof(char) * (count(str, ' ', i) + 2));
 		k = 0;
 		while (str[i] && str[i] != ' ' && str[i] != '\t')
+		{	
+			if (str[i] == '$')
+			{
+				i++;
+				p[j][k] = '\0';
+				p[j] = expand_variable(p[j], str, &i);
+				sinal = true;
+				break ;
+			}
 			p[j][k++] = str[i++];
-		p[j][k] = '\0';
+		}
+		if (!sinal)
+			p[j][k] = '\0';
 		j++;
 	}
 	p[j] = NULL;

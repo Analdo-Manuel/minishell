@@ -3,58 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/25 10:47:29 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:36:23 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*extract_comand(char *input, int *i)
+char	*expand_variable(char *s1, char *s2, int *i)
 {
-	char	*variable;
-	int	j;
+	char	*get_valuer;
+	char	*str;
+	int		j;
+	size_t	alloc;
 
-	j = 0;
-	variable = (char *) malloc(sizeof(char) * (ft_strlen(input) + 1));
-	while(input[i] && input[i] != ' ' || input[i] != '\t' || input[i] != '\n' || input[i] != 34)
+	j = *i;
+	alloc = 0;
+	while (s2[*i] && s2[*i - 1] != ' ' && s2[*i] != '$')
 	{
-		variable[j] =  input[i];
-		j++;
+		alloc++;
 		*i += 1;
 	}
-	variable = '\0';
-	return (variable);
-}
-
-char	*expand_empty_variable(char *input)
-{
-	char	*result;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	result = (char *) malloc(sizeof(char) * (ft_strlen(input) + 1));
-	while (input[i])
-	{
-		if (input[i] == '$')
-		{
-			i++;
-			variable_name = extract_comand(input, &i);
-			variable_value = getenv(variable_name);
-			if (variable_value)
-			{
-				strcpy(&result[j], variable_value);
-				j += ft_strlen(variable_value);
-			}
-			free(variable_name);
-		}
-		else
-			result[j++] = input[i++];
-	}
-	result[j] = '\0';
-	return (result);
+	str = (char *) malloc (sizeof(char) * (alloc + 1));
+	alloc = 0;
+	while (j <= *i)
+		str[alloc++] = s2[j++];
+	str[alloc] = '\0'; 
+	get_valuer = getenv(str);
+	free (str);
+	return (ft_strjoin(s1, get_valuer));
 }

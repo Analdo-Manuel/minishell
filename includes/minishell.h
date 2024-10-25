@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/25 08:36:47 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:09:43 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ typedef struct s_data
 void	free_all(char **p);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
+void	loop_prompt(t_data *data, char **envp);
 
 char	**ft_split_one(char	*str);
 char	*ft_strdup(const char	*src);
 char	*find_executable(t_data	*data);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
+char	*expand_variable(char *s1, char *s2, int *i);
 char	*ft_strjoin(const char	*str, const char	*src);
 
 size_t	ft_strlen(const char *str);
