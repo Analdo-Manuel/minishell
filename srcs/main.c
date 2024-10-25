@@ -12,25 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	clear_screen(char **envp)
-{
-	char	**args;
-
-	args = (char **) malloc(sizeof(char *) * 2);
-	args[0] = "clear";
-	args[1] = NULL;
-	if (fork() == 0)
-	{
-		if (execve("/usr/bin/clear", args, envp) == -1)
-		{
-			perror("execve failed");
-			return ;
-		}
-	}
-	wait(0);
-	free(args);
-	return ;
-}
+void	loop_prompt(-)
 
 int	main(int ac, char **av, char **envp)
 {
@@ -53,9 +35,7 @@ int	main(int ac, char **av, char **envp)
 		data.matrix = ft_split_one(data.command);
 		data.path_main = find_executable(&data);
 		if (strcmp(data.command, "exit") == 0)
-		{
 			break ;
-		}
 		if (data.path_main)
 		{
 			if (fork() == 0)
