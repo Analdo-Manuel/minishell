@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/25 23:50:46 by analdo           ###   ########.fr       */
+/*   Updated: 2024/10/28 16:25:02 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ char	*ft_strjoin(const char *str, const char *src)
 	if (!str)
 		return (NULL);
 	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 1);
-	if (!str || !join || !src)
-		return (0);
 	while (str[i] != '\0')
 	{
 		join[i] = str[i];

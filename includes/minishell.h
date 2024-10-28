@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/25 16:09:43 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:55:14 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ char	*expand_variable(char *s1, char *s2, int *i);
 char	*ft_strjoin(const char	*str, const char	*src);
 
 size_t	ft_strlen(const char *str);
+size_t	checker_quotes(const char *str, char c);
 
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif
