@@ -36,5 +36,5 @@ char	*expand_variable(char *s1, char *s2, int *i)
 	(*i) += 1;
 	if (get_valuer)
 		return (ft_strjoin(s1, get_valuer));
-	return(s1);
+	return (s1);
 }

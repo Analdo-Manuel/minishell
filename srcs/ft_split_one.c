@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/28 16:34:10 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/29 08:40:44 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,30 @@ static size_t	word_count(const char *str, char c)
 	}
 	return (count);
 }
-static size_t second_alloc(const char *str, int i)
-{
-    size_t  j;
 
-    j = 0;
-    while (str[i] && str[i] != 32)
-    {
-        if (str[i] == 34)
-        {
-            while (str[++i] != 34)
-                j++;
-            break;
-        }
-        else if (str[i] == 39)
-        {
-            while (str[++i] != 39)
-                j++;
-            break;
-        }
-        j++;
-        i++;
-    }
-    return (j);
+static size_t	second_alloc(const char *str, int i)
+{
+	size_t	j;
+
+	j = 0;
+	while (str[i] && str[i] != 32)
+	{
+		if (str[i] == 34)
+		{
+			while (str[++i] != 34)
+				j++;
+			break ;
+		}
+		else if (str[i] == 39)
+		{
+			while (str[++i] != 39)
+				j++;
+			break ;
+		}
+		j++;
+		i++;
+	}
+	return (j);
 }
 
 char	**ft_split_one(char *str)
@@ -75,25 +76,25 @@ char	**ft_split_one(char *str)
 		while (str[i] && str[i] != ' ' && str[i] != '\t')
 		{
 			if (str[i] == 34)
-            {
+			{
 				i++;
-                while (str[i] != 34)
-                {
+				while (str[i] != 34)
+				{
 					if (str[i] == '$' && str[i + 1] != 34)
-			        {
-			        	p[j][k] = '\0';
+					{
+						p[j][k] = '\0';
 						i++;
-				        p[j] = expand_variable(p[j], str, &i);
-				        sinal = true;
+						p[j] = expand_variable(p[j], str, &i);
+						sinal = true;
 						s = true;
-				        break ;
-		        	}
-                	p[j][k++] = str[i++];
-                }
+						break ;
+					}
+					p[j][k++] = str[i++];
+				}
 				i++;
 				if (s == false)
 					p[j][k] = '\0';
-				break;
+				break ;
 			}
 			p[j][k++] = str[i++];
 		}
