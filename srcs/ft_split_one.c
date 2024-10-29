@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/29 18:25:38 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:38:06 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,40 @@ void	quotes_double(t_valuer *val, char *str)
 {
 	val->p[val->j][val->k] = '\0';
 	val->i++;
-	while (str[val->i] && str[val->i] != 34)
+	while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
 	{
-		if (str[val->i] == '$' && str[val->i + 1] != 34)
+		while (str[val->i] && str[val->i] != 34)
 		{
-			val->i++;
-			val->p[val->j] = expand_variable(val->p[val->j], str, val);
+			if (str[val->i] == '$' && str[val->i + 1] != 34)
+			{
+				val->i++;
+				val->p[val->j] = expand_variable(val->p[val->j], str, val);
+			}
+			else if (str[val->i] == '$' && str[val->i + 1] == 34)
+			{
+				val->p[val->j] = str_alloc(val->p[val->j], str[val->i]);
+				val->i++;
+				break ;
+			}
+			if (str[val->i] && str[val->i] != 34 && str[val->i] != '$')
+				val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
+			val->signal = true;
 		}
-		else if (str[val->i] == '$' && str[val->i + 1] == 34)
-		{
-			val->p[val->j] = str_alloc(val->p[val->j], str[val->i]);
+		if (str[val->i] == 34)
 			val->i++;
-			break ;
-		}
-		if (str[val->i] && str[val->i] != 34 && str[val->i] != '$')
-			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
-		val->signal = true;
 	}
-	if (str[val->i] == 34)
-		val->i++;
+}
+
+void	quotes_simple(t_valuer *val, char *str)
+{
+	val->i++;
+	while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
+	{
+		while (str[val->i] && str[val->i] != 39)
+			val->p[val->j][val->k++] = str[val->i++];
+		if (str[val->i] == 39)
+			val->i++;
+	}
 }
 
 void	selection_option(t_valuer *val, char *str)
@@ -42,9 +57,15 @@ void	selection_option(t_valuer *val, char *str)
 	if (str[val->i] == 34)
 	{
 		quotes_double(val, str);
+		val->p[val->j][val->k] = '\0';
 		return ;
 	}
-	if (str[val->i] == '$' && str[val->i + 1] != 34)
+	else if (str[val->i] == 39)
+	{
+		quotes_simple(val, str);
+		return ;
+	}
+	else if (str[val->i] == '$' && str[val->i + 1] != 34)
 	{
 		val->i++;
 		val->p[val->j] = expand_variable(val->p[val->j], str, val);
