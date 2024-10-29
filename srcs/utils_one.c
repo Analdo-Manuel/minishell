@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/28 16:25:02 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:53:05 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i] != '\0')
 		i++;
 	return (i);
@@ -76,9 +78,7 @@ char	*ft_strjoin(const char *str, const char *src)
 
 	i = 0;
 	j = 0;
-	if (!str)
-		return (NULL);
-	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 1);
+	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 3);
 	while (str[i] != '\0')
 	{
 		join[i] = str[i];

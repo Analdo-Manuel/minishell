@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/28 09:55:14 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:25:51 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@
 # define BG_CYAN    "\033[46m"
 # define BG_WHITE   "\033[47m"
 
+typedef struct s_valuer
+{
+	char	**p;
+	size_t	i;
+	size_t	j;
+	size_t	k;
+	bool	signal;
+}	t_valuer;
+
 typedef struct s_data
 {
 	char	**p;
@@ -52,15 +61,17 @@ typedef struct s_data
 void	free_all(char **p);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
-void	loop_prompt(t_data *data, char **envp);
+void	*ft_memset(void *s, int c, size_t n);
+void	loop_prompt(t_data *data, t_valuer *val, char **envp);
 
-char	**ft_split_one(char	*str);
+char	**ft_split_one(t_valuer *val, char *str);
+char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
 char	*find_executable(t_data	*data);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
-char	*expand_variable(char *s1, char *s2, int *i);
-char	*ft_strjoin(const char	*str, const char	*src);
+char	*expand_variable(char *s1, char *s2, t_valuer *val);
+char	*ft_strjoin(const char	*str, const char *src);
 
 size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);

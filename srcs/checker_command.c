@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/29 08:12:54 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:08:09 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_prompt(t_data *data, char **envp)
 		printf("zsh: command not found: %s\n", data->command);
 }
 
-void	loop_prompt(t_data *data, char **envp)
+void	loop_prompt(t_data *data, t_valuer *val, char **envp)
 {
 	while (true)
 	{
@@ -39,7 +39,7 @@ void	loop_prompt(t_data *data, char **envp)
 			printf(BOLD GREEN "%s" RESET, getenv("USER"));
 		data->command = readline(BOLD GREEN "% " RESET);
 		add_history(data->command);
-		data->matrix = ft_split_one(data->command);
+		data->matrix = ft_split_one(val, data->command);
 		data->path_main = find_executable(data);
 		if (strcmp(data->command, "exit") == 0)
 			break ;
