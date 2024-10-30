@@ -3,26 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   verefy_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/10/30 12:36:32 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:28:01 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	realine_prompt(t_data *data)
+{
+	char	*str;
+
+	data->son = false;
+	str = ft_strjoin("\033[1m\033[32m", getenv("USER"));
+	str = ft_strjoin(str, "% \033[0m");
+	if (!getenv("USER"))
+		data->command = readline(BOLD GREEN "minishell% " RESET);
+	else
+		data->command = readline(str);
+	add_history(data->command);
+}
+
 int	verefy_quotes(char *str)
 {
-	int	i;
-	int	quotes;
-	int	quotes_2;
+	int		i;
+	int		quotes;
+	int		quotes_2;
 	bool	verfy;	
 
 	i = 0;
 	quotes = 0;
 	quotes_2 = 0;
 	verfy = true;
+	if (str[0] == '\0')
+		return (1);
 	while (str[i] != '\0')
 	{
 		if (str[i] == 34)

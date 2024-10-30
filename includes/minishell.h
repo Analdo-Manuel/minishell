@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/29 18:25:51 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:19:19 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_data
 void	free_all(char **p);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
+void	realine_prompt(t_data *data);
 void	*ft_memset(void *s, int c, size_t n);
 void	loop_prompt(t_data *data, t_valuer *val, char **envp);
 
@@ -78,5 +79,7 @@ size_t	checker_quotes(const char *str, char c);
 
 int		verefy_quotes(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
+
+bool    checker_builtins(t_data *data);
 
 #endif

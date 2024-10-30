@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/30 12:40:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:27:54 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,17 @@ void	loop_prompt(t_data *data, t_valuer *val, char **envp)
 {
 	while (true)
 	{
-		data->son = false;
-		if (!getenv("USER"))
-			printf(BOLD GREEN "minishell" RESET);
-		else
-			printf(BOLD GREEN "%s" RESET, getenv("USER"));
-		data->command = readline(BOLD GREEN "% " RESET);
-		add_history(data->command);
+		realine_prompt(data);
 		if (verefy_quotes(data->command) == 0)
 		{
 			data->matrix = ft_split_one(val, data->command);
-			data->path_main = find_executable(data);
-			if (strcmp(data->command, "exit") == 0)
-				break ;
-			print_prompt(data, envp);
+			if (checker_builtins(data))
+			{
+				data->path_main = find_executable(data);
+				if (ft_strcmp(data->command, "exit") == 0)
+					break ;
+				print_prompt(data, envp);
+			}
 		}
 	}
 }
