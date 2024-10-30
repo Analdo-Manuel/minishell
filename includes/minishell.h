@@ -76,6 +76,7 @@ char	*ft_strjoin(const char	*str, const char *src);
 size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);
 
+int		verefy_quotes(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

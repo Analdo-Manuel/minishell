@@ -7,7 +7,8 @@ SRCS =  srcs/main.c 			\
 		srcs/utils_one.c		\
 		srcs/memory_free.c		\
 		srcs/checker_command.c	\
-		srcs/parsing_command.c	
+		srcs/parsing_command.c	\
+		srcs/verefy_commands.c
 		
 
 OBJS = $(SRCS:.c=.o)
