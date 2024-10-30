@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/29 20:38:06 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:06:32 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	selection_option(t_valuer *val, char *str)
 	if (str[val->i] == 34)
 	{
 		quotes_double(val, str);
-		val->p[val->j][val->k] = '\0';
 		return ;
 	}
 	else if (str[val->i] == 39)
@@ -80,11 +79,11 @@ char	**ft_split_one(t_valuer *val, char *str)
 	val->p = (char **) malloc(sizeof(char *) * 4096);
 	val->i = 0;
 	val->j = 0;
+	while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n')
+		val->i++;
 	while (str[val->i])
 	{
 		val->signal = false;
-		while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n')
-			val->i++;
 		val->p[val->j] = (char *) malloc(sizeof(char) * 8096);
 		ft_memset(val->p[val->j], 0, 8096);
 		val->k = 0;
@@ -92,6 +91,8 @@ char	**ft_split_one(t_valuer *val, char *str)
 			selection_option(val, str);
 		if (val->signal == false)
 			val->p[val->j][val->k] = '\0';
+		while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n')
+			val->i++;
 		val->j++;
 	}
 	val->p[val->j] = NULL;
