@@ -26,6 +26,34 @@ void	realine_prompt(t_data *data)
 	add_history(data->command);
 }
 
+static void	verefy_quotes_cont(char *str, int *i, int *quotes_2)
+{
+	while (str[*i] && str[*i] != 34)
+	{
+		(*i)++;
+		if (str[*i] == 34)
+		{
+			(*quotes_2)++;
+			(*i)++;
+			break ;
+		}
+	}
+}
+
+static void	verefy_quotes_cont_2(char *str, int *i, int *quotes)
+{
+	while (str[*i] && str[*i] != 39)
+	{
+		(*i)++;
+		if (str[*i] == 39)
+		{
+			(*quotes)++;
+			(*i)++;
+			break ;
+		}
+	}
+}
+
 int	verefy_quotes(char *str)
 {
 	int		i;
@@ -46,32 +74,14 @@ int	verefy_quotes(char *str)
 			i++;
 			quotes_2++;
 			verfy = false;
-			while (str[i] && str[i] != 34)
-			{
-				i++;
-				if (str[i] == 34)
-				{
-					quotes_2++;
-					i++;
-					break ;
-				}
-			}
+			verefy_quotes_cont(str, &i, &quotes_2);
 		}
 		else if (str[i] == 39)
 		{
 			i++;
 			quotes++;
 			verfy = false;
-			while (str[i] && str[i] != 39)
-			{
-				i++;
-				if (str[i] == 39)
-				{
-					quotes++;
-					i++;
-					break ;
-				}
-			}
+			verefy_quotes_cont_2(str, &i, &quotes);
 		}
 		if (verfy == true)
 			i++;

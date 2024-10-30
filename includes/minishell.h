@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/30 15:19:19 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:52:41 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ size_t	checker_quotes(const char *str, char c);
 int		verefy_quotes(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
-bool    checker_builtins(t_data *data);
+bool	checker_builtins(t_data *data);
 
 #endif
