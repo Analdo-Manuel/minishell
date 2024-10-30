@@ -39,11 +39,14 @@ void	loop_prompt(t_data *data, t_valuer *val, char **envp)
 			printf(BOLD GREEN "%s" RESET, getenv("USER"));
 		data->command = readline(BOLD GREEN "% " RESET);
 		add_history(data->command);
-		data->matrix = ft_split_one(val, data->command);
-		data->path_main = find_executable(data);
-		if (strcmp(data->command, "exit") == 0)
-			break ;
-		print_prompt(data, envp);
+		if (verefy_quotes(data->command) == 0)
+		{
+			data->matrix = ft_split_one(val, data->command);
+			data->path_main = find_executable(data);
+			if (strcmp(data->command, "exit") == 0)
+				break ;
+			print_prompt(data, envp);
+		}
 	}
 }
 
