@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/30 15:27:54 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/10/31 01:06:26 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	loop_prompt(t_data *data, t_valuer *val, char **envp)
 		if (verefy_quotes(data->command) == 0)
 		{
 			data->matrix = ft_split_one(val, data->command);
-			if (checker_builtins(data))
+			if (checker_builtins(data, envp))
 			{
 				data->path_main = find_executable(data);
 				if (ft_strcmp(data->command, "exit") == 0)
