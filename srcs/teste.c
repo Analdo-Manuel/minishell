@@ -17,10 +17,20 @@
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
+	size_t	k;
 
 	i = 0;
+	k = -1;
+	while (s1[++k])
+		;
 	while (s1[i] && s2[i] && (s1[i] == s2[i]))
+	{
+		if (s1[i] == s2[i])
+			k--;
 		i++;
+	}
+	if (s2[i] == '=' && k == 0)
+		return (k);
 	return (s1[i] - s2[i]);
 }
 
