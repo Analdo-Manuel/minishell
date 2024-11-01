@@ -22,7 +22,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 	i = 0;
 	k = -1;
-	while (s1[++k])
+	while (s1[++k] && s1[k] != '=')
 		;
 	while (s1[i] && s2[i] && (s1[i] == s2[i]))
 	{
@@ -30,7 +30,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 			k--;
 		i++;
 	}
-	if (s2[i] == '=' && k == 0)
+	if (s2[i] == '=' && k == 0 && s1[i] == '=')
 		return (k);
 	return (s1[i] - s2[i]);
 }
@@ -117,7 +117,7 @@ int	main(int ac, char **av, char **env)
 	int	i;
 	char	**teste;
 	
-	teste = ft_strdup(env, "SHLVL");
+	teste = ft_strdup(env, "SHLVL=0");
 	i = 0;
 	while (env[i])
 		printf("%s\n", env[i++]);

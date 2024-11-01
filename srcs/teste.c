@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -21,7 +22,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 	i = 0;
 	k = -1;
-	while (s1[++k])
+	while (s1[++k] && s1[k] != '=')
 		;
 	while (s1[i] && s2[i] && (s1[i] == s2[i]))
 	{
@@ -31,7 +32,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	if (s2[i] == '=' && k == 0)
 		return (k);
-	return (s1[i] - s2[i]);
+	return (1);
 }
 
 char	**ft_strdup(char **src, char *apagar)
@@ -51,25 +52,17 @@ char	**ft_strdup(char **src, char *apagar)
 	while (src[j])
 	{
 		i = -1;
-		while (src[j][++i])
-			;
-		str[k] = (char *)malloc(sizeof(char) * (i + 1));
-		i = -1;
-		printf("%s\n", src[j]);
-		printf("%d\n", ft_strcmp(apagar, src[j]));
-		printf("----------------------------------\n\n\n");
-		while (src[j][++i])
-		{
-			if (ft_strcmp(apagar, src[j]) == 0)
-			{
-				printf("%s\n", src[j]);
-				printf("----------------------------------\n\n\n");
-				j++;
-			}
-			str[k][i] = src[j][i];
+		if (ft_strcmp(apagar, src[j]) != 0)
+		{	
+			while (src[j][++i])
+				;
+			str[k] = (char *)malloc(sizeof(char) * (i + 1));
+			i = -1;
+			while (src[j][++i])			
+				str[k][i] = src[j][i];
+			str[k][i] = '\0';
+			k++;
 		}
-		str[k][i] = '\0';
-		k++;
 		j++;
 	}
 	str[k] = NULL;
@@ -93,7 +86,7 @@ int	main(int ac, char **av, char **env)
 	int	i;
 	char	**teste;
 	
-	teste = ft_strdup(env, "OLDPWD");
+	teste = ft_strdup(env, "zzzz");
 	i = 0;
 	while (env[i])
 		printf("%s\n", env[i++]);
