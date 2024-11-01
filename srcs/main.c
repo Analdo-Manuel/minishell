@@ -6,11 +6,38 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/30 11:46:44 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:20:51 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static	char **envp_copy(char **envp)
+{
+	t_valuer	val;
+
+	val.i = 0;
+	while (envp[val.i])
+		val.i++;
+	val.p = (char **) malloc(sizeof(char *) * (val.i + 1));
+	val.i = 0;
+	val.j = 0;
+	while (envp[val.i])
+	{
+		val.k = 0;
+		while (envp[val.i][val.k])
+			val.k++;
+		val.p[val.j] = (char *) malloc(sizeof(char) * (val.k + 1));
+		val.k = -1;
+		while (envp[val.i][++val.k])
+			val.p[val.j][val.k] = envp[val.i][val.k];
+		val.p[val.j][val.k] = '\0';
+		val.i++;
+		val.j++;
+	}
+	val.p[val.j] = NULL;
+	return (val.p);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -20,7 +47,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	clear_screen(envp);
-	loop_prompt(&data, &val, envp);
+	data.envp = envp_copy(envp);
+	loop_prompt(&data, &val);
 	free_total(&data);
 	return (0);
 }

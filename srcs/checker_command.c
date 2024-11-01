@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/31 01:06:26 by analdo           ###   ########.fr       */
+/*   Updated: 2024/11/01 20:28:13 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	print_prompt(t_data *data, char **envp)
+static void	print_prompt(t_data *data)
 {
 	if (data->path_main)
 	{
 		if (fork() == 0)
-			execve(data->path_main, data->matrix, envp);
+			execve(data->path_main, data->matrix, data->envp);
 		wait(0);
 		if (data->son == false)
 			free_total(data);
@@ -25,10 +25,10 @@ static void	print_prompt(t_data *data, char **envp)
 			free_all(data->matrix);
 	}
 	else
-		printf("zsh: command not found: %s\n", data->command);
+		printf("Command '%s' not found.\n", data->command);
 }
 
-void	loop_prompt(t_data *data, t_valuer *val, char **envp)
+void	loop_prompt(t_data *data, t_valuer *val)
 {
 	while (true)
 	{
@@ -36,12 +36,12 @@ void	loop_prompt(t_data *data, t_valuer *val, char **envp)
 		if (verefy_quotes(data->command) == 0)
 		{
 			data->matrix = ft_split_one(val, data->command);
-			if (checker_builtins(data, envp))
+			if (checker_builtins(data))
 			{
 				data->path_main = find_executable(data);
 				if (ft_strcmp(data->command, "exit") == 0)
 					break ;
-				print_prompt(data, envp);
+				print_prompt(data);
 			}
 		}
 	}

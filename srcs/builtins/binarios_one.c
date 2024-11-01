@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binarios.c                                         :+:      :+:    :+:   */
+/*   binarios_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/31 01:16:41 by analdo           ###   ########.fr       */
+/*   Created: 2024/11/01 15:05:15 by almanuel          #+#    #+#             */
+/*   Updated: 2024/11/01 20:25:10 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	builtins_echo(t_data *data)
 {
@@ -60,47 +60,17 @@ void	builtins_pwd(t_data *data)
 	return ;
 }
 
-void	builtins_env(char *str, char **envp)
+void	builtins_env(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
-	if (str != NULL)
+	if (data->matrix[1] != NULL)
 	{
 		printf("env with no options or arguments\n");
 		return ;
 	}
-	while (envp[i] != NULL)
-		printf("%s\n", envp[i++]);
+	while (data->envp[i] != NULL)
+		printf("%s\n", data->envp[i++]);
 	return ;
-}
-
-bool	checker_builtins(t_data *data, char **envp)
-{
-	bool	s;
-
-	s = false;
-	if (ft_strcmp(data->matrix[0], "echo") == 0)
-	{
-		if (data->matrix[1] != NULL)
-			builtins_echo(data);
-		s = true;
-	}
-	else if (ft_strcmp(data->matrix[0], "pwd") == 0)
-	{
-		builtins_pwd(data);
-		s = true;
-	}
-	else if (ft_strcmp(data->matrix[0], "env") == 0)
-	{
-		builtins_env(data->matrix[1], envp);
-		s = true;
-	}
-	
-	if (s == true)
-	{
-		free_all(data->matrix);
-		return (false);
-	}
-	return (true);
 }
