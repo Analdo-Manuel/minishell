@@ -12,7 +12,8 @@ SRCS =  srcs/main.c 					\
 		srcs/builtins/binarios.c		\
 		srcs/builtins/binarios_one.c	\
 		srcs/builtins/binarios_two.c	\
-		srcs/builtins/binarios_treen.c
+		srcs/builtins/binarios_treen.c	\
+		srcs/builtins/binarios_cd.c
 		
 
 OBJS = $(SRCS:.c=.o)

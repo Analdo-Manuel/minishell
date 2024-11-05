@@ -55,6 +55,7 @@ typedef struct s_data
 	char	**matrix;
 	char	*path_main;
 	char	*path;
+	char	*home;
 	char	*command;
 	bool	son;
 }	t_data;
@@ -65,9 +66,11 @@ void	clear_screen(char **envp);
 void	realine_prompt(t_data *data);
 void	*ft_memset(void *s, int c, size_t n);
 void	loop_prompt(t_data *data, t_valuer *val);
+void	builtins_cd(char *str);
 void	builtins_pwd(t_data *data);
 void	builtins_echo(t_data *data);
 void	builtins_env(t_data *data);
+void	builtins_cd_conf(t_data *data);
 
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);

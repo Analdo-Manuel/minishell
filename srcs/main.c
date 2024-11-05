@@ -48,6 +48,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	clear_screen(envp);
 	data.envp = envp_copy(envp);
+	//data.home = cd_home_copy(envp, "HOME", data);
 	loop_prompt(&data, &val);
 	free_total(&data);
 	return (0);

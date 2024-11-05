@@ -30,6 +30,11 @@ static bool	echo_pwd_env(t_data *data)
 		builtins_env(data);
 		return (true);
 	}
+	else if (ft_strcmp(data->matrix[0], "cd") == 0)
+	{
+		builtins_cd_conf(data);
+		return (true);
+	}
 	return (false);
 }
 
