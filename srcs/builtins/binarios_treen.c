@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 20:45:52 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/01 20:56:12 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:15:50 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,57 +48,58 @@ static int	verefy_export(const char *s1)
 	return (1);
 }
 
+static
+		void	loop_builtins_export(t_valuer *val, char **src, char *export)
+{
+	val->i = -1;
+	if (ft_strcmp_export(export, src[val->j]) != 0)
+	{
+		while (src[val->j][++val->i])
+			;
+		val->p[val->j] = (char *)malloc(sizeof(char) * (val->i + 1));
+		val->i = -1;
+		while (src[val->j][++val->i])
+			val->p[val->j][val->i] = src[val->j][val->i];
+	}
+	else
+	{
+		val->i = -1;
+		while (export[++val->i])
+			;
+		val->p[val->j] = (char *)malloc(sizeof(char) * (val->i + 1));
+		val->i = -1;
+		while (export[++val->i])
+			val->p[val->j][val->i] = export[val->i];
+		val->signal = true;
+	}
+	val->p[val->j][val->i] = '\0';
+	val->j++;
+}	
+
 char	**builtins_export(char **src, char *export)
 {
-	char	**str;
-	int		i;
-	int		j;
-	bool	s = false;
+	t_valuer	val;
 
-	i = -1;
-	j = 0;
-	while (src[++i])
+	val.i = -1;
+	val.j = 0;
+	val.signal = false;
+	while (src[++val.i])
 		;
-	str = (char **)malloc(sizeof(char *) * (i + 2));
-	i = -1;
-	while (src[j])
+	val.p = (char **)malloc(sizeof(char *) * (val.i + 2));
+	while (src[val.j])
+		loop_builtins_export(&val, src, export);
+	if (val.signal == false && verefy_export(export) == 0)
 	{
-		i = -1;
-		if (ft_strcmp_export(export, src[j]) != 0)
-		{
-			while (src[j][++i])
-				;
-			str[j] = (char *)malloc(sizeof(char) * (i + 1));
-			i = -1;
-			while (src[j][++i])
-				str[j][i] = src[j][i];
-		}
-		else
-		{
-			i = -1;
-			while (export[++i])
-				;
-			str[j] = (char *)malloc(sizeof(char) * (i + 1));
-			i = -1;
-			while (export[++i])
-				str[j][i] = export[i];
-			s = true;
-		}
-		str[j][i] = '\0';
-		j++;
-	}
-	if (s == false && verefy_export(export) == 0)
-	{
-		i = -1;
-		while (export[++i])
+		val.i = -1;
+		while (export[++val.i])
 			;
-		str[j] = (char *)malloc(sizeof(char) * (i + 1));
-		i = -1;
-		while (export[++i])
-			str[j][i] = export[i];
-		str[j][i] = '\0';
-		j++;
+		val.p[val.j] = (char *)malloc(sizeof(char) * (val.i + 1));
+		val.i = -1;
+		while (export[++val.i])
+			val.p[val.j][val.i] = export[val.i];
+		val.p[val.j][val.i] = '\0';
+		val.j++;
 	}
-	str[j] = NULL;
-	return (str);
+	val.p[val.j] = NULL;
+	return (val.p);
 }

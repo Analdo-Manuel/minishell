@@ -6,88 +6,74 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/10/30 15:28:01 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:14:32 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	realine_prompt(t_data *data)
+static void	verefy_quotes_cont(char *str, t_valuer *val)
 {
-	char	*str;
-
-	data->son = false;
-	str = ft_strjoin("\033[1m\033[32m", getenv("USER"));
-	str = ft_strjoin(str, "% \033[0m");
-	if (!getenv("USER"))
-		data->command = readline(BOLD GREEN "minishell% " RESET);
-	else
-		data->command = readline(str);
-	add_history(data->command);
-}
-
-static void	verefy_quotes_cont(char *str, int *i, int *quotes_2)
-{
-	while (str[*i] && str[*i] != 34)
+	while (str[val->i] && str[val->i] != 34)
 	{
-		(*i)++;
-		if (str[*i] == 34)
+		val->i++;
+		if (str[val->i] == 34)
 		{
-			(*quotes_2)++;
-			(*i)++;
+			val->k++;
+			val->i++;
 			break ;
 		}
 	}
 }
 
-static void	verefy_quotes_cont_2(char *str, int *i, int *quotes)
+static void	verefy_quotes_cont_2(char *str, t_valuer *val)
 {
-	while (str[*i] && str[*i] != 39)
+	while (str[val->i] && str[val->i] != 39)
 	{
-		(*i)++;
-		if (str[*i] == 39)
+		val->i++;
+		if (str[val->i] == 39)
 		{
-			(*quotes)++;
-			(*i)++;
+			val->j++;
+			val->i++;
 			break ;
 		}
 	}
+}
+
+void	loop_verefy_quotes(char *str, t_valuer *val)
+{
+	if (str[val->i] == 34)
+	{
+		val->i++;
+		val->k++;
+		val->signal = false;
+		verefy_quotes_cont(str, val);
+	}
+	else if (str[val->i] == 39)
+	{
+		val->i++;
+		val->j++;
+		val->signal = false;
+		verefy_quotes_cont_2(str, val);
+	}
+	if (val->signal == true)
+		val->i++;
+	val->signal = true;
 }
 
 int	verefy_quotes(char *str)
 {
-	int		i;
-	int		quotes;
-	int		quotes_2;
-	bool	verfy;	
+	t_valuer	val;
 
-	i = 0;
-	quotes = 0;
-	quotes_2 = 0;
-	verfy = true;
+	val.i = 0;
+	val.j = 0;
+	val.k = 0;
+	val.signal = true;
 	if (str[0] == '\0')
 		return (1);
-	while (str[i] != '\0')
-	{
-		if (str[i] == 34)
-		{
-			i++;
-			quotes_2++;
-			verfy = false;
-			verefy_quotes_cont(str, &i, &quotes_2);
-		}
-		else if (str[i] == 39)
-		{
-			i++;
-			quotes++;
-			verfy = false;
-			verefy_quotes_cont_2(str, &i, &quotes);
-		}
-		if (verfy == true)
-			i++;
-		verfy = true;
-	}
-	if ((quotes % 2 != 0) || (quotes_2 % 2 != 0))
+	while (str[val.i] != '\0')
+		loop_verefy_quotes(str, &val);
+	if ((val.j % 2 != 0) || (val.k % 2 != 0))
 	{
 		printf("Error quotes not closed\n");
 		return (1);

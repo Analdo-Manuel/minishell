@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/10/29 18:22:28 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:03:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*str_alloc(char	*s1, char c)
 {
 	char	*p;
-	size_t	i;
+	long	i;
 
 	i = -1;
 	p = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 2));
@@ -27,9 +27,9 @@ char	*str_alloc(char	*s1, char c)
 	return (p);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+void	*ft_memset(void *s, int c, long n)
 {
-	size_t	i;
+	long	i;
 	char	*string;
 
 	string = (char *)s;
@@ -42,12 +42,26 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (0);
 }
 
+void	realine_prompt(t_data *data)
+{
+	char	*str;
+
+	data->son = false;
+	str = ft_strjoin("\033[1m\033[32m", getenv("USER"));
+	str = ft_strjoin(str, "% \033[0m");
+	if (!getenv("USER"))
+		data->command = readline(BOLD GREEN "minishell% " RESET);
+	else
+		data->command = readline(str);
+	add_history(data->command);
+}
+
 char	*expand_variable(char *s1, char *s2, t_valuer *val)
 {
 	char	*get_valuer;
 	char	*str;
-	size_t	j;
-	int		alloc;
+	long	j;
+	long	alloc;
 
 	j = val->i;
 	alloc = 0;

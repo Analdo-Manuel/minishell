@@ -6,13 +6,14 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:36:44 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/01 20:45:22 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:00:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_strcmp_unset(const char *s1, const char *s2)
+static
+		int	ft_strcmp_unset(const char *s1, const char *s2)
 {
 	size_t	i;
 	size_t	k;
@@ -32,22 +33,19 @@ static int	ft_strcmp_unset(const char *s1, const char *s2)
 	return (1);
 }
 
-char	**builtins_unset(char **envp, char *clear)
+char	**builtins_unset(char **envp, char *clear, t_valuer val)
 {
-	t_valuer val;
-
 	val.i = -1;
 	val.j = 0;
 	val.k = 0;
 	while (envp[++val.i])
 		;
 	val.p = (char **)malloc(sizeof(char *) * (val.i + 1));
-	val.i = -1;
 	while (envp[val.j])
 	{
-		val.i = -1;
 		if (ft_strcmp_unset(clear, envp[val.j]) != 0)
 		{
+			val.i = -1;
 			while (envp[val.j][++val.i])
 				;
 			val.p[val.k] = (char *)malloc(sizeof(char) * (val.i + 1));

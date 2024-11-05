@@ -6,13 +6,13 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/01 20:20:51 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:18:28 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static	char **envp_copy(char **envp)
+static	char	**envp_copy(char **envp)
 {
 	t_valuer	val;
 
@@ -48,7 +48,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	clear_screen(envp);
 	data.envp = envp_copy(envp);
-	//data.home = cd_home_copy(envp, "HOME", data);
 	loop_prompt(&data, &val);
 	free_total(&data);
 	return (0);

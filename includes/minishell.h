@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/01 20:51:26 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:01:12 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@
 typedef struct s_valuer
 {
 	char	**p;
-	size_t	i;
-	size_t	j;
-	size_t	k;
+	long	i;
+	long	j;
+	long	k;
 	bool	signal;
 }	t_valuer;
 
@@ -64,9 +64,8 @@ void	free_all(char **p);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
 void	realine_prompt(t_data *data);
-void	*ft_memset(void *s, int c, size_t n);
+void	*ft_memset(void *s, int c, long n);
 void	loop_prompt(t_data *data, t_valuer *val);
-void	builtins_cd(char *str);
 void	builtins_pwd(t_data *data);
 void	builtins_echo(t_data *data);
 void	builtins_env(t_data *data);
@@ -78,7 +77,7 @@ char	*find_executable(t_data	*data);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	**ft_split_one(t_valuer *val, char *str);
-char	**builtins_unset(char **envp, char *clear);
+char	**builtins_unset(char **envp, char *clear, t_valuer val);
 char	**builtins_export(char **src, char *export);
 char	*expand_variable(char *s1, char *s2, t_valuer *val);
 char	*ft_strjoin(const char	*str, const char *src);

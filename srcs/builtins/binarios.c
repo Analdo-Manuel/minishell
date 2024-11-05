@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/01 20:53:54 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:02:46 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,13 @@ static bool	echo_pwd_env(t_data *data)
 		builtins_env(data);
 		return (true);
 	}
-	else if (ft_strcmp(data->matrix[0], "cd") == 0)
-	{
-		builtins_cd_conf(data);
-		return (true);
-	}
 	return (false);
 }
 
-static bool	unset_export(t_data *data)
+static bool	unset_export_cd(t_data *data)
 {
-	size_t	i;
+	t_valuer	val;
+	size_t		i;
 
 	i = 1;
 	if (ft_strcmp(data->matrix[0], "unset") == 0)
@@ -48,16 +44,19 @@ static bool	unset_export(t_data *data)
 		if (data->matrix[1] != NULL)
 		{
 			while (data->matrix[i])
-				data->envp = builtins_unset(data->envp, data->matrix[i++]);
+				data->envp = builtins_unset(data->envp, data->matrix[i++], val);
 		}
 		return (true);
 	}
-	if (ft_strcmp(data->matrix[0], "export") == 0)
+	else if (ft_strcmp(data->matrix[0], "export") == 0)
 	{
 		if (data->matrix[1] != NULL)
-		{
 			data->envp = builtins_export(data->envp, data->matrix[1]);
-		}
+		return (true);
+	}
+	else if (ft_strcmp(data->matrix[0], "cd") == 0)
+	{
+		builtins_cd_conf(data);
 		return (true);
 	}
 	return (false);
@@ -70,7 +69,7 @@ bool	checker_builtins(t_data *data)
 		free_all(data->matrix);
 		return (false);
 	}
-	if (unset_export(data))
+	if (unset_export_cd(data))
 	{
 		free_all(data->matrix);
 		return (false);

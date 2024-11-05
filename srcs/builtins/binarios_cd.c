@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:00 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/05 08:12:06 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:55:09 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-/*
+
 static int	ft_strcmp_cd(const char *s1, const char *s2)
 {
 	size_t	i;
@@ -32,39 +32,35 @@ static int	ft_strcmp_cd(const char *s1, const char *s2)
 	return (1);
 }
 
-char	*cd_home_copy(char **envp, char *home, t_data data)
+char	*cd_home_copy(char **envp, char *home, t_data *data)
 {
-	t_valuer val;
-	val.i = -1;
+	t_valuer	val;
+
 	val.j = 0;
 	val.k = 0;
-
-	val.i = -1;
+	data->home = NULL;
 	while (envp[val.j])
 	{
-		//("ok\n");
 		val.i = -1;
 		if (ft_strcmp_cd(home, envp[val.j]) == 0)
 		{
 			while (envp[val.j][++val.i])
 				;
-			//printf("teste----%s\n", envp[val.j]);
-			data.home = (char *)malloc(sizeof(char) * (val.i + 1));
+			data->home = (char *)malloc(sizeof(char) * (val.i + 1));
 			val.i = -1;
 			while (envp[val.j][++val.i] != '=')
 				;
 			val.i++;
 			while (envp[val.j][val.i])
-				data.home[val.k++] = envp[val.j][val.i++];
-			data.home[val.k] = '\0';
-			//printf("teste----%s\n", data.home);
+				data->home[val.k++] = envp[val.j][val.i++];
+			data->home[val.k] = '\0';
 		}
 		val.j++;
 	}
-	return (data.home);
+	return (data->home);
 }
-*/
-void	builtins_cd(char *str)
+
+static void	builtins_cd(char *str)
 {
 	if (chdir(str) == 0)
 		return ;
@@ -75,17 +71,26 @@ void	builtins_cd(char *str)
 
 void	builtins_cd_conf(t_data *data)
 {
-	if (data->matrix[2] != NULL)
+	data->home = cd_home_copy(data->envp, "HOME", data);
+	if (data->matrix[1] == NULL)
 	{
-		printf("bash: cd: too many arguments\n");
-		
-	}
-	else if (data->matrix[1] == NULL || ft_strcmp(data->matrix[1], "~") == 0)
-	{
-		builtins_cd(getenv("HOME"));
+		if (data->home == NULL)
+		{
+			printf("bash: cd: HOME not set\n");
+			return ;
+		}
+		builtins_cd(data->home);
 	}
 	else
 	{
-		builtins_cd(data->matrix[1]);
+		if (ft_strcmp(data->matrix[1], "~") == 0)
+		{
+			if (data->matrix[2] != NULL)
+				printf("bash: cd: too many arguments\n");
+			else
+				builtins_cd(getenv("HOME"));
+		}
+		else
+			builtins_cd(data->matrix[1]);
 	}
 }
