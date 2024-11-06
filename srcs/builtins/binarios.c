@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/05 16:02:46 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:42:26 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static bool	echo_pwd_env(t_data *data)
 			builtins_echo(data);
 		return (true);
 	}
-	else if (ft_strcmp(data->matrix[0], "pwd") == 0)
+	if (ft_strcmp(data->matrix[0], "pwd") == 0)
 	{
 		builtins_pwd(data);
 		return (true);
 	}
-	else if (ft_strcmp(data->matrix[0], "env") == 0)
+	if (ft_strcmp(data->matrix[0], "env") == 0)
 	{
 		builtins_env(data);
 		return (true);
@@ -37,8 +37,10 @@ static bool	unset_export_cd(t_data *data)
 {
 	t_valuer	val;
 	size_t		i;
+	size_t		j;
 
 	i = 1;
+	j = 0;
 	if (ft_strcmp(data->matrix[0], "unset") == 0)
 	{
 		if (data->matrix[1] != NULL)
@@ -48,13 +50,26 @@ static bool	unset_export_cd(t_data *data)
 		}
 		return (true);
 	}
-	else if (ft_strcmp(data->matrix[0], "export") == 0)
+	if (ft_strcmp(data->matrix[0], "export") == 0)
 	{
 		if (data->matrix[1] != NULL)
-			data->envp = builtins_export(data->envp, data->matrix[1]);
+		{	
+			if (ft_isdigit(data->matrix[1][0]))
+				printf("bash: export: '%s': not a valid identifier\n", data->matrix[1]);
+			else
+			{
+				
+				data->envp = builtins_export(data->envp, data->matrix[1]);
+			}
+		}
+		else
+		{
+			while (data->export[j])
+				printf("%s\n", data->export[j++]);
+		}
 		return (true);
 	}
-	else if (ft_strcmp(data->matrix[0], "cd") == 0)
+	if (ft_strcmp(data->matrix[0], "cd") == 0)
 	{
 		builtins_cd_conf(data);
 		return (true);

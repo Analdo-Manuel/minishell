@@ -5,6 +5,7 @@ SRCS =  srcs/main.c 					\
 		srcs/ft_split.c 				\
 		srcs/ft_split_one.c 			\
 		srcs/utils_one.c				\
+		srcs/utils_two.c				\
 		srcs/memory_free.c				\
 		srcs/checker_command.c			\
 		srcs/parsing_command.c			\
@@ -13,7 +14,9 @@ SRCS =  srcs/main.c 					\
 		srcs/builtins/binarios_one.c	\
 		srcs/builtins/binarios_two.c	\
 		srcs/builtins/binarios_treen.c	\
-		srcs/builtins/binarios_cd.c
+		srcs/builtins/binarios_four.c	\
+		srcs/builtins/binarios_cd.c		\
+		srcs/builtins/ft_sort_params.c	
 		
 
 OBJS = $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/05 16:01:12 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:25:37 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <stdbool.h>
+# include <fcntl.h>
 
 // Macros para cores de texto
 # define BOLD   "\033[1m"
@@ -53,6 +54,7 @@ typedef struct s_data
 	char	**p;
 	char	**envp;
 	char	**matrix;
+	char	**export;
 	char	*path_main;
 	char	*path;
 	char	*home;
@@ -61,6 +63,7 @@ typedef struct s_data
 }	t_data;
 
 void	free_all(char **p);
+void	sort_params(char **envp);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
 void	realine_prompt(t_data *data);
@@ -73,7 +76,7 @@ void	builtins_cd_conf(t_data *data);
 
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
-char	*find_executable(t_data	*data);
+char    **export_define(char **export);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	**ft_split_one(t_valuer *val, char *str);
@@ -85,6 +88,7 @@ char	*ft_strjoin(const char	*str, const char *src);
 size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);
 
+int		ft_isdigit(int c);
 int		verefy_quotes(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
