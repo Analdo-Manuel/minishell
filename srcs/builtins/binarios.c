@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 16:42:26 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/06 23:46:12 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static bool	unset_export_cd(t_data *data)
 				printf("bash: export: '%s': not a valid identifier\n", data->matrix[1]);
 			else
 			{
-				
+				data->export = builtins_export_define(data->export, data->matrix[1]);
+				sort_params(data->export);
 				data->envp = builtins_export(data->envp, data->matrix[1]);
 			}
 		}

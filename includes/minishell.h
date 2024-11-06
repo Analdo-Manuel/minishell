@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 15:25:37 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:52:16 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char    **export_define(char **export);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	**ft_split_one(t_valuer *val, char *str);
+char	**builtins_export_define(char **src, char *export);
 char	**builtins_unset(char **envp, char *clear, t_valuer val);
 char	**builtins_export(char **src, char *export);
 char	*expand_variable(char *s1, char *s2, t_valuer *val);

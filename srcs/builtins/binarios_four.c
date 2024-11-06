@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_four.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 16:36:55 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/06 23:38:47 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 	while (s2[++val.i] && s2[val.i] != 'x')
 		;
     val.i += 2;
-    while (s1[val.k] != '=')
+    while (s1[val.k] != '=' && s1[val.k])
+	{
         val.k++;
+	}	
 	while (s1[val.j] && s1[val.j] != '=' && s2[val.i] && s2[val.i] != '=' && (s1[val.j] == s2[val.i]))
 	{
 		if (s1[val.j] == s2[val.i])
@@ -66,8 +68,9 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 		return (val.k);
 	return (1);
 }
-
-static int	verefy_export(const char *s1)
+/*
+static
+		int	verefy_export(const char *s1)
 {
 	size_t	k;
 
@@ -78,6 +81,7 @@ static int	verefy_export(const char *s1)
 		return (0);
 	return (1);
 }
+*/
 
 static
 		void	loop_builtins_export(t_valuer *val, char **src, char *export)
@@ -91,23 +95,23 @@ static
 		val->i = -1;
 		while (src[val->j][++val->i])
 			val->p[val->j][val->i] = src[val->j][val->i];
+		val->p[val->j][val->i] = '\0';
 	}
 	else
 	{
 		val->i = -1;
 		while (export[++val->i])
 			;
-		val->p[val->j] = (char *)malloc(sizeof(char) * (val->i + 1));
+		val->p[val->j] = ft_strdup("declare -x ");
 		val->i = -1;
 		while (export[++val->i])
-			val->p[val->j][val->i] = export[val->i];
+			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 		val->signal = true;
 	}
-	val->p[val->j][val->i] = '\0';
 	val->j++;
 }	
 
-char	**builtins_export(char **src, char *export)
+char	**builtins_export_define(char **src, char *export)
 {
 	t_valuer	val;
 
@@ -119,18 +123,18 @@ char	**builtins_export(char **src, char *export)
 	val.p = (char **)malloc(sizeof(char *) * (val.i + 2));
 	while (src[val.j])
 		loop_builtins_export(&val, src, export);
-	if (val.signal == false && verefy_export(export) == 0)
+	if (val.signal == false)
 	{
 		val.i = -1;
 		while (export[++val.i])
 			;
-		val.p[val.j] = (char *)malloc(sizeof(char) * (val.i + 1));
+		val.p[val.j] = ft_strdup("declare -x ");
 		val.i = -1;
 		while (export[++val.i])
-			val.p[val.j][val.i] = export[val.i];
-		val.p[val.j][val.i] = '\0';
+			val.p[val.j] = str_alloc(val.p[val.j], export[val.i]);
 		val.j++;
 	}
 	val.p[val.j] = NULL;
+	free_all(src);
 	return (val.p);
 }

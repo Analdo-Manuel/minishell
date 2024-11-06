@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_treen.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 20:45:52 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/05 15:15:50 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/06 23:44:35 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 	while (s1[i] && s1[i] != '=' && s2[i] && s2[i] != '=' && (s1[i] == s2[i]))
 	{
 		if (s1[i] == s2[i])
-		{
-			printf("k == %ld\n", k);
-			printf("export: %c || env: %c\n", s1[i], s2[i]);
 			k--;
-		}
 		i++;
 	}
 	if (s2[i] == '=' && k == 0 && s1[i] == '=' && s1[0] != '=')
