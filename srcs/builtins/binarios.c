@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 14:35:19 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:04:28 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static bool	unset_export_cd(t_data *data)
 	if (ft_strcmp(data->matrix[0], "cd") == 0)
 	{
 		builtins_cd_conf(data);
+		free(data->home);
 		return (true);
 	}
 	return (false);

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:36:44 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/05 16:00:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:20:35 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ char	**builtins_unset(char **envp, char *clear, t_valuer val)
 		val.j++;
 	}
 	val.p[val.k] = NULL;
+	free_all(envp);
 	return (val.p);
 }

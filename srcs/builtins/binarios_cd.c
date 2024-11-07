@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:00 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/07 15:17:17 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:00:26 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	cd_home_copy(char **envp, char *home, t_data *data)
 		}
 		val.j++;
 	}
-	//return (data->home);
 }
 
 static void	builtins_cd(char *str)

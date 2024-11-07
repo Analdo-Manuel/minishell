@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 16:14:26 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:25:00 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,13 @@ void	clear_screen(char **envp)
 }
 
 static
-		void	print_prompt(t_data *data)
-{
-	if (data->path_main)
-	{
-		if (fork() == 0)
-			execve(data->path_main, data->matrix, data->envp);
-		wait(0);
-	}
-	else
-		printf("Command '%s' not found.\n", data->command);
-}
-
-static
 		char	*find_executable(t_data *data)
 {
 	char	*str;
 	size_t	i;
 
 	if (access(data->matrix[0], X_OK) == 0)
-	{
-		data->son = true;
 		return (data->matrix[0]);
-	}
 	data->path = getenv("PATH");
 	data->path = ft_strdup(data->path);
 	data->p = ft_split(data->path, ':');
@@ -76,6 +60,20 @@ static
 	return (NULL);
 }
 
+static
+		void	print_prompt(t_data *data)
+{
+	if (data->path_main)
+	{
+		if (fork() == 0)
+			execve(data->path_main, data->matrix, data->envp);
+		wait(0);
+		free_all(data->matrix);
+	}
+	else
+		printf("Command '%s' not found.\n", data->command);
+}
+
 void	loop_prompt(t_data *data, t_valuer *val)
 {
 	while (true)
@@ -90,6 +88,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				if (ft_strcmp(data->command, "exit") == 0)
 					break ;
 				print_prompt(data);
+				free(data->path_main);
 			}
 		}
 	}
