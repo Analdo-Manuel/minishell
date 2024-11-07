@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:00 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/05 15:55:09 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:17:17 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ static int	ft_strcmp_cd(const char *s1, const char *s2)
 	return (1);
 }
 
-char	*cd_home_copy(char **envp, char *home, t_data *data)
+void	cd_home_copy(char **envp, char *home, t_data *data)
 {
 	t_valuer	val;
 
 	val.j = 0;
 	val.k = 0;
-	data->home = NULL;
 	while (envp[val.j])
 	{
 		val.i = -1;
@@ -57,7 +56,7 @@ char	*cd_home_copy(char **envp, char *home, t_data *data)
 		}
 		val.j++;
 	}
-	return (data->home);
+	//return (data->home);
 }
 
 static void	builtins_cd(char *str)
@@ -71,7 +70,7 @@ static void	builtins_cd(char *str)
 
 void	builtins_cd_conf(t_data *data)
 {
-	data->home = cd_home_copy(data->envp, "HOME", data);
+	cd_home_copy(data->envp, "HOME", data);
 	if (data->matrix[1] == NULL)
 	{
 		if (data->home == NULL)

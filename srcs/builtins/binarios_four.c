@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_four.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 23:38:47 by analdo           ###   ########.fr       */
+/*   Updated: 2024/11/07 14:42:11 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,6 @@ char	**builtins_export_define(char **src, char *export)
 		val.j++;
 	}
 	val.p[val.j] = NULL;
-	free_all(src);
+	//free(export);
 	return (val.p);
 }

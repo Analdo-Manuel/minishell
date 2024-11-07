@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 23:54:28 by analdo           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:57:04 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ static
 	return (val.p);
 }
 
+void	inicializador(t_data *data)
+{
+	data->home = NULL;
+	data->command = NULL;
+	data->envp = NULL;
+	data->matrix = NULL;
+	data->p = NULL;
+	data->path = NULL;
+	data->path_main = NULL;
+	data->son = false;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_data		data;
@@ -47,6 +59,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	inicializador(&data);
 	clear_screen(envp);
 	data.envp = envp_copy(envp);
 	data.export = envp_copy(envp);

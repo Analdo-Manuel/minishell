@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_treen.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 20:45:52 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 23:44:35 by analdo           ###   ########.fr       */
+/*   Updated: 2024/11/07 14:34:19 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ char	**builtins_export(char **src, char *export)
 		val.j++;
 	}
 	val.p[val.j] = NULL;
+	free_all(src);
 	return (val.p);
 }

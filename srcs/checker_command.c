@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 13:10:30 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:14:26 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ static
 		if (fork() == 0)
 			execve(data->path_main, data->matrix, data->envp);
 		wait(0);
-		if (data->son == false)
-			free_total(data);
-		else
-			free_all(data->matrix);
 	}
 	else
 		printf("Command '%s' not found.\n", data->command);
@@ -85,7 +81,6 @@ void	loop_prompt(t_data *data, t_valuer *val)
 	while (true)
 	{
 		realine_prompt(data);
-		
 		if (verefy_quotes(data->command) == 0)
 		{
 			data->matrix = ft_split_one(val, data->command);

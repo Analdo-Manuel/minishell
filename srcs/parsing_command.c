@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/05 15:03:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:45:24 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,18 @@ void	*ft_memset(void *s, int c, long n)
 void	realine_prompt(t_data *data)
 {
 	char	*str;
+	char	*str1;
 
 	data->son = false;
-	str = ft_strjoin("\033[1m\033[32m", getenv("USER"));
-	str = ft_strjoin(str, "% \033[0m");
+	str1 = ft_strjoin("\033[1m\033[32m", getenv("USER"));
+	str = ft_strjoin(str1, "% \033[0m");
 	if (!getenv("USER"))
 		data->command = readline(BOLD GREEN "minishell% " RESET);
 	else
 		data->command = readline(str);
 	add_history(data->command);
+	free(str);
+	free(str1);
 }
 
 char	*expand_variable(char *s1, char *s2, t_valuer *val)
