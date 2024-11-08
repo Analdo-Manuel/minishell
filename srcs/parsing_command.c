@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 13:45:24 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:04:47 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ char	*expand_variable(char *s1, char *s2, t_valuer *val)
 	get_valuer = getenv(str);
 	free (str);
 	if (get_valuer)
-		return (ft_strjoin(s1, get_valuer));
+		return (ft_strjoin_des(s1, get_valuer));
 	return (s1);
 }

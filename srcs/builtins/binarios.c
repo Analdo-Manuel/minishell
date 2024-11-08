@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 17:04:28 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:36:19 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,12 @@ static bool	unset_export_cd(t_data *data)
 		if (data->matrix[1] != NULL)
 		{
 			while (data->matrix[i])
+			{
+				val.signal = false;
+				data->export = builtins_unset(data->export, data->matrix[i], val);
+				val.signal = true;	
 				data->envp = builtins_unset(data->envp, data->matrix[i++], val);
+			}
 		}
 		return (true);
 	}

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:36:44 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 18:20:35 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:42:11 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,27 @@
 
 static
 		int	ft_strcmp_unset(const char *s1, const char *s2)
+{
+	size_t	i;
+	size_t	k;
+
+	i = 0;
+	k = -1;
+	while (s1[++k] && s1[k] != '=')
+		;
+	while (s1[i] && s2[i] && (s1[i] == s2[i]))
+	{
+		if (s1[i] == s2[i])
+			k--;
+		i++;
+	}
+	if (s2[i] == '=' && k == 0)
+		return (k);
+	return (1);
+}
+
+static
+		int	ft_strcmp_unset_export(const char *s1, const char *s2)
 {
 	size_t	i;
 	size_t	k;

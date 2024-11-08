@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 22:52:16 by analdo           ###   ########.fr       */
+/*   Updated: 2024/11/08 14:05:34 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	**builtins_unset(char **envp, char *clear, t_valuer val);
 char	**builtins_export(char **src, char *export);
 char	*expand_variable(char *s1, char *s2, t_valuer *val);
 char	*ft_strjoin(const char	*str, const char *src);
+char	*ft_strjoin_des(char *str, const char *src);
 
 size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);
