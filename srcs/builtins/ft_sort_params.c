@@ -13,7 +13,7 @@
 #include "../../includes/minishell.h"
 
 static
-        void	ft_swap(char **a, char **b)
+	void	ft_swap(char **a, char **b)
 {
 	char	*swp;
 
@@ -21,8 +21,9 @@ static
 	*a = *b;
 	*b = swp;
 }
+
 static
-        int	ft_strcmp_params(char *s1, char *s2)
+	int	ft_strcmp_params(char *s1, char *s2)
 {
 	int	i;
 
@@ -42,10 +43,10 @@ void	sort_params(char **envp)
 	int	i;
 
 	i = 0;
-    if (envp == NULL)
-    {   
-        return ;
-    }
+	if (envp == NULL)
+	{
+		return ;
+	}
 	while (envp[i + 1] != NULL)
 	{
 		if (ft_strcmp_params(envp[i], envp[i + 1]) > 0)

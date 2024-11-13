@@ -89,24 +89,3 @@ char	*ft_strjoin(const char *str, const char *src)
 	join[i] = '\0';
 	return (join);
 }
-
-char	*ft_strjoin_des(char *str, const char *src)
-{
-	size_t	i;
-	size_t	j;
-	char	*join;
-
-	i = 0;
-	j = 0;
-	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 3);
-	while (str[i] != '\0')
-	{
-		join[i] = str[i];
-		i++;
-	}
-	while (src[j] != '\0')
-		join[i++] = src[j++];
-	join[i] = '\0';
-	free(str);
-	return (join);
-}

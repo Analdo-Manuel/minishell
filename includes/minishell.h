@@ -76,7 +76,7 @@ void	builtins_cd_conf(t_data *data);
 
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
-char    **export_define(char **export);
+char	**export_define(char **export);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	**ft_split_one(t_valuer *val, char *str);

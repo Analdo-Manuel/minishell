@@ -60,6 +60,38 @@ static
 	return (1);
 }
 
+void	if_unset_signa_true(char **envp, char *clear, t_valuer *val)
+{
+	if (ft_strcmp_unset(clear, envp[val->j]) != 0)
+	{
+		val->i = -1;
+		while (envp[val->j][++val->i])
+			;
+		val->p[val->k] = (char *)malloc(sizeof(char) * (val->i + 1));
+		val->i = -1;
+		while (envp[val->j][++val->i])
+			val->p[val->k][val->i] = envp[val->j][val->i];
+		val->p[val->k][val->i] = '\0';
+		val->k++;
+	}
+}
+
+void	if_unset_signa_false(char **envp, char *clear, t_valuer *val)
+{
+	if (ft_strcmp_unset_export(clear, envp[val->j]) != 0)
+	{
+		val->i = -1;
+		while (envp[val->j][++val->i])
+			;
+		val->p[val->k] = (char *)malloc(sizeof(char) * (val->i + 1));
+		val->i = -1;
+		while (envp[val->j][++val->i])
+			val->p[val->k][val->i] = envp[val->j][val->i];
+		val->p[val->k][val->i] = '\0';
+		val->k++;
+	}
+}
+
 char	**builtins_unset(char **envp, char *clear, t_valuer val)
 {
 	val.i = -1;
@@ -72,33 +104,11 @@ char	**builtins_unset(char **envp, char *clear, t_valuer val)
 	{
 		if (val.signal == true)
 		{
-			if (ft_strcmp_unset(clear, envp[val.j]) != 0)
-			{
-				val.i = -1;
-				while (envp[val.j][++val.i])
-					;
-				val.p[val.k] = (char *)malloc(sizeof(char) * (val.i + 1));
-				val.i = -1;
-				while (envp[val.j][++val.i])
-					val.p[val.k][val.i] = envp[val.j][val.i];
-				val.p[val.k][val.i] = '\0';
-				val.k++;
-			}
+			if_unset_signa_true(envp, clear, &val);
 		}
 		else
 		{
-			if (ft_strcmp_unset_export(clear, envp[val.j]) != 0)
-			{
-				val.i = -1;
-				while (envp[val.j][++val.i])
-					;
-				val.p[val.k] = (char *)malloc(sizeof(char) * (val.i + 1));
-				val.i = -1;
-				while (envp[val.j][++val.i])
-					val.p[val.k][val.i] = envp[val.j][val.i];
-				val.p[val.k][val.i] = '\0';
-				val.k++;
-			}
+			if_unset_signa_false(envp, clear, &val);
 		}
 		val.j++;
 	}

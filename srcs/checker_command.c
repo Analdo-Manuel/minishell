@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 void	clear_screen(char **envp)
 {
 	char	**args;
