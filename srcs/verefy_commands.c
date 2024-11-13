@@ -20,7 +20,6 @@ static void	verefy_quotes_cont(char *str, t_valuer *val)
 		if (str[val->i] == 34)
 		{
 			val->k++;
-			val->i++;
 			break ;
 		}
 	}
@@ -34,7 +33,6 @@ static void	verefy_quotes_cont_2(char *str, t_valuer *val)
 		if (str[val->i] == 39)
 		{
 			val->j++;
-			val->i++;
 			break ;
 		}
 	}
@@ -46,19 +44,19 @@ void	loop_verefy_quotes(char *str, t_valuer *val)
 	{
 		val->i++;
 		val->k++;
-		val->signal = false;
+		if (str[val->i] == 34)
+			val->k++;
 		verefy_quotes_cont(str, val);
 	}
 	else if (str[val->i] == 39)
 	{
 		val->i++;
 		val->j++;
-		val->signal = false;
+		if (str[val->i] == 39)
+			val->j++;
 		verefy_quotes_cont_2(str, val);
 	}
-	if (val->signal == true)
-		val->i++;
-	val->signal = true;
+	val->i++;
 }
 
 int	verefy_quotes(char *str)
@@ -68,7 +66,6 @@ int	verefy_quotes(char *str)
 	val.i = 0;
 	val.j = 0;
 	val.k = 0;
-	val.signal = true;
 	if (str[0] == '\0')
 		return (1);
 	while (str[val.i] != '\0')
