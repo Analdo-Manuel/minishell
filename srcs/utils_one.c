@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/08 14:05:17 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:44:58 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
+	if (s1 == NULL)
+		return (EOF);
 	i = 0;
 	while (s1[i] && s2[i] && (s1[i] == s2[i]))
 		i++;

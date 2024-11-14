@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/08 16:36:19 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/14 08:23:33 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	unset_export_unset(t_data *data, t_valuer val)
 	}
 }
 
-void	unset_export_export(t_data *data)
+static
+		void	unset_export_export(t_data *data)
 {
 	size_t		j;
 

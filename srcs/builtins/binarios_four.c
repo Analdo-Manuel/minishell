@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/08 16:16:37 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/14 08:43:43 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ static
 
 void	loop_builtins_export_2(t_valuer *val, char *export)
 {
+	bool	signal;
+
+	signal = true;
 	val->p[val->j] = ft_strdup("declare -x ");
 	val->i = -1;
 	while (export[++val->i])
@@ -98,11 +101,13 @@ void	loop_builtins_export_2(t_valuer *val, char *export)
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 			val->p[val->j] = str_alloc(val->p[val->j], '"');
+			signal = false;
 		}
 		else
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 	}
-	val->p[val->j] = str_alloc(val->p[val->j], '"');
+	if (signal != true)
+		val->p[val->j] = str_alloc(val->p[val->j], '"');
 	val->signal = true;
 }
 
@@ -129,6 +134,9 @@ static
 
 void	builtins_export_define_2(t_valuer *val, char *export)
 {
+	bool	signal;
+
+	signal = true;
 	val->i = -1;
 	while (export[++val->i])
 		;
@@ -140,11 +148,13 @@ void	builtins_export_define_2(t_valuer *val, char *export)
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 			val->p[val->j] = str_alloc(val->p[val->j], '"');
+			signal = false;
 		}
 		else
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 	}
-	val->p[val->j] = str_alloc(val->p[val->j], '"');
+	if (signal != true)
+		val->p[val->j] = str_alloc(val->p[val->j], '"');
 	val->j++;
 }
 

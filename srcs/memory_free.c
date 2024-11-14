@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:47:50 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 17:52:20 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:46:47 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,14 @@ void	free_all(char **p)
 
 void	free_total(t_data *data)
 {
-	free(data->path_main);
-	free_all(data->matrix);
-	free_all(data->envp);
-	free_all(data->export);
-	free(data->command);
+	if (data->path_main)
+		free(data->path_main);
+	if (data->matrix)
+		free_all(data->matrix);
+	if (data->envp)
+		free_all(data->envp);
+	if (data->export)
+		free_all(data->export);
+	if (data->command)
+		free(data->command);
 }
