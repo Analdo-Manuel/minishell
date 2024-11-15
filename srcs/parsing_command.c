@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/14 14:08:55 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:37:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ void		realine_prompt(t_data *data)
 {
 	data->son = false;
 	data->command = readline("minishell% ");
-	if (data->command[0] != '\0')
-		add_history(data->command);
+	if (data->command != NULL)
+	{	
+		if (data->command[0] != '\0')
+			add_history(data->command);
+	}
 }
 
 char	*expand_variable(char *s1, char *s2, t_valuer *val)
@@ -71,8 +74,15 @@ char	*expand_variable(char *s1, char *s2, t_valuer *val)
 		str[alloc++] = s2[j++];
 	str[alloc] = '\0';
 	get_valuer = getenv(str);
-	free (str);
 	if (get_valuer)
+	{	
+		free (str);
 		return (ft_strjoin_des(s1, get_valuer));
+	}
+	else 
+	{
+		get_valuer = ft_strjoin_des1(s1, str);
+		return (get_valuer);
+	}
 	return (s1);
 }

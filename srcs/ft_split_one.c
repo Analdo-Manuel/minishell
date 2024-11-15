@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/14 09:04:09 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:02:49 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	quotes_double(t_valuer *val, char *str)
 			if (str[val->i] == '$' && str[val->i + 1] != 34)
 			{
 				val->i++;
+				if (str[val->i] == '?')
+				{
+					val->p[val->j] = ft_strjoin_des1(val->p[val->j], ft_itoa(global));
+					val->i++;
+				}
 				val->p[val->j] = expand_variable(val->p[val->j], str, val);
 			}
 			else if (str[val->i] == '$' && str[val->i + 1] == 34)
@@ -67,6 +72,11 @@ void	selection_option(t_valuer *val, char *str)
 	else if (str[val->i] == '$' && str[val->i + 1] != 34)
 	{
 		val->i++;
+		if (str[val->i] == '?')
+		{
+			val->p[val->j] = ft_strjoin_des1(val->p[val->j], ft_itoa(global));
+			val->i++;
+		}
 		val->p[val->j] = expand_variable(val->p[val->j], str, val);
 		val->signal = true;
 		return ;

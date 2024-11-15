@@ -3,6 +3,7 @@ CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 SRCS =  srcs/main.c 					\
 		srcs/ft_split.c 				\
+		srcs/ft_itoa.c					\
 		srcs/ft_split_one.c 			\
 		srcs/utils_one.c				\
 		srcs/utils_two.c				\

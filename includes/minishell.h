@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/14 15:26:45 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:05:14 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ typedef struct s_data
 	bool	selection;
 	int		status;
 	int		exit;
+	pid_t	pid;
 }	t_data;
+
+extern	int	global;
 
 void	free_all(char **p);
 void	sort_params(char **envp);
@@ -79,6 +82,7 @@ void	builtins_echo(t_data *data);
 void	builtins_env(t_data *data);
 void	builtins_cd_conf(t_data *data);
 
+char	*ft_itoa(int n);
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
 char	**export_define(char **export);
@@ -91,6 +95,7 @@ char	**builtins_export(char **src, char *export);
 char	*expand_variable(char *s1, char *s2, t_valuer *val);
 char	*ft_strjoin(const char	*str, const char *src);
 char	*ft_strjoin_des(char *str, const char *src);
+char	*ft_strjoin_des1(char *str, char *src);
 
 size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:28:53 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 14:30:55 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:03:11 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,27 @@ char	*ft_strjoin_des(char *str, const char *src)
 		join[i++] = src[j++];
 	join[i] = '\0';
 	free(str);
+	return (join);
+}
+
+char	*ft_strjoin_des1(char *str, char *src)
+{
+	size_t	i;
+	size_t	j;
+	char	*join;
+
+	i = 0;
+	j = 0;
+	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 3);
+	while (str[i] != '\0')
+	{
+		join[i] = str[i];
+		i++;
+	}
+	while (src[j] != '\0')
+		join[i++] = src[j++];
+	join[i] = '\0';
+	free(str);
+	free(src);
 	return (join);
 }
