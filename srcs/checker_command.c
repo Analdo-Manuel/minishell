@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 14:15:10 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:33:16 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 			if (verefiy_redirect(data->command) != 3)
 			{
 				if (verefiy_redirect(data->command) != 0)
-				{
-					redirections_op(data, val, data->command);	
-				}
+					redirections_op(data, val, data->command);
 				else
 					data->matrix = ft_split_one(val, data->command);
 				if (checker_builtins(data))
@@ -145,14 +143,17 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					data->path_main = find_executable(data);
 					print_prompt(data);
 					free(data->path_main);
-					close(data->fd);
 				}
 				else
 				{
 					global = 0;
-					close(data->fd);
 				}
 			}
+		}
+		if (data->fd >= 0)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
 		}
 		init_valuer(data);
 	}

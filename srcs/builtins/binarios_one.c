@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:05:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/05 16:03:05 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:31:36 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	builtins_echo(t_data *data)
 	size_t	i;
 
 	i = 1;
-	if (ft_strcmp(data->matrix[1], "-n") != 0)
+	if (data->matrix[i][0] != '-' && data->matrix[i][1] != 'n')
 	{
 		while (data->matrix[i])
 		{
@@ -29,7 +29,7 @@ void	builtins_echo(t_data *data)
 	}
 	else
 	{
-		while (ft_strcmp(data->matrix[i], "-n") == 0)
+		while (data->matrix[i][0] == '-' && data->matrix[i][1] == 'n')
 			i++;
 		while (data->matrix[i])
 		{

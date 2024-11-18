@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/15 11:40:00 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:25:24 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int	verefy_quotes(char *str)
 	val.i = 0;
 	val.j = 0;
 	val.k = 0;
-	if (str[0] == '\0')
+	while (str[val.i] == ' ' || str[val.i] == '\t')
+		val.i++;
+	if (str[val.i] == '\0')
 		return (1);
 	while (str[val.i] != '\0')
 		loop_verefy_quotes(str, &val);

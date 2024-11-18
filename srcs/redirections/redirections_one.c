@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 16:01:18 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:14:05 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static
 
 void	create_file(t_data *data, char *name, char *index_r)
 {
-	if (data->fd >= 0)
-		close(data->fd);
 	if (ft_strcmp(index_r, ">") == 0)
 	{
 		data->fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -61,6 +59,8 @@ void	create_file(t_data *data, char *name, char *index_r)
 		data->fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		dup2(data->fd, STDOUT_FILENO);
 	}
+	if (data->fd >= 0)
+		close(data->fd);
 }
 
 bool	redirections_op(t_data *data, t_valuer *val1, char *str)
@@ -69,6 +69,7 @@ bool	redirections_op(t_data *data, t_valuer *val1, char *str)
 	char		*name;
 	char		*c;
 
+	data->stdout_padrao = dup(STDOUT_FILENO);
 	val.str = (char *) malloc(sizeof(char) * 1000);
 	ft_memset(val.str, 0, 1000);
 	val.i = 0;
@@ -80,11 +81,10 @@ bool	redirections_op(t_data *data, t_valuer *val1, char *str)
 			name = (char *) malloc(sizeof(char) * 4086);
 			val.j = 0;
 			while (*str && *str != 32)
-			{	
-				printf("%c", *str);
 				name[val.j++] = *(str++);
-			}
 			name[val.j] = '\0';
+			while (*str == ' ' || *str == '\t')
+				str++;
 			if (val.str)
 			{	
 				data->matrix = ft_split_one(val1, val.str);
@@ -103,7 +103,7 @@ bool	redirections_op(t_data *data, t_valuer *val1, char *str)
 					free(c);
 				}
 				free_all(data->matrix);
-			}
+			}	
 		}
 		else if (*str == 34)
 		{
@@ -121,7 +121,7 @@ bool	redirections_op(t_data *data, t_valuer *val1, char *str)
 		}
 		else if (*str)
 			val.str = str_alloc(val.str, *(str++));
-		printf("%s\n", val.str);
+		//printf("%s\n", val.str);
 	}
 	data->matrix = ft_split_one(val1, val.str);
 //	for (int i = 0; data->matrix[i]; i++)
