@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:02:04 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/15 15:27:35 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:33:40 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,12 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int main() {
-    int original_fd = open("file.txt", O_WRONLY | O_CREAT, 0644);
-    if (original_fd == -1) {
-        perror("Erro ao abrir o arquivo");
-        return 1;
-    }
-
-    // Duplica o descritor de arquivo original para o descritor 1 (stdout)
-    int new_fd = dup2(original_fd, 1); // 1 é o descritor de saída padrão (stdout)
-    if (new_fd == -1) {
-        perror("Erro ao duplicar o descritor");
-        return 1;
-    }
+int main(__attribute__((unused)) int ac, char **av)
+{    
+    int original_fd = open(av[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    dup2(original_fd, 1); // 1 é o descritor de saída padrão (stdout)
 
     // Agora, a saída padrão será redirecionada para "file.txt"
-    printf("Esta mensagem será gravada no arquivo!\n");
     printf("Esta mensagem será gravada no arquivo!\n");
     
 

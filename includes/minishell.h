@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 10:27:24 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:05:16 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_data
 	bool	selection;
 	int		status;
 	int		exit;
+	int		fd;
 	pid_t	pid;
 }	t_data;
 
@@ -104,8 +105,10 @@ size_t	checker_quotes(const char *str, char c);
 
 int		ft_isdigit(int c);
 int		verefy_quotes(char *str);
+int		verefiy_redirect(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 bool	checker_builtins(t_data *data);
+bool	redirections_op(t_data *data, t_valuer *val1, char *str);
 
 #endif

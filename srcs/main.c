@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/15 12:06:52 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:15:30 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	inicializador(t_data *data)
 	data->selection = false;
 	data->status = 0;
 	data->exit = 0;
+	data->fd = -1;
 	global = 0;
 }
 

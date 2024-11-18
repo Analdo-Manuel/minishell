@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 10:27:03 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:15:10 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,15 +132,27 @@ void	loop_prompt(t_data *data, t_valuer *val)
 			break ;
 		if (verefy_quotes(data->command) == 0)
 		{
-			data->matrix = ft_split_one(val, data->command);
-			if (checker_builtins(data))
+			if (verefiy_redirect(data->command) != 3)
 			{
-				data->path_main = find_executable(data);
-				print_prompt(data);
-				free(data->path_main);
+				if (verefiy_redirect(data->command) != 0)
+				{
+					redirections_op(data, val, data->command);	
+				}
+				else
+					data->matrix = ft_split_one(val, data->command);
+				if (checker_builtins(data))
+				{
+					data->path_main = find_executable(data);
+					print_prompt(data);
+					free(data->path_main);
+					close(data->fd);
+				}
+				else
+				{
+					global = 0;
+					close(data->fd);
+				}
 			}
-			else
-				global = 0;
 		}
 		init_valuer(data);
 	}

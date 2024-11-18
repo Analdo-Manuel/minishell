@@ -18,7 +18,8 @@ SRCS =  srcs/main.c 						\
 		srcs/builtins/binarios_four.c		\
 		srcs/builtins/binarios_cd.c			\
 		srcs/builtins/ft_sort_params.c  	\
-		srcs/redirections/redirections_one.c	
+		srcs/redirections/redirections_one.c\
+		srcs/redirections/redirections_two.c	
 		
 
 OBJS = $(SRCS:.c=.o)
