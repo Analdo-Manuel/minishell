@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/15 12:05:14 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:27:24 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 typedef struct s_valuer
 {
 	char	**p;
+	char	*str;
 	long	i;
 	long	j;
 	long	k;
@@ -86,6 +87,7 @@ char	*ft_itoa(int n);
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
 char	**export_define(char **export);
+char	*find_executable(t_data *data);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	**ft_split_one(t_valuer *val, char *str);

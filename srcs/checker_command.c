@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/15 12:34:33 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:27:03 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	clear_screen(char **envp)
 	return ;
 }
 
-static
-		char	*find_executable(t_data *data)
+char	*find_executable(t_data *data)
 {
 	char	*str;
 	size_t	i;
@@ -107,7 +106,10 @@ static
 		}
 	}
 	else
-		printf("Command '%s' not found.\n", data->command);
+	{	
+		printf("Command '%s' not found.\n", data->matrix[0]);
+		free_all(data->matrix);
+	}
 }
 
 static

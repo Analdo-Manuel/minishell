@@ -6,61 +6,64 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 12:20:37 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:41:59 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	checker_redirections(char **p)
+bool	check_command(t_data *data)
 {
-	long	i;
-	long	j;
-
-	i = 0;
-	while (p[i])
-	{
-		while (p[i][j])
-		{
-			if (p[i][j] == '>' || p[i][j] == '<')
-				return (true);
-			j++;
-		}
-		i++;
-	}
+	if (!ft_strcmp(data->matrix, "echo") || !ft_strcmp(data->matrix, "unset") \
+		|| !ft_strcmp(data->matrix, "export") || !ft_strcmp(data->matrix, "env") \
+		|| !ft_strcmp(data->matrix, "cd") || !ft_strcmp(data->matrix, "pwd") || !find_executable(data))
+		return (true);
 	return (false);
 }
 
-void	redirections_simple(t_data, long i)
-{
-	int		fd;
-	long	j;
-
-	j = i;
-	fd = open();
-}
-
-void	redirections_op(t_data *data)
+void	redirections_op(t_data *data, t_valuer *val1, char *str)
 {
 	t_valuer	val;
-
-	val.i = -1;
-	val.j = -1;
-	while (data->matrix[++val.i])
+	char		*name;
+	char		c[3];
+	
+	val.str = (char *) malloc(sizeof(char) * 4086);
+	val.i = 0;
+	val.j = 0;
+	while (*str)
 	{
-		if (ft_strcmp(data->matrix[val.i], ">") || ft_strcmp(data->matrix[val.i], ">"))
+		if (*str == '>' || *str == '<')
 		{
-			if (data->matrix[val.i + 2] != NULL)
-			{
-				printf("error de argumento\n");
-				return ;
-			}
+			while (*str == '>')
+				c[val.j++] = *str;
+			c[val.j] = '\0';
+			while (*str == 32)
+				*str++;
+			name = (char *) malloc(sizeof(char) * 4086);
+			val.j = 0;
+			while (*str && *str != 32)
+				name[val.j++] = *str++;
 		}
-		while (data->matrix[val.i][++val.j])
+		if (*str == 34)
 		{
-			if (data->matrix[val.i][val.j] == '>' && data->matrix[val.i][val.j + 1] == '\0')
-			{
-			}
+			while (*str != 34)
+				val.str[val.i++] = *str++;
+		}
+		if (*str == 39)
+		{
+			while (*str != 39)
+				val.str[val.i++] = *str++;
 		}
 	}
+	data->matrix = ft_split_one(val1, val.str);
+	free(val.str);
+	for (int i = 0; data->matrix[i] ; i++)
+		printf("%s", data->matrix[i]);
+	printf("\n");
+	/*
+	if (check_command(data))
+	{
+		
+	}
+	*/
 }
