@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sort_params.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:04:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/06 23:54:42 by analdo           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:58:54 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	sort_params(char **envp)
 
 	i = 0;
 	if (envp == NULL)
-	{
 		return ;
-	}
 	while (envp[i + 1] != NULL)
 	{
 		if (ft_strcmp_params(envp[i], envp[i + 1]) > 0)

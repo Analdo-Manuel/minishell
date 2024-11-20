@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 09:37:02 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:39:19 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ typedef struct s_data
 	char	*path;
 	char	*home;
 	char	*command;
-	bool	son;
-	bool	selection;
+	bool	select;
 	int		status;
 	int		exit;
 	int		fd;
@@ -84,6 +83,7 @@ void	builtins_pwd(t_data *data);
 void	builtins_echo(t_data *data);
 void	builtins_env(t_data *data);
 void	builtins_cd_conf(t_data *data);
+void	redirections_op(t_data *data, t_valuer *val1);
 
 char	*ft_itoa(int n);
 char	*str_alloc(char	*s1, char c);
@@ -110,6 +110,5 @@ int		verefiy_redirect(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 bool	checker_builtins(t_data *data);
-bool	redirections_op(t_data *data, t_valuer *val1, char *str);
 
 #endif

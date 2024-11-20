@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 09:38:28 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:18:26 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	inicializador(t_data *data)
 	data->p = NULL;
 	data->path = NULL;
 	data->path_main = NULL;
-	data->son = false;
-	data->selection = false;
+	data->select = true;
 	data->status = 0;
 	data->exit = 0;
 	data->fd = -1;

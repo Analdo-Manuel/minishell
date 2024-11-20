@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 09:40:43 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:38:44 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*find_executable(t_data *data)
 	char	*str;
 	size_t	i;
 
+	if (data->matrix == NULL || data->matrix[0] == NULL)
+		return (NULL);
 	if (access(data->matrix[0], X_OK) == 0)
 		return (data->matrix[0]);
 	data->path = getenv("PATH");
@@ -61,7 +63,10 @@ char	*find_executable(t_data *data)
 void	handler_process(int sig)
 {
 	if (sig == SIGINT)
+	{
+		printf("\n");
 		exit (130);
+	}
 	if (sig == SIGQUIT)
 		exit (131);
 	return ;
@@ -101,7 +106,16 @@ static
 				printf("Quit (core dumped)\n");
 			}
 			else if (WTERMSIG(data->status) == 2)
+			{
+				if (data->fd >= 0)
+				{
+					dup2(data->stdout_padrao, STDOUT_FILENO);
+					close(data->stdout_padrao);
+				}
+				data->fd = -1;
+				printf("\n");
 				g_global = 130;
+			}
 			free_all(data->matrix);
 		}
 	}
@@ -133,19 +147,26 @@ void	loop_prompt(t_data *data, t_valuer *val)
 			if (verefiy_redirect(data->command) != 3)
 			{
 				if (verefiy_redirect(data->command) != 0)
-					redirections_op(data, val, data->command);
+					redirections_op(data, val);
 				else
 					data->matrix = ft_split_one(val, data->command);
-				if (checker_builtins(data))
+				if (data->select)
 				{
-					data->path_main = find_executable(data);
-					print_prompt(data);
-					free(data->path_main);
+					if (checker_builtins(data))
+					{
+						data->path_main = find_executable(data);
+						print_prompt(data);
+						free(data->path_main);
+					}
+					else
+						g_global = 0;
 				}
 				else
 				{
-					g_global = 0;
+					data->select = true;			
+					free_all(data->matrix);
 				}
+						
 			}
 		}
 		if (data->fd >= 0)

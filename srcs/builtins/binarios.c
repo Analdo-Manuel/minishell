@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/14 08:23:33 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:22:32 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,14 @@ static bool	unset_export_cd(t_data *data)
 
 bool	checker_builtins(t_data *data)
 {
-	if (echo_pwd_env(data))
+	if (data->matrix == NULL || data->matrix[0] == NULL)
+		return (false);
+	else if (echo_pwd_env(data))
 	{
 		free_all(data->matrix);
 		return (false);
 	}
-	if (unset_export_cd(data))
+	else if (unset_export_cd(data))
 	{
 		free_all(data->matrix);
 		return (false);

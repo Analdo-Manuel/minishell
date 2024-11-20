@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 09:10:56 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:01:23 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	*ft_memset(void *s, int c, long n)
 
 void	realine_prompt(t_data *data)
 {
-	data->son = false;
 	data->command = readline("minishell% ");
 	if (data->command != NULL)
 	{	

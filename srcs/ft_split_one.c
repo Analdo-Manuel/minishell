@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 09:39:30 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:51:36 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	selection_option(t_valuer *val, char *str)
 
 char	**ft_split_one(t_valuer *val, char *str)
 {
+	if (str == NULL)
+		return (NULL);
 	val->p = (char **) malloc(sizeof(char *) * 4096);
 	val->i = 0;
 	val->j = 0;
