@@ -6,13 +6,13 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 12:15:30 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:38:28 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	global;
+int	g_global;
 
 static
 		char	**envp_copy(char **envp)
@@ -56,7 +56,7 @@ void	inicializador(t_data *data)
 	data->status = 0;
 	data->exit = 0;
 	data->fd = -1;
-	global = 0;
+	g_global = 0;
 }
 
 int	main(int ac, char **av, char **envp)

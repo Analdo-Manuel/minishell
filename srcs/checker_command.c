@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 19:33:16 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:40:43 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	handler_sign(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		global = 130;
+		g_global = 130;
 	}
 }
 
@@ -97,11 +97,11 @@ static
 			waitpid(data->pid, &data->status, 0);
 			if (WTERMSIG(data->status) == 3)
 			{
-				global = 131;
+				g_global = 131;
 				printf("Quit (core dumped)\n");
 			}
 			else if (WTERMSIG(data->status) == 2)
-				global = 130;
+				g_global = 130;
 			free_all(data->matrix);
 		}
 	}
@@ -117,9 +117,7 @@ static
 {
 	data->path_main = NULL;
 	data->matrix = NULL;
-	
 }
-
 
 void	loop_prompt(t_data *data, t_valuer *val)
 {
@@ -146,7 +144,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				}
 				else
 				{
-					global = 0;
+					g_global = 0;
 				}
 			}
 		}

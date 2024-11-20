@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 19:14:05 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:22:49 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 static
 		bool	check_command(t_data *data)
 {
-	if (!ft_strcmp(data->matrix[0], "echo") || !ft_strcmp(data->matrix[0], "unset") \
-		|| !ft_strcmp(data->matrix[0], "export") || !ft_strcmp(data->matrix[0], "env") \
-		|| !ft_strcmp(data->matrix[0], "cd") || !ft_strcmp(data->matrix[0], "pwd") || !find_executable(data))
+	if (!ft_strcmp(data->matrix[0], "echo") \
+	|| !ft_strcmp(data->matrix[0], "unset") \
+	|| !ft_strcmp(data->matrix[0], "export") \
+	|| !ft_strcmp(data->matrix[0], "env") \
+	|| !ft_strcmp(data->matrix[0], "cd") \
+	|| !ft_strcmp(data->matrix[0], "pwd") \
+	|| !find_executable(data))
 		return (true);
 	return (false);
 }
@@ -27,24 +31,24 @@ static
 {
 	char	*str;
 	char	*src;
-    size_t	i;
-    size_t	count;
+	size_t	i;
+	size_t	count;
 
 	i = 0;
 	count = 0;
 	src = *srca;
-    while (src[count] == '>')
-        count++;
-    str = (char *) malloc(sizeof(char) * (count + 1));
-    while (*src == '>')
-        str[i++] = *(src++);
-    str[i] = '\0';
-    while (*src == ' ' || *src == '\t')
+	while (src[count] == '>')
+		count++;
+	str = (char *) malloc(sizeof(char) * (count + 1));
+	while (*src == '>')
+		str[i++] = *(src++);
+	str[i] = '\0';
+	while (*src == ' ' || *src == '\t')
 	{
-        src++;
+		src++;
 	}
 	*srca = src;
-    return (str);
+	return (str);
 }
 
 void	create_file(t_data *data, char *name, char *index_r)

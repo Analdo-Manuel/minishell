@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 19:03:13 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:37:02 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_data
 	pid_t	pid;
 }	t_data;
 
-extern	int	global;
+extern int	g_global;
 
 void	free_all(char **p);
 void	sort_params(char **envp);

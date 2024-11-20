@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/15 12:37:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:10:56 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*ft_memset(void *s, int c, long n)
 	return (0);
 }
 
-void		realine_prompt(t_data *data)
+void	realine_prompt(t_data *data)
 {
 	data->son = false;
 	data->command = readline("minishell% ");
@@ -79,7 +79,7 @@ char	*expand_variable(char *s1, char *s2, t_valuer *val)
 		free (str);
 		return (ft_strjoin_des(s1, get_valuer));
 	}
-	else 
+	else
 	{
 		get_valuer = ft_strjoin_des1(s1, str);
 		return (get_valuer);

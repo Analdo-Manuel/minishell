@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/14 08:43:43 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:17:34 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void	export_define_2(char **export, t_valuer *val)
 	{
 		if ((export[val->i][val->j] == '='))
 		{
-			val->p[val->i] = str_alloc(val->p[val->i], export[val->i][val->j++]);
+			val->p[val->i] = str_alloc(val->p[val->i], \
+					export[val->i][val->j++]);
 			val->p[val->i] = str_alloc(val->p[val->i], '"');
 		}
 		else
-			val->p[val->i] = str_alloc(val->p[val->i], export[val->i][val->j++]);
+			val->p[val->i] = str_alloc(val->p[val->i], \
+					export[val->i][val->j++]);
 	}
 }
 
@@ -62,7 +64,8 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 	{
 		val.k++;
 	}
-	while (s1[val.j] && s1[val.j] != '=' && s2[val.i] && s2[val.i] != '=' && (s1[val.j] == s2[val.i]))
+	while (s1[val.j] && s1[val.j] != '=' && s2[val.i] && s2[val.i] != '=' \
+	&& (s1[val.j] == s2[val.i]))
 	{
 		if (s1[val.j] == s2[val.i])
 			val.k--;
