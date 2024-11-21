@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_one.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/14 11:44:58 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:37:12 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_strcpy(char *dest, char *src)
 {
 	int		i;
 	int		j;
-	char	*output;	
+	char	*output;
 
 	output = malloc(ft_strlen(dest) + ft_strlen(src) + 1);
 	i = 0;

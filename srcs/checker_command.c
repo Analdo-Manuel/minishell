@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 15:38:44 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:30:51 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ static
 	}
 	else
 	{	
+		g_global = 127;
 		printf("Command '%s' not found.\n", data->matrix[0]);
 		free_all(data->matrix);
 	}
@@ -135,13 +136,16 @@ static
 
 void	loop_prompt(t_data *data, t_valuer *val)
 {
+	int		i = 0;
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler_sign);
 		realine_prompt(data);
 		if (ft_strcmp(data->command, "exit") == 0 || data->command == NULL)
+		{
 			break ;
+		}
 		if (verefy_quotes(data->command) == 0)
 		{
 			if (verefiy_redirect(data->command) != 3)
@@ -163,10 +167,9 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				}
 				else
 				{
-					data->select = true;			
+					data->select = true;
 					free_all(data->matrix);
 				}
-						
 			}
 		}
 		if (data->fd >= 0)

@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 15:22:32 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:30:29 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void builtins_exit(t_data *data)
+{
+	int		i;
+
+	i = 0;
+	if (data->matrix[2] != NULL)
+		printf("bash: exit: too many arguments\n");
+	else
+	{
+		while (data->matrix[1] && data->matrix[1][i] == ' ')
+		{
+			if (ft_isdigit(data->matrix[1][0]) == 0)
+			{
+				printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
+				break ;
+			}
+			data->matrix[1][i++];
+		}
+	}
+	if (data->matrix[1] != NULL)
+		data->exit = ft_atoi(data->matrix[1]);
+	else
+		data->exit = 0;
+	exit(data->exit);
+}
 
 static bool	echo_pwd_env(t_data *data)
 {
@@ -29,6 +55,10 @@ static bool	echo_pwd_env(t_data *data)
 	{
 		builtins_env(data);
 		return (true);
+	}
+	if (ft_strcmp(data->matrix[0], "exit") == 0)
+	{
+		builtins_exit(data);
 	}
 	return (false);
 }
@@ -59,7 +89,10 @@ static
 	if (data->matrix[1] != NULL)
 	{
 		if (ft_isdigit(data->matrix[1][0]))
+		{
+			g_global = 1;
 			printf("bash: export: '%s': not a valid identifier\n", data->matrix[1]);
+		}
 		else
 		{
 			data->export = builtins_export_define(data->export, data->matrix[1]);

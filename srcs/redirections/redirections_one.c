@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_one.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 15:48:27 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:27:26 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	create_file(t_data *data, t_valuer *val, char *name, char *index_r)
 		data->fd = open(name, O_RDONLY, 0644);
 		if (data->fd == -1)
 		{
+			g_global = 1;
 			printf("bash: %s: No such file or directory\n", name);
 			data->select = false;
 		}
@@ -124,7 +125,8 @@ void	redirections_op(t_data *data, t_valuer *val1)
 			c = control(data->command, &val);
 			name = (char *) malloc(sizeof(char) * 4086);
 			val.j = 0;
-			while (data->command[val.i] && data->command[val.i] != 32 && (data->command[val.i] != '>' || data->command[val.i] != '<'))
+			while (data->command[val.i] && data->command[val.i] != 32 \
+			&& (data->command[val.i] != '>' || data->command[val.i] != '<'))
 				name[val.j++] = data->command[val.i++];
 			name[val.j] = '\0';
 			while (data->command[val.i] && (data->command[val.i] == ' ' || data->command[val.i] == '\t'))
@@ -134,6 +136,7 @@ void	redirections_op(t_data *data, t_valuer *val1)
 				data->matrix = ft_split_one(val1, val.str);
 				if (check_command(data) == false)
 				{
+					g_global = 127;
 					printf("Command '%s' not found.\n", data->matrix[0]);
 					if (name)
 						free(name);
