@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 09:27:54 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:18:37 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,10 @@ void	loop_prompt(t_data *data, t_valuer *val)
 							free(data->path_main);
 					}
 					else
+					{
 						g_global = 0;
+						free_all(data->matrix);
+					}
 				}
 				else
 				{
@@ -184,6 +187,8 @@ void	loop_prompt(t_data *data, t_valuer *val)
 			dup2(data->stdout_padrao, STDOUT_FILENO);
 			close(data->stdout_padrao);
 		}
+		dup2(data->stdin_padrao, STDIN_FILENO);
+		close(data->stdin_padrao);
 		init_valuer(data);
 	}
 }

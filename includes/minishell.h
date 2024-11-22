@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 15:03:21 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:17:25 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_data
 	int		exit;
 	int		fd;
 	int		stdout_padrao;
+	int		stdin_padrao;
 	pid_t	pid;
 }	t_data;
 

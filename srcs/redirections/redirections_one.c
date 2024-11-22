@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 15:59:29 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:17:56 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,24 @@ void	exec_filho(t_data *data, char *name)
 {
 	char	*str;
 
-	data->fd = open("temp.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	data->fd = open(".temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (true)
 	{
 		str = readline("> ");
-		if (str == NULL || ft_strcmp(str, name) == 0)
+		if (str != NULL)
 		{
-			if (str)
-				free(str);
-			break;
+			if (ft_strcmp(str, name) == 0)
+			{
+				if (str)
+					free(str);
+				break;
+			}
+			write(data->fd, str, ft_strlen(str));
+			write(data->fd, "\n", 1);
+			free(str);
 		}
-		write(data->fd, str, ft_strlen(str));
-		write(data->fd, "\n", 1);
-		free(str);
 	}
 	close(data->fd);
-	data->fd = open("temp.txt", O_RDONLY);
-	char *tmp = get_next_line(data->fd);
-	while (tmp)
-	{
-		printf("%s\n", tmp);
-		free(tmp);
-		tmp = get_next_line(data->fd);
-	}
-	free(tmp);
-	close(data->fd);
-	unlink("temp.txt");
 	exit(0);
 }
 
@@ -116,17 +108,22 @@ void	create_file(t_data *data, t_valuer *val, char *name, char *index_r)
 	}
 	else if (ft_strcmp(index_r, "<<") == 0)
 	{
-		if (val->str != NULL)
-			if (val->str[0] == 'c' && val->str[1] == 'a' && val->str[2] == 't')
-				data->select = false;
 		if (fork() == 0)
 			exec_filho(data, name);
 		waitpid(-1, &data->status, 0);
 		if (WEXITSTATUS(data->status) == 0)
-		{
-			data->select = false;
 			g_global = WEXITSTATUS(data->status);
+		if (val->str != NULL)
+		{
+			if (val->str[0] == 'c' && val->str[1] == 'a' && val->str[2] == 't')
+			{
+				dup2(data->stdout_padrao, STDOUT_FILENO);
+				int	fd = open(".temp", O_RDONLY);
+				dup2(fd, STDIN_FILENO);
+				close(fd);
+			}
 		}
+		unlink(".temp");
 	}
 	if (data->fd >= 0)
 		close(data->fd);
@@ -161,6 +158,7 @@ void	redirections_op(t_data *data, t_valuer *val1)
 	char		*c;
 
 	data->stdout_padrao = dup(STDOUT_FILENO);
+	data->stdin_padrao = dup(STDIN_FILENO);
 	val.str = (char *) malloc(sizeof(char) * 1000);
 	ft_memset(val.str, 0, 1000);
 	val.i = 0;
@@ -205,7 +203,8 @@ void	redirections_op(t_data *data, t_valuer *val1)
 		else
 			add_valuer(&val, data->command);
 	}
-	data->matrix = ft_split_one(val1, val.str);
+	data->
+	matrix = ft_split_one(val1, val.str);
 	if (val.str != NULL)
 		free(val.str);
 	return ;
