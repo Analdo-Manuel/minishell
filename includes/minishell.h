@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 07:43:04 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:03:21 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define BG_MAGENTA "\033[45m"
 # define BG_CYAN    "\033[46m"
 # define BG_WHITE   "\033[47m"
+
+# define BUFFER_SIZE 42
 
 typedef struct s_valuer
 {
@@ -86,6 +88,7 @@ void	builtins_cd_conf(t_data *data);
 void	redirections_op(t_data *data, t_valuer *val1);
 
 char	*ft_itoa(int n);
+char    *get_next_line(int fd);
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
 char	**export_define(char **export);
