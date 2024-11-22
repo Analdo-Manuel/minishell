@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_one.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/21 13:27:26 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/22 07:29:19 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ void	create_file(t_data *data, t_valuer *val, char *name, char *index_r)
 			if (data->command[val->i] == '\0')
 				val->str = ft_strjoin_des(val->str, name);
 		}
+	}
+	else if (ft_strcmp(index_r, "<<") == 0)
+	{
+		
 	}
 	if (data->fd >= 0)
 		close(data->fd);

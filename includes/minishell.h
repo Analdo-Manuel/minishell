@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 15:39:19 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 07:43:04 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);
 
 int		ft_isdigit(int c);
+int		ft_atoi(const char *str);
 int		verefy_quotes(char *str);
 int		verefiy_redirect(char *str);
 int		ft_strcmp(const char *s1, const char *s2);

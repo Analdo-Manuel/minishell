@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/21 16:30:51 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/22 08:20:50 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,18 @@ static
 		{
 			signal(SIGINT, handler_process);
 			signal(SIGQUIT, handler_process);
-			execve(data->path_main, data->matrix, data->envp);
+			if (execve(data->path_main, data->matrix, data->envp) == -1)
+			{
+    			perror("execve");
+   				exit(EXIT_FAILURE);
+			}
 		}
 		else if (data->pid > 0)
 		{
 			signal(SIGINT, SIG_IGN);
 			waitpid(data->pid, &data->status, 0);
+			if (WIFEXITED(data->status))
+            	printf("O filho terminou com código de saída: %d\n", WEXITSTATUS(data->status));
 			if (WTERMSIG(data->status) == 3)
 			{
 				g_global = 131;
@@ -136,15 +142,15 @@ static
 
 void	loop_prompt(t_data *data, t_valuer *val)
 {
-	int		i = 0;
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler_sign);
 		realine_prompt(data);
-		if (ft_strcmp(data->command, "exit") == 0 || data->command == NULL)
+		if ( data->command == NULL)
 		{
-			break ;
+			free_total(data);
+			exit (0);
 		}
 		if (verefy_quotes(data->command) == 0)
 		{

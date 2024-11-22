@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/21 16:30:29 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/22 08:00:24 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,21 @@ void builtins_exit(t_data *data)
 	i = 0;
 	if (data->matrix[2] != NULL)
 		printf("bash: exit: too many arguments\n");
-	else
-	{
-		while (data->matrix[1] && data->matrix[1][i] == ' ')
-		{
-			if (ft_isdigit(data->matrix[1][0]) == 0)
-			{
-				printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
-				break ;
-			}
-			data->matrix[1][i++];
-		}
-	}
-	if (data->matrix[1] != NULL)
+	else if (ft_isdigit(data->matrix[1][0]) == 0)
+		printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
+	else if (data->matrix[1] != NULL)
 		data->exit = ft_atoi(data->matrix[1]);
 	else
+	{
+		else
+		{
+			while (data->matrix[1] && data->matrix[1][i] == ' ')
+				data->matrix[1][i++];
+		}
+	}
+	else
 		data->exit = 0;
+	free_total(data);
 	exit(data->exit);
 }
 

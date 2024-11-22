@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 15:18:26 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 07:30:45 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ int	main(int ac, char **av, char **envp)
 	sort_params(data.export);
 	data.export = export_define(data.export);
 	loop_prompt(&data, &val);
-	free_total(&data);
 	return (0);
 }
