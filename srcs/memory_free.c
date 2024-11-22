@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:47:50 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 15:26:32 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 09:24:42 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_all(char **p)
 	size_t	i;
 
 	i = 0;
-	if (!p)
+	if (p == NULL)
 		return ;
 	while (p[i])
 		free(p[i++]);

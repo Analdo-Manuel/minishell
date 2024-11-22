@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 08:20:50 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/22 09:27:54 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ static
 			signal(SIGINT, SIG_IGN);
 			waitpid(data->pid, &data->status, 0);
 			if (WIFEXITED(data->status))
-            	printf("O filho terminou com código de saída: %d\n", WEXITSTATUS(data->status));
-			if (WTERMSIG(data->status) == 3)
+            	g_global = WEXITSTATUS(data->status);
+			else if (WTERMSIG(data->status) == 3)
 			{
 				g_global = 131;
 				printf("Quit (core dumped)\n");
@@ -166,7 +166,8 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					{
 						data->path_main = find_executable(data);
 						print_prompt(data);
-						free(data->path_main);
+						if (data->path_main == NULL)
+							free(data->path_main);
 					}
 					else
 						g_global = 0;
