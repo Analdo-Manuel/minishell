@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 18:17:25 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:16:03 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 	int		status;
 	int		exit;
 	int		fd;
+	int		control_padrao;
 	int		stdout_padrao;
 	int		stdin_padrao;
 	pid_t	pid;
@@ -76,6 +77,7 @@ typedef struct s_data
 extern int	g_global;
 
 void	free_all(char **p);
+void	handler_process(int sig);
 void	sort_params(char **envp);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
@@ -92,6 +94,7 @@ char	*ft_itoa(int n);
 char    *get_next_line(int fd);
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
+char	*expand_var_heredoc(char *s1);
 char	**export_define(char **export);
 char	*find_executable(t_data *data);
 char	*ft_strcpy(char *dest, char *src);

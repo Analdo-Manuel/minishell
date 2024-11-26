@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_one.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/21 13:37:12 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/25 09:01:58 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ char	*ft_strjoin(const char *str, const char *src)
 
 	i = 0;
 	j = 0;
-	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 3);
+	if (!str || !src)
+		return (NULL);
+	join = (char *) malloc(ft_strlen(str) + ft_strlen(src) + 4);
 	while (str[i] != '\0')
 	{
 		join[i] = str[i];

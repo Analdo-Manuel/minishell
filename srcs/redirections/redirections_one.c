@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 18:17:56 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:47:18 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,16 @@ static
 
 void	exec_filho(t_data *data, char *name)	
 {
+	t_valuer	val;
 	char	*str;
 
+	signal(SIGINT, handler_process);
+	signal(SIGQUIT, handler_process);
 	data->fd = open(".temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (true)
 	{
+		val.i = 0;
+		val.j = 0;
 		str = readline("> ");
 		if (str != NULL)
 		{
@@ -67,9 +72,24 @@ void	exec_filho(t_data *data, char *name)
 					free(str);
 				break;
 			}
-			write(data->fd, str, ft_strlen(str));
+			val.str = (char *) malloc(sizeof(char) * 1);
+			val.str[0] = '\0';
+			while (str[val.i])
+			{
+				if (str[val.i] == '$')
+				{
+					val.i++;
+					val.str = ft_strjoin_des(val.str, expand_var_heredoc(str));
+					while (str[val.i] && str[val.i] != 32)
+						val.i++;
+				}
+				else
+					val.str = str_alloc(val.str, str[val.i++]);
+			}
+			write(data->fd, val.str, ft_strlen(val.str));
 			write(data->fd, "\n", 1);
 			free(str);
+			free(val.str);
 		}
 	}
 	close(data->fd);
@@ -78,16 +98,17 @@ void	exec_filho(t_data *data, char *name)
 
 void	create_file(t_data *data, t_valuer *val, char *name, char *index_r)
 {
-
 	if (ft_strcmp(index_r, ">") == 0)
 	{
 		data->fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(data->fd, STDOUT_FILENO);
+		data->control_padrao = 1;
 	}
 	else if (ft_strcmp(index_r, ">>") == 0)
 	{
 		data->fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		dup2(data->fd, STDOUT_FILENO);
+		data->control_padrao = 1;
 	}
 	else if (ft_strcmp(index_r, "<") == 0)
 	{
@@ -110,20 +131,11 @@ void	create_file(t_data *data, t_valuer *val, char *name, char *index_r)
 	{
 		if (fork() == 0)
 			exec_filho(data, name);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		waitpid(-1, &data->status, 0);
-		if (WEXITSTATUS(data->status) == 0)
-			g_global = WEXITSTATUS(data->status);
-		if (val->str != NULL)
-		{
-			if (val->str[0] == 'c' && val->str[1] == 'a' && val->str[2] == 't')
-			{
-				dup2(data->stdout_padrao, STDOUT_FILENO);
-				int	fd = open(".temp", O_RDONLY);
-				dup2(fd, STDIN_FILENO);
-				close(fd);
-			}
-		}
-		unlink(".temp");
+		g_global = WEXITSTATUS(data->status);
+		data->control_padrao = 2;
 	}
 	if (data->fd >= 0)
 		close(data->fd);
@@ -203,8 +215,7 @@ void	redirections_op(t_data *data, t_valuer *val1)
 		else
 			add_valuer(&val, data->command);
 	}
-	data->
-	matrix = ft_split_one(val1, val.str);
+	data->matrix = ft_split_one(val1, val.str);
 	if (val.str != NULL)
 		free(val.str);
 	return ;

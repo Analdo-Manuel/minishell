@@ -6,14 +6,18 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:02:04 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 19:00:58 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:10:34 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-
+#include <limits.h>
+#include <stdlib.h>
+#include <time.h>
+ 
+ /*
 int main() {
     // Abre ou cria o arquivo para escrita
     int fd = open("saida.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -53,6 +57,50 @@ int main() {
     close(stdout_backup);
 
     return 0;
+}
+*/
+
+void    ft_putchar(char c)
+{
+    write(1, &c, 1);
+}
+
+void ft_putnbr(int n)
+{
+    if (n > INT_MAX || n < INT_MIN)
+        return ;
+    if (n < 0)
+    {
+        ft_putchar('-');
+        n = -n;
+    }
+    if (n > 9)
+        ft_putnbr(n / 10);
+    ft_putchar(n % 10 + '0');
+}
+
+void ft_foreach(int *tab, int length, void (*f)(int))
+{
+    int i;
+
+    i = 0;
+    while (i < length)
+    {
+        f(tab[i]);
+        ft_putchar('\n');
+        i++;
+    }
+}
+
+int main(void)
+{
+    int tab[100];
+
+    srand(time(NULL));
+    for (int i = 0; i < 100; i++)
+        tab[i] = rand() % 10000;
+    ft_foreach(tab, 100, &ft_putnbr);
+    return (0);
 }
 
 

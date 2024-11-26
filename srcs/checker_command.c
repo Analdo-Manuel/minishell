@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 18:18:37 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:55:33 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	handler_process(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		printf("\n");	
 		exit (130);
 	}
 	if (sig == SIGQUIT)
@@ -89,6 +89,18 @@ static
 {
 	if (data->path_main)
 	{
+		
+		if (data->control_padrao == 2)
+		{
+			if (ft_strcmp(data->matrix[0], "cat") == 0 || ft_strcmp(data->matrix[0], "wc") == 0)
+			{
+				dup2(data->stdout_padrao, STDOUT_FILENO);
+				data->fd = open(".temp", O_RDONLY);
+				dup2(data->fd, STDIN_FILENO);
+			}
+			unlink(".temp");
+			close(data->fd);
+		}
 		data->pid = fork();
 		if (data->pid == 0)
 		{
@@ -126,9 +138,9 @@ static
 		}
 	}
 	else
-	{	
+	{
 		g_global = 127;
-		printf("Command '%s' not found.\n", data->matrix[0]);
+		printf("%s: Command not found.\n", data->matrix[0]);
 		free_all(data->matrix);
 	}
 }
@@ -138,6 +150,8 @@ static
 {
 	data->path_main = NULL;
 	data->matrix = NULL;
+	data->fd = -1;
+	data->control_padrao = 0;
 }
 
 void	loop_prompt(t_data *data, t_valuer *val)
@@ -166,7 +180,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					{
 						data->path_main = find_executable(data);
 						print_prompt(data);
-						if (data->path_main == NULL)
+						if (data->path_main != NULL)
 							free(data->path_main);
 					}
 					else
@@ -182,13 +196,16 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				}
 			}
 		}
-		if (data->fd >= 0)
+		if (data->fd >= 0 && data->control_padrao == 1)
 		{
 			dup2(data->stdout_padrao, STDOUT_FILENO);
 			close(data->stdout_padrao);
 		}
-		dup2(data->stdin_padrao, STDIN_FILENO);
-		close(data->stdin_padrao);
+		if (data->fd >= 0 && data->control_padrao == 2)
+		{
+			dup2(data->stdin_padrao, STDIN_FILENO);
+			close(data->stdin_padrao);
+		}
 		init_valuer(data);
 	}
 }

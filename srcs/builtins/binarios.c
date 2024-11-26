@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/22 09:37:48 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:54:06 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ void builtins_exit(t_data *data)
 	i = 0;
 	j = 0;
 	printf("exit\n");
-	if (data->matrix[2] != NULL)
+	if (data->matrix[0] == NULL || data->matrix[1] == NULL || data->matrix[2] != NULL)
+	{
+		data->exit = 0;
+		free_total(data);
+		exit(data->exit);
+	}
+	else if (data->matrix[2] != NULL)
 	{
 		printf("bash: exit: too many arguments\n");
 		data->exit = 1;
@@ -145,14 +151,8 @@ bool	checker_builtins(t_data *data)
 	if (data->matrix == NULL || data->matrix[0] == NULL)
 		return (false);
 	else if (echo_pwd_env(data))
-	{
-		free_all(data->matrix);
 		return (false);
-	}
 	else if (unset_export_cd(data))
-	{
-		free_all(data->matrix);
 		return (false);
-	}
 	return (true);
 }
