@@ -1,25 +1,27 @@
 NAME = minishell
 CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
-SRCS =  srcs/main.c 						\
-		srcs/ft_itoa.c						\
-		srcs/ft_split.c 					\
-		srcs/utils_one.c					\
-		srcs/utils_two.c					\
-		srcs/memory_free.c					\
-		srcs/ft_split_one.c 				\
-		srcs/get_next_line.c				\
-		srcs/checker_command.c				\
-		srcs/parsing_command.c				\
-		srcs/verefy_commands.c				\
-		srcs/builtins/binarios.c			\
+SRCS =  srcs/main.c 					\
+		srcs/ft_itoa.c				\
+		srcs/ft_split.c 			\
+		srcs/utils_one.c			\
+		srcs/utils_two.c			\
+		srcs/memory_free.c			\
+		srcs/ft_split_one.c 			\
+		srcs/ft_split_pipe.c 			\
+		srcs/get_next_line.c			\
+		srcs/checker_command.c			\
+		srcs/parsing_command.c			\
+		srcs/verefy_commands.c			\
+		srcs/verefiy_pipe.c			\
+		srcs/builtins/binarios.c		\
 		srcs/builtins/binarios_one.c		\
 		srcs/builtins/binarios_two.c		\
 		srcs/builtins/binarios_treen.c		\
 		srcs/builtins/binarios_four.c		\
-		srcs/builtins/binarios_cd.c			\
+		srcs/builtins/binarios_cd.c		\
 		srcs/builtins/ft_sort_params.c  	\
-		srcs/redirections/redirections_one.c\
+		srcs/redirections/redirections_one.c	\
 		srcs/redirections/redirections_two.c
 		
 

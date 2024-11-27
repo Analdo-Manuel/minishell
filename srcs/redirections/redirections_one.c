@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_one.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/26 11:47:18 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:18:50 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,14 +163,19 @@ void	add_valuer(t_valuer *val, char *str)
 		val->str = str_alloc(val->str, str[val->i++]);
 }
 
-void	redirections_op(t_data *data, t_valuer *val1)
+void	redirections_op(t_data *data, t_valuer *val1, char *str)
 {
 	t_valuer	val;
 	char		*name;
 	char		*c;
 
-	data->stdout_padrao = dup(STDOUT_FILENO);
-	data->stdin_padrao = dup(STDIN_FILENO);
+	if (data->f_pipe == false)
+	{
+		data->stdout_padrao = dup(STDOUT_FILENO);
+		data->stdin_padrao = dup(STDIN_FILENO);
+	}
+	if (str != NULL)
+		data->command = str;
 	val.str = (char *) malloc(sizeof(char) * 1000);
 	ft_memset(val.str, 0, 1000);
 	val.i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/25 15:55:33 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:58:14 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,10 @@ static
 
 void	loop_prompt(t_data *data, t_valuer *val)
 {
+	char	**str;
+	int		i;
+
+	i = 0;
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -168,31 +172,84 @@ void	loop_prompt(t_data *data, t_valuer *val)
 		}
 		if (verefy_quotes(data->command) == 0)
 		{
-			if (verefiy_redirect(data->command) != 3)
+			if (verefiy_redirect(data->command) != 3 && verefiy_pipe(data->command) != 3)
 			{
-				if (verefiy_redirect(data->command) != 0)
-					redirections_op(data, val);
-				else
-					data->matrix = ft_split_one(val, data->command);
-				if (data->select)
+				if (verefiy_pipe(data->command) == 1)
 				{
-					if (checker_builtins(data))
+					data->f_pipe = true;
+					val->f_pipe = true;
+					data->stdout_padrao = dup(STDOUT_FILENO);
+					data->stdin_padrao = dup(STDIN_FILENO);
+					pipe(data->fdpipe);
+					str = ft_split_pipe(data->command, '|');
+					while(str[i])
+						printf("%s\n", str[i++]);
+					i = 0;
+					while (str[i])
 					{
-						data->path_main = find_executable(data);
-						print_prompt(data);
-						if (data->path_main != NULL)
-							free(data->path_main);
-					}
-					else
-					{
-						g_global = 0;
-						free_all(data->matrix);
+						if (str[i + 1] != NULL)
+							dup2(data->fdpipe[1], STDOUT_FILENO);
+						if (i > 0)
+							dup2(data->fdpipe[0], STDIN_FILENO);
+						if (verefiy_redirect(str[i]) != 0)
+							redirections_op(data, val, str[i]);
+						else
+							data->matrix = ft_split_one(val, str[i]);
+						if (data->select)
+						{
+							if (checker_builtins(data))
+							{
+								data->path_main = find_executable(data);
+								print_prompt(data);
+								if (data->path_main != NULL)
+									free(data->path_main);
+							}
+							else
+							{
+								g_global = 0;
+								free_all(data->matrix);
+							}
+						}
+						else
+						{
+							data->select = true;
+							free_all(data->matrix);
+						}
+						data->f_pipe = false;
+						val->f_pipe = false;
+						close(data->fdpipe[1]);
+						close(data->fdpipe[0]);
+						dup2(data->stdout_padrao, STDOUT_FILENO);
+						dup2(data->stdin_padrao, STDIN_FILENO);
+						i++;
 					}
 				}
 				else
 				{
-					data->select = true;
-					free_all(data->matrix);
+					if (verefiy_redirect(data->command) != 0)
+						redirections_op(data, val, NULL);
+					else
+						data->matrix = ft_split_one(val, data->command);
+					if (data->select)
+					{
+						if (checker_builtins(data))
+						{
+							data->path_main = find_executable(data);
+							print_prompt(data);
+							if (data->path_main != NULL)
+								free(data->path_main);
+						}
+						else
+						{
+							g_global = 0;
+							free_all(data->matrix);
+						}
+					}
+					else
+					{
+						data->select = true;
+						free_all(data->matrix);
+					}
 				}
 			}
 		}

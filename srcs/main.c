@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/25 15:07:59 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:32:20 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	inicializador(t_data *data)
 	data->exit = 0;
 	data->fd = -1;
 	data->control_padrao = 000;
+	data->f_pipe = false;
 	g_global = 0;
 }
 

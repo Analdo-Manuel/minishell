@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/26 11:16:03 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:40:14 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_valuer
 	long	j;
 	long	k;
 	bool	signal;
+	bool	f_pipe;
 }	t_valuer;
 
 typedef struct s_data
@@ -65,9 +66,11 @@ typedef struct s_data
 	char	*home;
 	char	*command;
 	bool	select;
+	bool	f_pipe;
 	int		status;
 	int		exit;
 	int		fd;
+	int		fdpipe[2];
 	int		control_padrao;
 	int		stdout_padrao;
 	int		stdin_padrao;
@@ -88,10 +91,10 @@ void	builtins_pwd(t_data *data);
 void	builtins_echo(t_data *data);
 void	builtins_env(t_data *data);
 void	builtins_cd_conf(t_data *data);
-void	redirections_op(t_data *data, t_valuer *val1);
+void	redirections_op(t_data *data, t_valuer *val1, char *str);
 
 char	*ft_itoa(int n);
-char    *get_next_line(int fd);
+char	*get_next_line(int fd);
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
 char	*expand_var_heredoc(char *s1);
@@ -99,6 +102,7 @@ char	**export_define(char **export);
 char	*find_executable(t_data *data);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
+char	**ft_split_pipe(char const *s, char c);
 char	**ft_split_one(t_valuer *val, char *str);
 char	**builtins_export_define(char **src, char *export);
 char	**builtins_unset(char **envp, char *clear, t_valuer val);
@@ -115,6 +119,7 @@ int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 int		verefy_quotes(char *str);
 int		verefiy_redirect(char *str);
+int		verefiy_pipe(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 bool	checker_builtins(t_data *data);

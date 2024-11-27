@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/21 11:09:30 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/27 15:48:09 by marccarv         ###   ########.fr       */
+/*   Created: 2024/05/17 16:21:18 by marccarv          #+#    #+#             */
+/*   Updated: 2024/11/27 15:50:00 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static size_t	word_count(const char *str, char c)
+static int	ft_wordcount(const char *str, char c)
 {
-	size_t	i;
-	size_t	count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -28,9 +28,9 @@ static size_t	word_count(const char *str, char c)
 	return (count);
 }
 
-static size_t	count(const char *str, char c, size_t i)
+static int	ft_wordcpy(const char *str, char c, int i)
 {
-	size_t	j;
+	int	j;
 
 	j = 0;
 	while (str[i + j] && str[i + j] != c)
@@ -38,26 +38,25 @@ static size_t	count(const char *str, char c, size_t i)
 	return (j);
 }
 
-char	**ft_split(const char *str, char c)
+char	**ft_split_pipe(char const *str, char c)
 {
 	char	**p;
 	int		i;
 	int		j;
 	int		k;
 
-	p = (char **) malloc(sizeof(char *) * (word_count(str, c) + 1));
+	p = (char **) malloc(sizeof(char *) * (ft_wordcount(str, c) + 1));
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		p[j] = (char *) malloc(sizeof(char) * (count(str, c, i) + 2));
+		p[j] = (char *) malloc(sizeof(char) * (ft_wordcpy(str, c, i) + 2));
 		k = 0;
 		while (str[i] && str[i] != c)
 			p[j][k++] = str[i++];
 		if (str[i] == c)
 		{
 			i++;
-			p[j][k++] = '/';
 		}
 		p[j][k] = '\0';
 		j++;
