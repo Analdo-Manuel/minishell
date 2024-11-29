@@ -9,7 +9,6 @@ SRCS =  srcs/main.c 					\
 		srcs/memory_free.c			\
 		srcs/ft_split_one.c 			\
 		srcs/ft_split_pipe.c 			\
-		srcs/get_next_line.c			\
 		srcs/checker_command.c			\
 		srcs/parsing_command.c			\
 		srcs/verefy_commands.c			\
