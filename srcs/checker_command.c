@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/29 15:38:06 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:38:54 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ static
 		{
 			signal(SIGINT, handler_process);
 			signal(SIGQUIT, handler_process);
+			if (data->str != NULL)
+				free_all(data->str);
 			if (execve(data->path_main, data->matrix, data->envp) == -1)
 			{
     			perror("execve");
@@ -228,6 +230,8 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						dup2(data->stdin_padrao, STDIN_FILENO);
 						i++;
 					}
+					if (data->str != NULL)
+						free_all(data->str);
 				}
 				else
 				{
