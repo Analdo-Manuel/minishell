@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/29 08:43:38 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:26:10 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ static
 
 void	loop_prompt(t_data *data, t_valuer *val)
 {
-	char	**str;
 	int		i;
 
 	i = 0;
@@ -176,26 +175,29 @@ void	loop_prompt(t_data *data, t_valuer *val)
 			{
 				if (verefiy_pipe(data->command) == 1)
 				{
-					data->f_pipe = true;
-					val->f_pipe = true;
 					data->stdout_padrao = dup(STDOUT_FILENO);
 					data->stdin_padrao = dup(STDIN_FILENO);
 					pipe(data->fdpipe);
-					str = ft_split_pipe(data->command, '|');
+					data->str = ft_split_pipe(data->command, '|');
 					i = 0;
-					while (str[i])
+					while (data->str[i])
 					{
-						printf("Com pipe\n");
-						if (str[i + 1] != NULL)
+						//printf("Com pipe\n");
+						if (data->str[i + 1] != NULL)
+						{
+							data->f_pipe = true;
+							val->f_pipe = true;
+						}
+						if (data->str[i + 1] != NULL)
 							dup2(data->fdpipe[1], STDOUT_FILENO);
 						else
 							dup2(data->stdout_padrao, STDOUT_FILENO);
 						if (i > 0)
 							dup2(data->fdpipe[0], STDIN_FILENO);
-						if (verefiy_redirect(str[i]) != 0)
-							redirections_op(data, val, str[i]);
+						if (verefiy_redirect(data->str[i]) != 0)
+							redirections_op(data, val, data->str[i]);
 						else
-							data->matrix = ft_split_one(val, str[i]);
+							data->matrix = ft_split_one(val, data->str[i]);
 						if (data->select)
 						{
 							if (checker_builtins(data))
@@ -220,7 +222,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						val->f_pipe = false;
 						if (i > 0)
 							close(data->fdpipe[0]);
-						if (str[i + 1] != NULL)
+						if (data->str[i + 1] != NULL)
 							close(data->fdpipe[1]);
 						dup2(data->stdout_padrao, STDOUT_FILENO);
 						dup2(data->stdin_padrao, STDIN_FILENO);
@@ -229,7 +231,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				}
 				else
 				{
-					printf("Sem pipe\n");
+					//printf("Sem pipe\n");
 					if (verefiy_redirect(data->command) != 0)
 						redirections_op(data, val, NULL);
 					else

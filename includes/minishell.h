@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/27 15:40:14 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:24:43 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_valuer
 typedef struct s_data
 {
 	char	**p;
+	char	**str;
 	char	**envp;
 	char	**matrix;
 	char	**export;

@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/27 15:18:50 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:27:08 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ void	exec_filho(t_data *data, char *name)
 
 	signal(SIGINT, handler_process);
 	signal(SIGQUIT, handler_process);
+	if (data->f_pipe == true)
+	{
+		dup2(data->stdout_padrao, STDOUT_FILENO);
+		dup2(data->stdin_padrao, STDIN_FILENO);
+	}
 	data->fd = open(".temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (true)
 	{
@@ -92,6 +97,13 @@ void	exec_filho(t_data *data, char *name)
 			free(val.str);
 		}
 	}
+	if (data->f_pipe == true)
+	{
+		dup2(data->fdpipe[1], STDOUT_FILENO);
+		dup2(data->fdpipe[0], STDIN_FILENO);
+	}
+	if (data->str != NULL)
+		free_all(data->str);
 	close(data->fd);
 	exit(0);
 }
