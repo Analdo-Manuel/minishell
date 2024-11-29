@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/27 15:58:14 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/29 08:43:38 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,13 +182,14 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					data->stdin_padrao = dup(STDIN_FILENO);
 					pipe(data->fdpipe);
 					str = ft_split_pipe(data->command, '|');
-					while(str[i])
-						printf("%s\n", str[i++]);
 					i = 0;
 					while (str[i])
 					{
+						printf("Com pipe\n");
 						if (str[i + 1] != NULL)
 							dup2(data->fdpipe[1], STDOUT_FILENO);
+						else
+							dup2(data->stdout_padrao, STDOUT_FILENO);
 						if (i > 0)
 							dup2(data->fdpipe[0], STDIN_FILENO);
 						if (verefiy_redirect(str[i]) != 0)
@@ -217,8 +218,10 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						}
 						data->f_pipe = false;
 						val->f_pipe = false;
-						close(data->fdpipe[1]);
-						close(data->fdpipe[0]);
+						if (i > 0)
+							close(data->fdpipe[0]);
+						if (str[i + 1] != NULL)
+							close(data->fdpipe[1]);
 						dup2(data->stdout_padrao, STDOUT_FILENO);
 						dup2(data->stdin_padrao, STDIN_FILENO);
 						i++;
@@ -226,6 +229,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				}
 				else
 				{
+					printf("Sem pipe\n");
 					if (verefiy_redirect(data->command) != 0)
 						redirections_op(data, val, NULL);
 					else
