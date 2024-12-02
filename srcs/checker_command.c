@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/02 15:56:44 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/02 20:26:30 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ void	handler_sign(int sig)
 static
 		void	print_prompt(t_data *data)
 {
-	if (data->path_main != NULL || access(data->path_main, X_OK) == 0)
+	if (data->path_main != NULL)
 	{
-		
 		if (data->control_padrao == 2)
 		{
 			if (ft_strcmp(data->matrix[0], "cat") == 0 || ft_strcmp(data->matrix[0], "wc") == 0)
@@ -214,8 +213,6 @@ void	loop_prompt(t_data *data, t_valuer *val)
 							{
 								data->path_main = find_executable(data);
 								print_prompt(data);
-								if (data->path_main != NULL)
-									free(data->path_main);
 							}
 							else
 							{
@@ -251,7 +248,13 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					{
 						if (checker_builtins(data))
 						{
-							data->path_main = find_executable(data);
+							if (data->matrix[0][0] == '/')
+							{
+								if (access(data->matrix[0], X_OK) == 0)
+									data->path_main = ft_strdup(data->matrix[0]);
+							}
+							else
+								data->path_main = find_executable(data);
 							print_prompt(data);
 						}
 						else
