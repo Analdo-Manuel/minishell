@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/25 09:01:58 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:10:24 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*ft_strdup(const char	*src)
 	int		i;
 
 	i = -1;
+	if (!src)
+		return (NULL);
 	while (src[++i])
 		;
 	str = (char *)malloc(sizeof(char) * (i + 1));

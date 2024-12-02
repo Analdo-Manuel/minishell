@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/29 16:38:54 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:29:17 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ static
 				dup2(data->stdout_padrao, STDOUT_FILENO);
 				data->fd = open(".temp", O_RDONLY);
 				dup2(data->fd, STDIN_FILENO);
-				dup2(data->fdpipe[1], STDOUT_FILENO);
+				if (data->f_pipe == true)
+					dup2(data->fdpipe[1], STDOUT_FILENO);
 			}
 			unlink(".temp");
 			close(data->fd);
