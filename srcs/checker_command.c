@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/29 17:29:17 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:56:44 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_executable(t_data *data)
 	if (data->matrix == NULL || data->matrix[0] == NULL)
 		return (NULL);
 	if (access(data->matrix[0], X_OK) == 0)
-		return (data->matrix[0]);
+		return (ft_strdup(data->matrix[0]));
 	data->path = getenv("PATH");
 	data->path = ft_strdup(data->path);
 	data->p = ft_split(data->path, ':');
@@ -87,7 +87,7 @@ void	handler_sign(int sig)
 static
 		void	print_prompt(t_data *data)
 {
-	if (data->path_main)
+	if (data->path_main != NULL || access(data->path_main, X_OK) == 0)
 	{
 		
 		if (data->control_padrao == 2)
@@ -138,12 +138,19 @@ static
 				printf("\n");
 				g_global = 130;
 			}
+			if (data->path_main != NULL)
+				free(data->path_main);
 			free_all(data->matrix);
 		}
 	}
 	else
 	{
 		g_global = 127;
+		if (data->fd >= 0 && data->control_padrao == 1)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
+		}
 		printf("%s: Command not found.\n", data->matrix[0]);
 		free_all(data->matrix);
 	}
@@ -236,7 +243,6 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				}
 				else
 				{
-					//printf("Sem pipe\n");
 					if (verefiy_redirect(data->command) != 0)
 						redirections_op(data, val, NULL);
 					else
@@ -247,8 +253,6 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						{
 							data->path_main = find_executable(data);
 							print_prompt(data);
-							if (data->path_main != NULL)
-								free(data->path_main);
 						}
 						else
 						{

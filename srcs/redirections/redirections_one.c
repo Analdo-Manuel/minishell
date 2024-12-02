@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_one.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/29 13:27:08 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:48:28 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static
-		bool	check_command(t_data *data)
-{
-	char	*str;
-
-	str = find_executable(data);
-	if (data->matrix == NULL || data->matrix[0] == NULL)
-		return (true);
-	if (!ft_strcmp(data->matrix[0], "echo") 		\
-		|| !ft_strcmp(data->matrix[0], "unset") 	\
-		|| !ft_strcmp(data->matrix[0], "export") 	\
-		|| !ft_strcmp(data->matrix[0], "env") 		\
-		|| !ft_strcmp(data->matrix[0], "cd") 		\
-		|| !ft_strcmp(data->matrix[0], "pwd") 		\
-		|| str )
-	{
-		if (str)
-			free(str);
-		return (true);
-	}
-	return (false);
-}
 
 static
 		char	*control(char *src, t_valuer *val)
@@ -85,8 +62,10 @@ void	exec_filho(t_data *data, char *name)
 				{
 					val.i++;
 					val.str = ft_strjoin_des(val.str, expand_var_heredoc(str));
-					while (str[val.i] && str[val.i] != 32)
+					while (str[val.i] && str[val.i] != 32 && str[val.i] != '"')
 						val.i++;
+					if (str[val.i] == '"')
+						val.str = str_alloc(val.str, str[val.i++]);
 				}
 				else
 					val.str = str_alloc(val.str, str[val.i++]);
@@ -177,6 +156,7 @@ void	add_valuer(t_valuer *val, char *str)
 
 void	redirections_op(t_data *data, t_valuer *val1, char *str)
 {
+	struct stat	info;
 	t_valuer	val;
 	char		*name;
 	char		*c;
@@ -209,15 +189,18 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 			if (val.str)
 			{
 				data->matrix = ft_split_one(val1, val.str);
-				if (check_command(data) == false)
+				stat(name, &info);
+				if (S_ISDIR(info.st_mode))
 				{
-					g_global = 127;
-					printf("Command '%s' not found.\n", data->matrix[0]);
+					printf("bash: %s: Is a directory\n", name);
+					g_global = 1;
 					if (name)
 						free(name);
 					if (c)
 						free(c);
-					free_all(data->matrix);
+					if (val.str != NULL)
+						free(val.str);
+					data->select = false;
 					return ;
 				}
 				else

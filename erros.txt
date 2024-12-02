@@ -1,7 +1,6 @@
-cat <> .
-
-cat << l
-
-Cadete/minishell$ export USER=$PATH | export | grep USER
-
-
+jdgjfjd
+dghdkd
+gkhgkdg
+dgjdlkjgld
+gdlgjldjg
+dgjldlgjldg

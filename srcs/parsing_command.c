@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/26 11:45:23 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:37:14 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*expand_var_heredoc(char *s1)
 	while (s1[val.i] && s1[val.i] != '$')
 		val.i++;
 	val.i++;
-	while (s1[val.i] && s1[val.i] != 32)
+	while (s1[val.i] && s1[val.i] != 32 && s1[val.i] != '"')
 		val.str = str_alloc(val.str, s1[val.i++]);
 	str = getenv(val.str);
 	free(val.str);
