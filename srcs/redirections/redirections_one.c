@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/02 15:48:28 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:50:45 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,19 +189,28 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 			if (val.str)
 			{
 				data->matrix = ft_split_one(val1, val.str);
-				stat(name, &info);
-				if (S_ISDIR(info.st_mode))
+				if (stat(name, &info) == 0)
 				{
-					printf("bash: %s: Is a directory\n", name);
-					g_global = 1;
-					if (name)
+					if (S_ISDIR(info.st_mode))
+					{
+						printf("bash: %s: Is a directory\n", name);
+						g_global = 1;
+						if (name)
+							free(name);
+						if (c)
+							free(c);
+						if (val.str != NULL)
+							free(val.str);
+						data->select = false;
+						return ;
+					}
+					else
+					{
+						create_file(data, &val, name, c);
 						free(name);
-					if (c)
 						free(c);
-					if (val.str != NULL)
-						free(val.str);
-					data->select = false;
-					return ;
+						free_all(data->matrix);
+					}
 				}
 				else
 				{

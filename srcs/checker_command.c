@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/02 20:26:30 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:42:18 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 		signal(SIGINT, handler_sign);
 		realine_prompt(data);
 		if ( data->command == NULL)
-		{
 			free_total(data);
-			exit (0);
-		}
 		if (verefy_quotes(data->command) == 0)
 		{
 			if (verefiy_redirect(data->command) != 3 && verefiy_pipe(data->command) != 3)

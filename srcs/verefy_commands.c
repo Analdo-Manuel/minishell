@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/18 18:25:24 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:54:53 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	loop_verefy_quotes(char *str, t_valuer *val)
 	{
 		val->i++;
 		val->k++;
+		if (!str[val->i])
+			return ;
 		if (str[val->i] == 34)
 			val->k++;
 		verefy_quotes_cont(str, val);
@@ -52,6 +54,8 @@ void	loop_verefy_quotes(char *str, t_valuer *val)
 	{
 		val->i++;
 		val->j++;
+		if (!str[val->i])
+			return ;
 		if (str[val->i] == 39)
 			val->j++;
 		verefy_quotes_cont_2(str, val);

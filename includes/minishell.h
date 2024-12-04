@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/02 15:34:54 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:32:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@
 # define BG_MAGENTA "\033[45m"
 # define BG_CYAN    "\033[46m"
 # define BG_WHITE   "\033[47m"
-
-# define BUFFER_SIZE 42
 
 typedef struct s_valuer
 {

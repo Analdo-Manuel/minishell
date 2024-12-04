@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 10:51:36 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:40:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	**ft_split_one(t_valuer *val, char *str)
 	val->p = (char **) malloc(sizeof(char *) * 4096);
 	val->i = 0;
 	val->j = 0;
-	while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n')
+	while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n' || str[val->i] == '"')
 		val->i++;
 	while (str[val->i])
 	{

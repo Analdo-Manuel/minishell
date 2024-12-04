@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:47:50 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/02 13:09:51 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:42:08 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,5 @@ void	free_total(t_data *data)
 		free_all(data->export);
 	if (data->command)
 		free(data->command);
+	exit (0);
 }
