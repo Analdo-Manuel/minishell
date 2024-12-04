@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:37:26 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/29 15:10:24 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:41:43 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	if (!str)
+	if (str == NULL)
 		return (0);
 	while (str[i] != '\0')
 		i++;

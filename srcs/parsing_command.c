@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/02 13:37:14 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:04:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,31 @@ char	*expand_var_heredoc(char *s1)
 	return(str);
 }
 
-char	*expand_variable(char *s1, char *s2, t_valuer *val)
+char	*checker_expand(t_data *data, const char *str)
+{
+	t_valuer	val;
+
+	val.i = 0;
+	while (data->envp[val.i])
+	{
+		val.str = (char *) malloc(sizeof(char) * 1);
+		val.str[0] = '\0';
+		val.j = 0;
+		while (data->envp[val.i][val.j] && data->envp[val.i][val.j] != '=')
+			val.str = str_alloc(val.str, data->envp[val.i][val.j++]);
+		if (ft_strcmp(val.str, str) == 0)
+		{
+			free(val.str);
+			return (&data->envp[val.i][++val.j]);
+		}
+		val.i++;
+		free(val.str);
+	}
+	data->status = 1;
+	return (NULL);
+}
+
+char	*expand_variable(t_data *data, char *s1, char *s2, t_valuer *val)
 {
 	char	*get_valuer;
 	char	*str;
@@ -91,16 +115,11 @@ char	*expand_variable(char *s1, char *s2, t_valuer *val)
 	while (j < val->i)
 		str[alloc++] = s2[j++];
 	str[alloc] = '\0';
-	get_valuer = getenv(str);
-	if (get_valuer)
-	{	
+	if ((get_valuer = checker_expand(data, str)))
+	{
 		free (str);
 		return (ft_strjoin_des(s1, get_valuer));
 	}
-	else
-	{
-		get_valuer = ft_strjoin_des1(s1, str);
-		return (get_valuer);
-	}
+	free (str);
 	return (s1);
 }

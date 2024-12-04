@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 10:32:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:05:49 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_data
 	char	*home;
 	char	*command;
 	bool	select;
+	bool	valuer_aux;
 	bool	f_pipe;
 	int		status;
 	int		exit;
@@ -103,14 +104,15 @@ char	*find_executable(t_data *data);
 char	*ft_strcpy(char *dest, char *src);
 char	**ft_split(const char	*str, char c);
 char	**ft_split_pipe(char const *s, char c);
-char	**ft_split_one(t_valuer *val, char *str);
+char	**ft_split_one(t_data *data, t_valuer *val, char *str);
 char	**builtins_export_define(char **src, char *export);
 char	**builtins_unset(char **envp, char *clear, t_valuer val);
 char	**builtins_export(char **src, char *export);
-char	*expand_variable(char *s1, char *s2, t_valuer *val);
+char	*expand_variable(t_data *data, char *s1, char *s2, t_valuer *val);
 char	*ft_strjoin(const char	*str, const char *src);
 char	*ft_strjoin_des(char *str, const char *src);
 char	*ft_strjoin_des1(char *str, char *src);
+char	*checker_expand(t_data *data, const char *str);
 
 size_t	ft_strlen(const char *str);
 size_t	checker_quotes(const char *str, char c);

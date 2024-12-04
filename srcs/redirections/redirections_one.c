@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/03 13:50:45 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 11:58:15 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 				val.i++;
 			if (val.str)
 			{
-				data->matrix = ft_split_one(val1, val.str);
+				data->matrix = ft_split_one(data, val1, val.str);
 				if (stat(name, &info) == 0)
 				{
 					if (S_ISDIR(info.st_mode))
@@ -224,7 +224,7 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 		else
 			add_valuer(&val, data->command);
 	}
-	data->matrix = ft_split_one(val1, val.str);
+	data->matrix = ft_split_one(data, val1, val.str);
 	if (val.str != NULL)
 		free(val.str);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 10:42:18 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:22:31 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,26 @@ char	*find_executable(t_data *data)
 		return (NULL);
 	if (access(data->matrix[0], X_OK) == 0)
 		return (ft_strdup(data->matrix[0]));
-	data->path = getenv("PATH");
-	data->path = ft_strdup(data->path);
-	data->p = ft_split(data->path, ':');
-	free(data->path);
-	i = 0;
-	while (data->p[i])
+	data->path = checker_expand(data, "PATH");
+	if (data->path != NULL)
 	{
-		str = ft_strjoin(data->p[i++], data->matrix[0]);
-		if (access(str, X_OK) == 0)
+		data->path = ft_strdup(data->path);
+		data->p = ft_split(data->path, ':');
+		free(data->path);
+		i = 0;
+		while (data->p[i])
 		{
-			free_all(data->p);
-			return (str);
+			str = ft_strjoin(data->p[i++], data->matrix[0]);
+			if (access(str, X_OK) == 0)
+			{
+				free_all(data->p);
+				return (str);
+			}
+			free(str);
 		}
-		free(str);
+		free_all(data->p);
 	}
-	free_all(data->p);
+	data->valuer_aux = true;
 	return (NULL);
 }
 
@@ -107,8 +111,6 @@ static
 		{
 			signal(SIGINT, handler_process);
 			signal(SIGQUIT, handler_process);
-			if (data->str != NULL)
-				free_all(data->str);
 			if (execve(data->path_main, data->matrix, data->envp) == -1)
 			{
     			perror("execve");
@@ -150,7 +152,10 @@ static
 			dup2(data->stdout_padrao, STDOUT_FILENO);
 			close(data->stdout_padrao);
 		}
-		printf("%s: Command not found.\n", data->matrix[0]);
+		if (data->valuer_aux == true)
+			printf("bash: %s: No such file or directory\n", data->matrix[0]);
+		else
+			printf("%s: Command not found.\n", data->matrix[0]);
 		free_all(data->matrix);
 	}
 }
@@ -203,13 +208,36 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						if (verefiy_redirect(data->str[i]) != 0)
 							redirections_op(data, val, data->str[i]);
 						else
-							data->matrix = ft_split_one(val, data->str[i]);
+							data->matrix = ft_split_one(data, val, data->str[i]);
 						if (data->select)
 						{
+							if (checker_expand(data, "PATH") == NULL)
+								printf("bash: sed: No such file or directory\n");
+							else
+								data->valuer_aux = false;
 							if (checker_builtins(data))
 							{
-								data->path_main = find_executable(data);
-								print_prompt(data);
+								if (data->matrix[0][0] == '/')
+								{
+									if (access(data->matrix[0], X_OK) == 0)
+									{
+										data->path_main = ft_strdup(data->matrix[0]);
+										print_prompt(data);
+									}
+									else
+									{	
+										g_global = 127;
+										dup2(data->stdout_padrao, STDOUT_FILENO);
+										close(data->stdout_padrao);
+										printf("bash: %s: No such file or directory\n", data->matrix[0]);
+										free_all(data->matrix);
+									}
+								}
+								else
+								{
+									data->path_main = find_executable(data);
+									print_prompt(data);
+								}
 							}
 							else
 							{
@@ -240,19 +268,37 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					if (verefiy_redirect(data->command) != 0)
 						redirections_op(data, val, NULL);
 					else
-						data->matrix = ft_split_one(val, data->command);
+						data->matrix = ft_split_one(data, val, data->command);
 					if (data->select)
 					{
+						if (checker_expand(data, "PATH") == NULL)
+							printf("bash: sed: No such file or directory\n");
 						if (checker_builtins(data))
 						{
 							if (data->matrix[0][0] == '/')
 							{
 								if (access(data->matrix[0], X_OK) == 0)
+								{
 									data->path_main = ft_strdup(data->matrix[0]);
+									print_prompt(data);
+								}
+								else
+								{	
+									g_global = 127;
+									if (data->fd >= 0 && data->control_padrao == 1)
+									{
+										dup2(data->stdout_padrao, STDOUT_FILENO);
+										close(data->stdout_padrao);
+									}
+									printf("bash: %s: No such file or directory\n", data->matrix[0]);
+									free_all(data->matrix);
+								}
 							}
 							else
+							{
 								data->path_main = find_executable(data);
-							print_prompt(data);
+								print_prompt(data);
+							}
 						}
 						else
 						{
