@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 13:22:31 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:26:36 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,22 +106,37 @@ static
 			unlink(".temp");
 			close(data->fd);
 		}
+		//printf("pid Pai: %d\n", getpid());
 		data->pid = fork();
-		if (data->pid == 0)
+		//printf("pid pid: %d\n", data->pid);
+		if (data->pid == 0) // erro aqui A1
 		{
 			signal(SIGINT, handler_process);
 			signal(SIGQUIT, handler_process);
-			if (execve(data->path_main, data->matrix, data->envp) == -1)
+			//int f = 0;
+			//while (data->matrix[f])
+				//printf("filho:--%s\n", data->matrix[f++]);
+			//usleep(1000);
+			//printf("pid filho: %d\n", getpid());
+			//printf("%s | %s | %s\n", data->path_main, data->matrix[0], data->envp[1]);
+			if (execve(data->path_main, data->matrix, data->envp) == -1) // Ps: erro aqui com o grep e outros comandos; A2 provalvelmente erro no execve nao encerra o processo
 			{
     			perror("execve");
    				exit(EXIT_FAILURE);
 			}
+			//printf("pid filho: %d\n", getpid());
+			exit(EXIT_SUCCESS);
 		}
 		else if (data->pid > 0)
 		{
+			//int f = 0;
+			//while (data->matrix[f])
+				//printf("%s\n", data->matrix[f++]);
+			//printf("pid: %d\n", filho);
 			signal(SIGINT, SIG_IGN);
-			waitpid(data->pid, &data->status, 0);
-			if (WIFEXITED(data->status))
+			//printf("OK\n");
+			waitpid(data->pid, &data->status, 0); // erro aqui esta no waitpid A3 processo cola
+			if (WIFEXITED(data->status) == 0)
             	g_global = WEXITSTATUS(data->status);
 			else if (WTERMSIG(data->status) == 3)
 			{
@@ -235,8 +250,9 @@ void	loop_prompt(t_data *data, t_valuer *val)
 								}
 								else
 								{
+									//printf("-----OK----\n");
 									data->path_main = find_executable(data);
-									print_prompt(data);
+									print_prompt(data); // erro final aqui com o grep
 								}
 							}
 							else
@@ -252,9 +268,9 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						}
 						data->f_pipe = false;
 						val->f_pipe = false;
-						if (i > 0)
+						if (data->str[i + 1] == NULL)
 							close(data->fdpipe[0]);
-						if (data->str[i + 1] != NULL)
+						if (data->str[i + 1] == NULL)
 							close(data->fdpipe[1]);
 						dup2(data->stdout_padrao, STDOUT_FILENO);
 						dup2(data->stdin_padrao, STDIN_FILENO);
