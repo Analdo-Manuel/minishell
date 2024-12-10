@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 11:58:15 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/10 10:36:03 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,6 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 	char		*name;
 	char		*c;
 
-	if (data->f_pipe == false)
-	{
-		data->stdout_padrao = dup(STDOUT_FILENO);
-		data->stdin_padrao = dup(STDIN_FILENO);
-	}
 	if (str != NULL)
 		data->command = str;
 	val.str = (char *) malloc(sizeof(char) * 1000);
