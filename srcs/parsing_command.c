@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 13:04:42 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:34:35 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*expand_variable(t_data *data, char *s1, char *s2, t_valuer *val)
 	j = val->i;
 	alloc = 0;
 	while (s2[val->i] && s2[val->i] != 32 && s2[val->i] \
-			!= '$' && s2[val->i] != 34 && s2[val->i] != 39)
+			!= '$' && s2[val->i] != 34 && s2[val->i] != 39 && s2[val->i] != '=')
 	{
 		alloc++;
 		val->i++;

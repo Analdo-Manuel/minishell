@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/10 11:05:28 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:15:10 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,7 @@ static
 		{
 			signal(SIGINT, SIG_IGN);
 			waitpid(data->pid, &data->status, 0);
-			if (WIFEXITED(data->status) == 0)
-            	g_global = WEXITSTATUS(data->status);
-			else if (WTERMSIG(data->status) == 3)
+			if (WTERMSIG(data->status) == 3)
 			{
 				g_global = 131;
 				printf("Quit (core dumped)\n");
@@ -138,6 +136,8 @@ static
 				printf("\n");
 				g_global = 130;
 			}
+			else if (WIFEXITED(data->status) == 0)
+            	g_global = WEXITSTATUS(data->status);
 			if (data->path_main != NULL)
 				free(data->path_main);
 			free_all(data->matrix);
@@ -191,92 +191,107 @@ void	loop_prompt(t_data *data, t_valuer *val)
 				{
 					data->str = ft_split_pipe(data->command, '|');
 					i = 0;
-					while (data->str[i])
+					if (data->str[i + 1] == NULL)
+						printf("bash: syntax error near unexpected token `|'\n");
+					else
 					{
-						if (data->str[i + 1] != NULL)
+						while (data->str[i])
 						{
-							pipe(data->fdpipe);
-							data->f_pipe = true;
-							dup2(data->fdpipe[1], STDOUT_FILENO);
-						}
-						else
-						{
-							data->f_pipe = false;
-							dup2(data->stdout_padrao, STDOUT_FILENO);
-						}
-						if ((pid = fork()) == 0)
-						{
-							close(data->fdpipe[0]);
-							if (verefiy_redirect(data->str[i]) != 0)
-								redirections_op(data, val, data->str[i]);
-							else
-								data->matrix = ft_split_one(data, val, data->str[i]);
-							if (data->select)
+							if (data->str[i + 1] != NULL)
 							{
-								if (checker_expand(data, "PATH") == NULL)
-									printf("bash: sed: No such file or directory\n");
+								pipe(data->fdpipe);
+								data->f_pipe = true;
+								dup2(data->fdpipe[1], STDOUT_FILENO);
+							}
+							else
+							{
+								data->f_pipe = false;
+								dup2(data->stdout_padrao, STDOUT_FILENO);
+							}
+							if ((pid = fork()) == 0)
+							{
+								close(data->fdpipe[0]);
+								if (verefiy_redirect(data->str[i]) != 0)
+									redirections_op(data, val, data->str[i]);
 								else
-									data->valuer_aux = false;
-								if (checker_builtins(data))
+									data->matrix = ft_split_one(data, val, data->str[i]);
+								if (data->select)
 								{
-									if (data->matrix[0][0] == '/')
+									if (checker_expand(data, "PATH") == NULL)
+										printf("bash: sed: No such file or directory\n");
+									else
+										data->valuer_aux = false;
+									if (checker_builtins(data))
 									{
-										if (access(data->matrix[0], X_OK) == 0)
+										if (data->matrix[0][0] == '/')
 										{
-											data->path_main = ft_strdup(data->matrix[0]);
-											print_prompt(data);
+											if (access(data->matrix[0], X_OK) == 0)
+											{
+												data->path_main = ft_strdup(data->matrix[0]);
+												print_prompt(data);
+											}
+											else
+											{	
+												g_global = 127;
+												dup2(data->stdout_padrao, STDOUT_FILENO);
+												close(data->stdout_padrao);
+												printf("bash: %s: No such file or directory\n", data->matrix[0]);
+												free_all(data->matrix);
+											}
 										}
 										else
-										{	
-											g_global = 127;
-											dup2(data->stdout_padrao, STDOUT_FILENO);
-											close(data->stdout_padrao);
-											printf("bash: %s: No such file or directory\n", data->matrix[0]);
-											free_all(data->matrix);
+										{
+											data->path_main = find_executable(data);
+											print_prompt(data);
 										}
 									}
 									else
 									{
-										data->path_main = find_executable(data);
-										print_prompt(data); 
+										g_global = 0;
+										free_all(data->matrix);
 									}
 								}
 								else
 								{
-									g_global = 0;
+									data->select = true;
 									free_all(data->matrix);
 								}
+								if (data->fd >= 0 && data->control_padrao == 1)
+								{
+									dup2(data->stdout_padrao, STDOUT_FILENO);
+									close(data->stdout_padrao);
+								}
+								if (data->fd >= 0 && data->control_padrao == 2)
+								{
+									dup2(data->stdin_padrao, STDIN_FILENO);
+									close(data->stdin_padrao);
+								}
+								if (data->str != NULL)
+									free_all(data->str);
+								exit(g_global);
+							}
+							if (data->str[i + 1] != NULL)
+							{
+								dup2(data->fdpipe[0], STDIN_FILENO);
+								close(data->fdpipe[0]);
 							}
 							else
-							{
-								data->select = true;
-								free_all(data->matrix);
-							}
-							if (data->fd >= 0 && data->control_padrao == 1)
-							{
-								dup2(data->stdout_padrao, STDOUT_FILENO);
-								close(data->stdout_padrao);
-							}
-							if (data->fd >= 0 && data->control_padrao == 2)
-							{
 								dup2(data->stdin_padrao, STDIN_FILENO);
-								close(data->stdin_padrao);
-							}
-							exit(EXIT_SUCCESS);
+							close(data->fdpipe[1]);
+							i++;
 						}
-						wait(NULL);
-						if (data->str[i + 1] != NULL)
+						while (true)
 						{
-							dup2(data->fdpipe[0], STDIN_FILENO);
-							close(data->fdpipe[0]);
+							signal(SIGINT, SIG_IGN);
+							waitpid(-1, &data->status, 0);
+							i--;
+							if (i == 0)
+								break;
 						}
-						else
-							dup2(data->stdin_padrao, STDIN_FILENO);
-						close(data->fdpipe[1]);
-						i++;
+						g_global = WEXITSTATUS(data->status);
+						if (data->str != NULL)
+							free_all(data->str);
 					}
-					if (data->str != NULL)
-						free_all(data->str);
 				}
 				else
 				{

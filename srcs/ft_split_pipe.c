@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 16:21:18 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/27 15:50:00 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:14:07 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char	**ft_split_pipe(char const *str, char c)
 			i++;
 		}
 		p[j][k] = '\0';
+		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+			i++;
 		j++;
 	}
 	p[j] = NULL;

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/25 13:54:06 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:01:13 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ static
 	size_t		j;
 
 	j = 0;
+	for (int i = 0; data->matrix[i]; i++)
+		printf("matrix[%d]: %s\n", i, data->matrix[i]);
 	if (data->matrix[1] != NULL)
 	{
 		if (ft_isdigit(data->matrix[1][0]))
