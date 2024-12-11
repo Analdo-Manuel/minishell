@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verefiy_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:53:18 by marccarv          #+#    #+#             */
-/*   Updated: 2024/12/11 12:37:01 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:44:46 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	verefiy_pipe(char *str)
 			j++;
 		else if (str[i] == 39 && j % 2 == 0)
 			l++;
-		if (str[i] == 124 && str[i - 1] == '\0' \
-		&& j % 2 == 0 && l % 2 == 0)
+		if (str[0] == 124 && j % 2 == 0 && l % 2 == 0)
 		{
 			while (str[i] == 124)
 				i++;

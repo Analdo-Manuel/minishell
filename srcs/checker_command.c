@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/10 15:15:10 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:55:46 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ static
 				data->fd = open(".temp", O_RDONLY);
 				dup2(data->fd, STDIN_FILENO);
 			}
-			unlink(".temp");
 			close(data->fd);
+			unlink(".temp");
 		}
 		data->pid = fork();
 		if (data->pid == 0)
@@ -174,14 +174,14 @@ void	loop_prompt(t_data *data, t_valuer *val)
 	pid_t	pid;
 
 	i = 0;
-	data->stdout_padrao = dup(STDOUT_FILENO);
-	data->stdin_padrao = dup(STDIN_FILENO);
 	while (true)
 	{
+		data->stdout_padrao = dup(STDOUT_FILENO);
+		data->stdin_padrao = dup(STDIN_FILENO);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler_sign);
 		realine_prompt(data);
-		if ( data->command == NULL)
+		if (data->command == NULL)
 			free_total(data);
 		if (verefy_quotes(data->command) == 0)
 		{

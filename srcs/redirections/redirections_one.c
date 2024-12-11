@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/10 10:36:03 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:45:23 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	exec_filho(t_data *data, char *name)
 				{
 					val.i++;
 					val.str = ft_strjoin_des(val.str, expand_var_heredoc(str));
-					while (str[val.i] && str[val.i] != 32 && str[val.i] != '"')
+					while (str[val.i] && str[val.i] != 32 && str[val.i] != '"' && str[val.i] != 39)
 						val.i++;
-					if (str[val.i] == '"')
+					if (str[val.i] == '"' || str[val.i] == 39)
 						val.str = str_alloc(val.str, str[val.i++]);
 				}
 				else
@@ -83,7 +83,6 @@ void	exec_filho(t_data *data, char *name)
 	}
 	if (data->str != NULL)
 		free_all(data->str);
-	close(data->fd);
 	exit(0);
 }
 
@@ -184,7 +183,7 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 			if (val.str)
 			{
 				data->matrix = ft_split_one(data, val1, val.str);
-				if (stat(name, &info) == 0)
+				if (stat(name, &info) == 0 && (ft_strcmp(c, ">") == 0 || ft_strcmp(c, ">>") == 0))
 				{
 					if (S_ISDIR(info.st_mode))
 					{

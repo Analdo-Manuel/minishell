@@ -6,18 +6,42 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:05:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/18 19:31:36 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:32:29 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	checke_comand(char *str)
+{
+	size_t	i;
+
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 void	builtins_echo(t_data *data)
 {
 	size_t	i;
 
 	i = 1;
-	if (data->matrix[i][0] != '-' && data->matrix[i][1] != 'n')
+	if (data->matrix[i][0] == '-' && data->matrix[i][1] == 'n' && checke_comand(data->matrix[i]))
+	{
+		i++;
+		while (data->matrix[i])
+		{
+			printf("%s", data->matrix[i++]);
+			if (data->matrix[i])
+				printf(" ");
+		}
+	}
+	else
 	{
 		while (data->matrix[i])
 		{
@@ -26,17 +50,6 @@ void	builtins_echo(t_data *data)
 				printf(" ");
 		}
 		printf("\n");
-	}
-	else
-	{
-		while (data->matrix[i][0] == '-' && data->matrix[i][1] == 'n')
-			i++;
-		while (data->matrix[i])
-		{
-			printf("%s", data->matrix[i++]);
-			if (data->matrix[i])
-				printf(" ");
-		}
 	}
 }
 
