@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/10 19:33:31 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/12 01:24:36 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,9 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 			val->i++;
 		}
 		val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
-		while (str[val->i] == 32)
-			val->i++;
-		val->signal = true;
 		return ;
 	}
-	val->p[val->j][val->k++] = str[val->i++];
+	val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
 }
 
 char	**ft_split_one(t_data *data, t_valuer *val, char *str)
@@ -100,14 +97,10 @@ char	**ft_split_one(t_data *data, t_valuer *val, char *str)
 		val->i++;
 	while (str[val->i])
 	{
-		val->signal = false;
-		val->p[val->j] = (char *) malloc(sizeof(char) * 8096);
-		ft_memset(val->p[val->j], 0, 8096);
-		val->k = 0;
+		val->p[val->j] = (char *) malloc(sizeof(char) * 8084);
+		ft_memset(val->p[val->j], 0, 8084);
 		while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
 			selection_option(data, val, str);
-		if (val->signal == false)
-			val->p[val->j][val->k] = '\0';
 		while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n')
 			val->i++;
 		val->j++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/11 12:54:58 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/12 00:57:45 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ char	*expand_variable(t_data *data, char *s1, char *s2, t_valuer *val)
 	while (j < val->i)
 		str[alloc++] = s2[j++];
 	str[alloc] = '\0';
-	if ((get_valuer = checker_expand(data, str)))
+	get_valuer = checker_expand(data, str);
+	if (get_valuer != NULL)
 	{
 		free (str);
 		return (ft_strjoin_des(s1, get_valuer));

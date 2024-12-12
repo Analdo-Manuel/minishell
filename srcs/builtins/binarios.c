@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/10 19:01:13 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/12 01:29:08 by analdo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,27 @@ void	unset_export_unset(t_data *data, t_valuer val)
 static
 		void	unset_export_export(t_data *data)
 {
+	size_t		i;
 	size_t		j;
 
+	i = 0;
 	j = 0;
-	for (int i = 0; data->matrix[i]; i++)
-		printf("matrix[%d]: %s\n", i, data->matrix[i]);
-	if (data->matrix[1] != NULL)
+	if (data->matrix[1])
 	{
-		if (ft_isdigit(data->matrix[1][0]))
-		{
-			g_global = 1;
-			printf("bash: export: '%s': not a valid identifier\n", data->matrix[1]);
-		}
-		else
-		{
-			data->export = builtins_export_define(data->export, data->matrix[1]);
-			sort_params(data->export);
-			data->envp = builtins_export(data->envp, data->matrix[1]);
+		while (data->matrix[i])
+		{	
+			if (ft_isdigit(data->matrix[i][0]))
+			{
+				g_global = 1;
+				printf("bash: export: '%s': not a valid identifier\n", data->matrix[i]);
+			}
+			else
+			{
+				data->export = builtins_export_define(data->export, data->matrix[i]);
+				sort_params(data->export);
+				data->envp = builtins_export(data->envp, data->matrix[i]);
+			}
+			i++;
 		}
 	}
 	else
