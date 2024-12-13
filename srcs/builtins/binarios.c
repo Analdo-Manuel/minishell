@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:04:52 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:31:21 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void builtins_exit(t_data *data)
 		{
 			if (ft_isdigit(data->matrix[1][i]) == 0)
 			{
+				if (data->f_pipe == true)
+				{
+					dup2(data->stdout_padrao, STDOUT_FILENO);
+					close(data->stdout_padrao);
+				}
+				g_global = 1;
 				printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
 				data->exit = 2;
 				j = 1;
@@ -130,6 +136,11 @@ static
 		{
 			if (ft_isdigit(data->matrix[i][0]) || data->matrix[i][0] == '=' || ft_isalpha_func(data->matrix[i]))
 			{
+				if (data->f_pipe == true)
+				{
+					dup2(data->stdout_padrao, STDOUT_FILENO);
+					close(data->stdout_padrao);
+				}
 				g_global = 1;
 				printf("bash: export: '%s': not a valid identifier\n", data->matrix[i]);
 			}

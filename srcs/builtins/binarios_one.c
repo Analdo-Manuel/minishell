@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:05:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/11 15:32:29 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:30:52 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,24 @@ void	builtins_pwd(t_data *data)
 
 	if (data->matrix[1] != NULL)
 	{
+		if (data->f_pipe == true)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
+		}
+		g_global = 1;
 		printf("pwd: too many arguments\n");
 		return ;
 	}
 	str = getcwd(NULL, 0);
 	if (str == NULL)
 	{
+		if (data->f_pipe == true)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
+		}
+		g_global = 1;
 		printf("error getcwd\n");
 		return ;
 	}
@@ -80,6 +92,12 @@ void	builtins_env(t_data *data)
 	i = 0;
 	if (data->matrix[1] != NULL)
 	{
+		if (data->f_pipe == true)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
+		}
+		g_global = 1;
 		printf("env with no options or arguments\n");
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:00 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/07 17:00:26 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:27:53 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,20 @@ void	cd_home_copy(char **envp, char *home, t_data *data)
 	}
 }
 
-static void	builtins_cd(char *str)
+static void	builtins_cd(t_data *data, char *str)
 {
 	if (chdir(str) == 0)
 		return ;
 	else
+	{
+		if (data->f_pipe == true)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
+		}
+		g_global = 1;
 		printf("bash: cd: %s: No such file or directory\n", str);
+	}
 	return ;
 }
 
@@ -74,21 +82,35 @@ void	builtins_cd_conf(t_data *data)
 	{
 		if (data->home == NULL)
 		{
+			if (data->f_pipe == true)
+			{
+				dup2(data->stdout_padrao, STDOUT_FILENO);
+				close(data->stdout_padrao);
+			}
+			g_global = 1;
 			printf("bash: cd: HOME not set\n");
 			return ;
 		}
-		builtins_cd(data->home);
+		builtins_cd(data, data->home);
 	}
 	else
 	{
 		if (ft_strcmp(data->matrix[1], "~") == 0)
 		{
 			if (data->matrix[2] != NULL)
+			{
+				if (data->f_pipe == true)
+				{
+					dup2(data->stdout_padrao, STDOUT_FILENO);
+					close(data->stdout_padrao);
+				}
+				g_global = 1;
 				printf("bash: cd: too many arguments\n");
-			else
-				builtins_cd(getenv("HOME"));
+			}
+			else	
+				builtins_cd(data, getenv("HOME"));
 		}
 		else
-			builtins_cd(data->matrix[1]);
+			builtins_cd(data, data->matrix[1]);
 	}
 }

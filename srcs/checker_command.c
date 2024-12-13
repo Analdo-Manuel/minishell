@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:13:19 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:18:08 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,14 @@ static
 			printf("bash: %s: No such file or directory\n", data->matrix[0]);
 		}
 		else
+		{
+			if (data->f_pipe == true)
+			{
+				dup2(data->stdout_padrao, STDOUT_FILENO);
+				close(data->stdout_padrao);
+			}
 			printf("%s: Command not found.\n", data->matrix[0]);
+		}
 		free_all(data->matrix);
 	}
 }
@@ -224,10 +231,6 @@ void	loop_prompt(t_data *data, t_valuer *val)
 									data->matrix = ft_split_one(data, val, data->str[i]);
 								if (data->select)
 								{
-									if (checker_expand(data, "PATH") == NULL)
-										printf("bash: sed: No such file or directory\n");
-									else
-										data->valuer_aux = false;
 									if (checker_builtins(data))
 									{
 										if (data->matrix[0][0] == '/')
@@ -308,8 +311,6 @@ void	loop_prompt(t_data *data, t_valuer *val)
 						data->matrix = ft_split_one(data, val, data->command);
 					if (data->select)
 					{
-						if (checker_expand(data, "PATH") == NULL)
-							printf("bash: sed: No such file or directory\n"); // vereficar se é necessario
 						if (checker_builtins(data))
 						{
 							if (data->matrix[0][0] == '/')

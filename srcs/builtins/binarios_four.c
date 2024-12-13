@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 09:17:34 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:21:53 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,6 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 		return (val.k);
 	return (1);
 }
-/*
-static
-		int	verefy_export(const char *s1)
-{
-	size_t	k;
-
-	k = -1;
-	while (s1[++k] && s1[k] != '=')
-		;
-	if (s1[k] == '=' && s1[0] != '=')
-		return (0);
-	return (1);
-}
-*/
 
 void	loop_builtins_export_2(t_valuer *val, char *export)
 {
