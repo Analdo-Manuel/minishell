@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/12 01:24:36 by analdo           ###   ########.fr       */
+/*   Updated: 2024/12/13 10:49:06 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 void	quotes_double(t_data *data, t_valuer *val, char *str)
 {
-	val->p[val->j][val->k] = '\0';
-	val->i++;
+	if (val->p[val->j])
+		val->i++;
+	else
+	{
+		val->p[val->j][val->k] = '\0';
+		val->i++;
+	}
 	while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
 	{
 		while (str[val->i] && str[val->i] != 34)
@@ -72,7 +77,7 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 		quotes_simple(val, str);
 		return ;
 	}
-	else if (str[val->i] == '$' && str[val->i + 1] != 34)
+	else if (str[val->i] == '$' && (str[val->i + 1] != 34 || str[val->i + 1] == 32))
 	{
 		val->i++;
 		if (str[val->i] == '?')
@@ -81,6 +86,8 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 			val->i++;
 		}
 		val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
+		while (str[val->i] == 32)
+			val->i++;
 		return ;
 	}
 	val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);

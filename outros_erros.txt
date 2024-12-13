@@ -1,0 +1,64 @@
+minishell% ls
+bash: sed: No such file or directory
+bash: ls: No such file or directory
+minishell% echo ls
+bash: sed: No such file or directory
+ls
+minishell% pwd
+bash: sed: No such file or directory
+/nfs/homes/marccarv/Documents/42 Cadete/minishell
+minishell% env
+bash: sed: No such file or directory
+SYSTEMD_EXEC_PID=32843
+SSH_AUTH_SOCK=/run/user/101306/keyring/ssh
+SESSION_MANAGER=local/c1r8s3.42luanda.com:@/tmp/.ICE-unix/32843,unix/c1r8s3.42luanda.com:/tmp/.ICE-unix/32843
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/25d367ae_42b5_4a5e_96d0_607662713678
+LANG=en_US.UTF-8
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+PWD=/nfs/homes/marccarv/Documents/42 Cadete/minishell
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/marccarv
+LIBVIRT_DEFAULT_URI=qemu:///system
+GPG_AGENT_INFO=/run/user/101306/gnupg/S.gpg-agent:0:1
+DESKTOP_SESSION=ubuntu
+QT_IM_MODULE=ibus
+XDG_MENU_PREFIX=gnome-
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+USER=marccarv
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/101306/bus,guid=8163cdb393e41500335092a3675bd8c1
+DOCKER_HOST=unix:///run/user/101306/docker.sock
+SSH_AGENT_LAUNCHER=gnome-keyring
+GTK_MODULES=gail:atk-bridge
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+GTK_IM_MODULE=ibus
+XDG_SESSION_DESKTOP=ubuntu
+QT_ACCESSIBILITY=1
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+KRB5CCNAME=FILE:/tmp/krb5cc_101306_5v8L0d
+LOGNAME=marccarv
+GNOME_TERMINAL_SERVICE=:1.90
+VTE_VERSION=6800
+XDG_RUNTIME_DIR=/run/user/101306
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/nfs/homes/marccarv/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+SHELL=/bin/zsh
+XMODIFIERS=@im=ibus
+XDG_SESSION_TYPE=x11
+HOME=/nfs/homes/marccarv
+DBUS_STARTER_BUS_TYPE=session
+COLORTERM=truecolor
+XAUTHORITY=/nfs/homes/marccarv/.Xauthority
+DBUS_STARTER_ADDRESS=unix:path=/run/user/101306/bus,guid=8163cdb393e41500335092a3675bd8c1
+DISPLAY=:0
+TERM=xterm-256color
+GDMSESSION=ubuntu
+XDG_SESSION_CLASS=user
+SHLVL=1
+OLDPWD=/nfs/homes/marccarv/Documents/42 Cadete/minishell
+_=/nfs/homes/marccarv/Documents/42 Cadete/minishell/./minishell
+minishell% echo $? ola
+bash: sed: No such file or directory
+0 ola
+minishell% 
+
+
+---------------------------------------------BASH--------------------------------BASH-------------------------------------
