@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/12 00:57:45 by analdo           ###   ########.fr       */
+/*   Updated: 2024/12/13 13:34:11 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,26 @@ void	realine_prompt(t_data *data)
 		if (data->command[0] != '\0')
 			add_history(data->command);
 	}
+}
+
+char	*expand_var_red(char *s1)
+{
+	t_valuer	val;
+	char	*str;
+
+	val.i = 0;
+	val.j = 0;
+	val.str = (char *) malloc(sizeof(char) * 1);
+	val.str[0] = '\0';
+	while (s1[val.i] && s1[val.i] != '$')
+		val.i++;
+	val.i++;
+	while (s1[val.i] && s1[val.i] != 32 && s1[val.i] != '"' && s1[val.i] != 39)
+		val.str = str_alloc(val.str, s1[val.i++]);
+	str = getenv(val.str);
+	free(val.str);
+	free(s1);
+	return(ft_strdup(str));
 }
 
 char	*expand_var_heredoc(char *s1)

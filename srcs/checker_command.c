@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/11 14:55:46 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:13:19 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,14 @@ static
 			close(data->stdout_padrao);
 		}
 		if (data->valuer_aux == true)
+		{
+			if (data->f_pipe == true)
+			{
+				dup2(data->stdout_padrao, STDOUT_FILENO);
+				close(data->stdout_padrao);
+			}
 			printf("bash: %s: No such file or directory\n", data->matrix[0]);
+		}
 		else
 			printf("%s: Command not found.\n", data->matrix[0]);
 		free_all(data->matrix);
@@ -266,8 +273,9 @@ void	loop_prompt(t_data *data, t_valuer *val)
 									dup2(data->stdin_padrao, STDIN_FILENO);
 									close(data->stdin_padrao);
 								}
-								if (data->str != NULL)
-									free_all(data->str);
+								free_all(data->str);
+								free_all(data->envp);
+								free_all(data->export);
 								exit(g_global);
 							}
 							if (data->str[i + 1] != NULL)
@@ -289,8 +297,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 								break;
 						}
 						g_global = WEXITSTATUS(data->status);
-						if (data->str != NULL)
-							free_all(data->str);
+						free_all(data->str);
 					}
 				}
 				else
@@ -302,7 +309,7 @@ void	loop_prompt(t_data *data, t_valuer *val)
 					if (data->select)
 					{
 						if (checker_expand(data, "PATH") == NULL)
-							printf("bash: sed: No such file or directory\n");
+							printf("bash: sed: No such file or directory\n"); // vereficar se é necessario
 						if (checker_builtins(data))
 						{
 							if (data->matrix[0][0] == '/')

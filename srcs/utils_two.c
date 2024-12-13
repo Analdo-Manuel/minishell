@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:28:53 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/26 11:54:25 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:58:34 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ int	ft_isdigit(int c)
 	if (c >= 48 && c <= 57)
 		return (1);
 	return (0);
+}
+
+bool	ft_isalpha_uppercase(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (true);
+	return (false);
+}
+
+bool	ft_isalpha_lowercase(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (true);
+	return (false);
 }
 
 char	*ft_strjoin_des(char *str, const char *src)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 08:18:21 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:04:52 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,26 @@ void	unset_export_unset(t_data *data, t_valuer val)
 }
 
 static
+		bool	ft_isalpha_func(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			i++;
+		else
+		{
+			if (!ft_isalpha_lowercase(str[i]) && !ft_isalpha_uppercase(str[i]) && !ft_isdigit(str[i]))
+				return (true);
+			i++;
+		}
+	}
+	return (false);
+}
+
+static
 		void	unset_export_export(t_data *data)
 {
 	size_t		i;
@@ -107,8 +127,8 @@ static
 	if (data->matrix[1])
 	{
 		while (data->matrix[i])
-		{	
-			if (ft_isdigit(data->matrix[i][0]))
+		{
+			if (ft_isdigit(data->matrix[i][0]) || data->matrix[i][0] == '=' || ft_isalpha_func(data->matrix[i]))
 			{
 				g_global = 1;
 				printf("bash: export: '%s': not a valid identifier\n", data->matrix[i]);

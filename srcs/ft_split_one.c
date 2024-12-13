@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 10:49:06 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:13:18 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 		quotes_simple(val, str);
 		return ;
 	}
-	else if (str[val->i] == '$' && (str[val->i + 1] != 34 || str[val->i + 1] == 32))
+	else if (str[val->i] == '$' && (str[val->i + 1] != 34 && str[val->i + 1] != 32 && str[val->i + 1] != '\0' && str[val->i + 1] != '.'))
 	{
 		val->i++;
 		if (str[val->i] == '?')

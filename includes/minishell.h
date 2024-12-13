@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 13:05:49 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:50:33 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str);
 
 char	*ft_itoa(int n);
 char	*get_next_line(int fd);
+char	*expand_var_red(char *s1);
 char	*str_alloc(char	*s1, char c);
 char	*ft_strdup(const char	*src);
 char	*expand_var_heredoc(char *s1);
@@ -125,5 +126,7 @@ int		verefiy_pipe(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 bool	checker_builtins(t_data *data);
+bool		ft_isalpha_uppercase(int c);
+bool		ft_isalpha_lowercase(int c);
 
 #endif

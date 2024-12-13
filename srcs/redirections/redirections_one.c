@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/11 14:45:23 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:05:34 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 	t_valuer	val;
 	char		*name;
 	char		*c;
+	char	*temp;
 
 	if (str != NULL)
 		data->command = str;
@@ -178,6 +179,32 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 			&& (data->command[val.i] != '>' || data->command[val.i] != '<'))
 				name[val.j++] = data->command[val.i++];
 			name[val.j] = '\0';
+			if (name[0] == '$')
+			{
+				if ((temp = expand_var_red(ft_strdup(name))) == NULL)
+				{
+					g_global = 1;
+					if (c)
+						free(c);
+					if (val.str != NULL)
+						free(val.str);
+					data->select = false;
+					if (data->f_pipe == true)
+					{
+						dup2(data->stdout_padrao, STDOUT_FILENO);
+						//dup2(data->stdin_padrao, STDIN_FILENO);
+						close(data->stdout_padrao);
+						//close(data->stdin_padrao);
+					}
+					printf("bash: %s: ambiguous redirect\n", name);
+					free(name);
+					free(temp);
+					return ;
+				}
+				else
+					name = expand_var_red(name);
+				free(temp);		
+			}
 			while (data->command[val.i] && (data->command[val.i] == ' ' || data->command[val.i] == '\t'))
 				val.i++;
 			if (val.str)
