@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 13:26:08 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/14 22:01:46 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ static
 		{
 			signal(SIGINT, SIG_IGN);
 			waitpid(data->pid, &data->status, 0);
-			if (WTERMSIG(data->status) == 3)
+			if (WIFEXITED(data->status) == true)
+				g_global = WEXITSTATUS(data->status);
+			else if (WTERMSIG(data->status) == 3)
 			{
 				g_global = 131;
 				printf("Quit (core dumped)\n");
@@ -136,8 +138,11 @@ static
 				printf("\n");
 				g_global = 130;
 			}
-			else if (WIFEXITED(data->status) == 0)
-            	g_global = WEXITSTATUS(data->status);
+			else
+			{
+				printf("ok\n");
+            	g_global = 0;
+			}
 			if (data->path_main != NULL)
 				free(data->path_main);
 			free_all(data->matrix);
@@ -180,6 +185,7 @@ static
 	data->matrix = NULL;
 	data->fd = -1;
 	data->control_padrao = 0;
+	data->signal_erro = false;
 }
 
 void	loop_prompt(t_data *data, t_valuer *val)
@@ -197,167 +203,173 @@ void	loop_prompt(t_data *data, t_valuer *val)
 		realine_prompt(data);
 		if (data->command == NULL)
 			free_total(data);
-		if (verefy_quotes(data->command) == 0)
+		if (data->command[0] == '$' && data->command[1] == '?')
 		{
-			if (verefiy_redirect(data->command) != 3 && verefiy_pipe(data->command) != 3)
+			printf("%d: command not found\n", g_global);
+			g_global = 127;
+			free(data->command);
+		}
+		else
+		{
+			if (verefy_quotes(data->command) == 0)
 			{
-				if (verefiy_pipe(data->command) == 1)
+				if (verefiy_redirect(data->command) != 3 && verefiy_pipe(data->command) != 3)
 				{
-					data->str = ft_split_pipe(data->command, '|');
-					i = 0;
-					if (data->str[i + 1] == NULL)
-						printf("bash: syntax error near unexpected token `|'\n");
-					else
+					if (verefiy_pipe(data->command) == 1)
 					{
-						while (data->str[i])
+						data->str = ft_split_pipe(data->command, '|');
+						i = 0;
+						if (data->str[i + 1] == NULL)
+							printf("bash: syntax error near unexpected token `|'\n");
+						else
 						{
-							if (data->str[i + 1] != NULL)
+							while (data->str[i])
 							{
-								pipe(data->fdpipe);
-								data->f_pipe = true;
-								dup2(data->fdpipe[1], STDOUT_FILENO);
-							}
-							else
-							{
-								data->f_pipe = false;
-								dup2(data->stdout_padrao, STDOUT_FILENO);
-							}
-							if ((pid = fork()) == 0)
-							{
-								close(data->fdpipe[0]);
-								if (verefiy_redirect(data->str[i]) != 0)
-									redirections_op(data, val, data->str[i]);
-								else
-									data->matrix = ft_split_one(data, val, data->str[i]);
-								if (data->select)
+								if (data->str[i + 1] != NULL)
 								{
-									if (checker_builtins(data))
+									pipe(data->fdpipe);
+									data->f_pipe = true;
+									dup2(data->fdpipe[1], STDOUT_FILENO);
+								}
+								else
+								{
+									data->f_pipe = false;
+									dup2(data->stdout_padrao, STDOUT_FILENO);
+								}
+								if ((pid = fork()) == 0)
+								{
+									close(data->fdpipe[0]);
+									if (verefiy_redirect(data->str[i]) != 0)
+										redirections_op(data, val, data->str[i]);
+									else
+										data->matrix = ft_split_one(data, val, data->str[i]);
+									if (data->select)
 									{
-										if (data->matrix[0][0] == '/')
+										if (checker_builtins(data))
 										{
-											if (access(data->matrix[0], X_OK) == 0)
+											if (data->matrix[0][0] == '/')
 											{
-												data->path_main = ft_strdup(data->matrix[0]);
-												print_prompt(data);
+												if (access(data->matrix[0], X_OK) == 0)
+												{
+													data->path_main = ft_strdup(data->matrix[0]);
+													print_prompt(data);
+												}
+												else
+												{	
+													g_global = 127;
+													dup2(data->stdout_padrao, STDOUT_FILENO);
+													close(data->stdout_padrao);
+													printf("bash: %s: No such file or directory\n", data->matrix[0]);
+													free_all(data->matrix);
+												}
 											}
 											else
-											{	
-												g_global = 127;
-												dup2(data->stdout_padrao, STDOUT_FILENO);
-												close(data->stdout_padrao);
-												printf("bash: %s: No such file or directory\n", data->matrix[0]);
-												free_all(data->matrix);
+											{
+												data->path_main = find_executable(data);
+												print_prompt(data);
 											}
 										}
 										else
 										{
-											data->path_main = find_executable(data);
-											print_prompt(data);
+											g_global = 0;
+											free_all(data->matrix);
 										}
 									}
 									else
 									{
-										g_global = 0;
+										data->select = true;
 										free_all(data->matrix);
 									}
-								}
-								else
-								{
-									data->select = true;
-									free_all(data->matrix);
-								}
-								if (data->fd >= 0 && data->control_padrao == 1)
-								{
-									dup2(data->stdout_padrao, STDOUT_FILENO);
-									close(data->stdout_padrao);
-								}
-								if (data->fd >= 0 && data->control_padrao == 2)
-								{
-									dup2(data->stdin_padrao, STDIN_FILENO);
-									close(data->stdin_padrao);
-								}
-								free_all(data->str);
-								free_all(data->envp);
-								free_all(data->export);
-								exit(g_global);
-							}
-							if (data->str[i + 1] != NULL)
-							{
-								dup2(data->fdpipe[0], STDIN_FILENO);
-								close(data->fdpipe[0]);
-							}
-							else
-								dup2(data->stdin_padrao, STDIN_FILENO);
-							close(data->fdpipe[1]);
-							i++;
-						}
-						while (true)
-						{
-							signal(SIGINT, SIG_IGN);
-							waitpid(-1, &data->status, 0);
-							i--;
-							if (i == 0)
-								break;
-						}
-						g_global = WEXITSTATUS(data->status);
-						free_all(data->str);
-					}
-				}
-				else
-				{
-					if (verefiy_redirect(data->command) != 0)
-						redirections_op(data, val, NULL);
-					else
-						data->matrix = ft_split_one(data, val, data->command);
-					if (data->select)
-					{
-						if (checker_builtins(data))
-						{
-							if (data->matrix[0][0] == '/')
-							{
-								if (access(data->matrix[0], X_OK) == 0)
-								{
-									data->path_main = ft_strdup(data->matrix[0]);
-									print_prompt(data);
-								}
-								else
-								{	
-									g_global = 127;
 									if (data->fd >= 0 && data->control_padrao == 1)
 									{
 										dup2(data->stdout_padrao, STDOUT_FILENO);
 										close(data->stdout_padrao);
 									}
-									printf("bash: %s: No such file or directory\n", data->matrix[0]);
-									free_all(data->matrix);
+									if (data->fd >= 0 && data->control_padrao == 2)
+									{
+										dup2(data->stdin_padrao, STDIN_FILENO);
+										close(data->stdin_padrao);
+									}
+									free_all(data->str);
+									free_all(data->envp);
+									free_all(data->export);
+									exit(g_global);
 								}
+								if (data->str[i + 1] != NULL)
+								{
+									dup2(data->fdpipe[0], STDIN_FILENO);
+									close(data->fdpipe[0]);
+								}
+								else
+									dup2(data->stdin_padrao, STDIN_FILENO);
+								close(data->fdpipe[1]);
+								i++;
 							}
-							else
+							while (true)
 							{
-								data->path_main = find_executable(data);
-								print_prompt(data);
+								signal(SIGINT, SIG_IGN);
+								waitpid(-1, &data->status, 0);
+								i--;
+								if (i == 0)
+									break;
 							}
-						}
-						else
-						{
-							g_global = 0;
-							free_all(data->matrix);
+							g_global = WEXITSTATUS(data->status);
+							free_all(data->str);
 						}
 					}
 					else
 					{
-						data->select = true;
-						free_all(data->matrix);
-					}
-					if (data->fd >= 0 && data->control_padrao == 1)
-					{
-						dup2(data->stdout_padrao, STDOUT_FILENO);
-						close(data->stdout_padrao);
-					}
-					if (data->fd >= 0 && data->control_padrao == 2)
-					{
-						dup2(data->stdin_padrao, STDIN_FILENO);
-						close(data->stdin_padrao);
+						if (verefiy_redirect(data->command) != 0)
+							redirections_op(data, val, NULL);
+						else
+							data->matrix = ft_split_one(data, val, data->command);
+						if (data->select)
+						{
+							if (checker_builtins(data))
+							{
+								if (data->matrix[0][0] == '/')
+								{
+									if (access(data->matrix[0], X_OK) == 0)
+									{
+										data->path_main = ft_strdup(data->matrix[0]);
+										print_prompt(data);
+									}
+									else
+									{	
+										g_global = 127;
+										if (data->fd >= 0 && data->control_padrao == 1)
+										{
+											dup2(data->stdout_padrao, STDOUT_FILENO);
+											close(data->stdout_padrao);
+										}
+										printf("bash: %s: No such file or directory\n", data->matrix[0]);
+										free_all(data->matrix);
+									}
+								}
+								else
+								{
+									data->path_main = find_executable(data);
+									print_prompt(data);
+								}
+							}
+							else
+								free_all(data->matrix);
+						}
+						else
+						{
+							data->select = true;
+							free_all(data->matrix);
+						}
+						if (data->fd >= 0 && data->control_padrao == 1)
+						{
+							dup2(data->stdout_padrao, STDOUT_FILENO);
+							close(data->stdout_padrao);
+						}
+						if (data->fd >= 0 && data->control_padrao == 2)
+						{
+							dup2(data->stdin_padrao, STDIN_FILENO);
+							close(data->stdin_padrao);
+						}
 					}
 				}
 			}

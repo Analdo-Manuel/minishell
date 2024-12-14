@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/04 13:06:14 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 22:35:51 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,23 @@ static
 
 void	inicializador(t_data *data)
 {
+	data->p = NULL;
+	data->str = NULL;
 	data->home = NULL;
-	data->command = NULL;
+	data->path = NULL;
 	data->envp = NULL;
 	data->matrix = NULL;
-	data->p = NULL;
-	data->path = NULL;
+	data->command = NULL;
 	data->path_main = NULL;
-	data->select = true;
-	data->status = 0;
-	data->exit = 0;
-	data->fd = -1;
-	data->control_padrao = 000;
-	data->f_pipe = false;
-	data->str = NULL;
-	data->valuer_aux = false;
 	g_global = 0;
+	data->fd = -1;
+	data->exit = 0;
+	data->status = 0;
+	data->control_padrao = 000;
+	data->select = true;
+	data->f_pipe = false;
+	data->valuer_aux = false;
+	data->signal_erro = false;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -70,7 +71,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	inicializador(&data);
-	clear_screen(envp);
+	//clear_screen(envp);
 	data.envp = envp_copy(envp);
 	data.export = envp_copy(envp);
 	sort_params(data.export);

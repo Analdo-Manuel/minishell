@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 16:20:32 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:22:25 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	quotes_double(t_data *data, t_valuer *val, char *str)
 	{
 		while (str[val->i] && str[val->i] != 34)
 		{
-			if (str[val->i] == '$' && str[val->i + 1] != 34)
+			if (str[val->i + 1] && str[val->i] == '$' && str[val->i + 1] != 34 && str[val->i + 1] != 32)
 			{
 				val->i++;
 				if (str[val->i] == '?')
@@ -29,14 +29,13 @@ void	quotes_double(t_data *data, t_valuer *val, char *str)
 					val->i++;
 				}
 				val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
-				while (str[val->i] == 32)
-					val->i++;
+//				while (str[val->i] == 32)
+//					val->i++;
 			}
-			else if (str[val->i] == '$' && str[val->i + 1] == 34)
+			else if (str[val->i] == '$' && (str[val->i + 1] == 34 || str[val->i + 1] == 32))
 			{
 				val->p[val->j] = str_alloc(val->p[val->j], str[val->i]);
 				val->i++;
-				break ;
 			}
 			if (str[val->i] && str[val->i] != 34 && str[val->i] != '$')
 				val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
@@ -55,13 +54,14 @@ void	quotes_simple(t_valuer *val, char *str)
 	val->i++;
 	while (str[val->i])
 	{
-		if (str[val->i] == ' ' && str[val->i] != 9)
+/*		if (str[val->i] == ' ' && str[val->i] != 9)
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
 			while (str[val->i] == ' ')
 				val->i++;
 		}
-		else if (str[val->i] == 39)
+*/
+		if (str[val->i] == 39)
 		{
 			val->i++;
 			break ;
@@ -85,7 +85,10 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 			val->p[val->j] = ft_strjoin_des1(val->p[val->j], ft_itoa(g_global));
 			val->i++;
 		}
-		val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
+		else
+			val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
+		if (str[val->i] == 32)
+			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
 		while (str[val->i] == 32)
 			val->i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:29:40 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 15:50:33 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 22:21:11 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 	bool	select;
 	bool	valuer_aux;
 	bool	f_pipe;
+	bool	signal_erro;
 	int		status;
 	int		exit;
 	int		fd;
@@ -86,6 +87,7 @@ void	sort_params(char **envp);
 void	free_total(t_data *data);
 void	clear_screen(char **envp);
 void	realine_prompt(t_data *data);
+void	free_total_exit(t_data *data);
 void	*ft_memset(void *s, int c, long n);
 void	loop_prompt(t_data *data, t_valuer *val);
 void	builtins_pwd(t_data *data);

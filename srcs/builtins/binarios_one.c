@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:05:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:30:52 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:34:03 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	builtins_echo(t_data *data)
 void	builtins_pwd(t_data *data)
 {
 	char	*str;
-
+/*
 	if (data->matrix[1] != NULL)
 	{
 		if (data->f_pipe == true)
@@ -68,6 +68,7 @@ void	builtins_pwd(t_data *data)
 		printf("pwd: too many arguments\n");
 		return ;
 	}
+*/
 	str = getcwd(NULL, 0);
 	if (str == NULL)
 	{
@@ -77,6 +78,7 @@ void	builtins_pwd(t_data *data)
 			close(data->stdout_padrao);
 		}
 		g_global = 1;
+		data->signal_erro = true;
 		printf("error getcwd\n");
 		return ;
 	}
@@ -98,6 +100,7 @@ void	builtins_env(t_data *data)
 			close(data->stdout_padrao);
 		}
 		g_global = 1;
+		data->signal_erro = true;
 		printf("env with no options or arguments\n");
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 11:40:17 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/14 22:38:22 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,40 @@
 void builtins_exit(t_data *data)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
-	printf("exit\n");
-	if (data->matrix[0] == NULL || data->matrix[1] == NULL || data->matrix[2] != NULL)
+	if (data->matrix[1] != NULL)
 	{
-		data->exit = 0;
-		free_total(data);
-		exit(data->exit);
-	}
-	else if (data->matrix[2] != NULL)
-	{
-		printf("bash: exit: too many arguments\n");
-		data->exit = 1;
-		j = 1;
-	}
-	else if (data->matrix[1] != NULL)
-	{
-		while (data->matrix[1][i] != '\0')
+		if (data->matrix[2] != NULL)
 		{
-			if (ft_isdigit(data->matrix[1][i]) == 0)
+			printf("bash: exit: too many arguments\n");
+			data->exit = 1;
+		}
+		else
+		{
+			while (data->matrix[1][i])
 			{
-				if (data->f_pipe == true)
+				if (ft_isdigit(data->matrix[1][i]) == 0 && data->matrix[1][i] != '-')
 				{
-					dup2(data->stdout_padrao, STDOUT_FILENO);
-					close(data->stdout_padrao);
+					if (data->f_pipe == true)
+					{
+						dup2(data->stdout_padrao, STDOUT_FILENO);
+						close(data->stdout_padrao);
+					}
+					printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
+					data->exit = 2;
+					free_total_exit(data);
+					exit(data->exit);
 				}
-				g_global = 1;
-				printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
-				data->exit = 2;
-				j = 1;
-				break ;
+				i++;
 			}
-			i++;
+			if (ft_atoi(data->matrix[1]) > 256 || ft_atoi(data->matrix[1]) < 0)
+				data->exit = ft_atoi(data->matrix[1]) % 256;
+			else
+				data->exit = ft_atoi(data->matrix[1]);
 		}
 	}
-	if (data->matrix[1] != NULL && j == 0)
-		data->exit = ft_atoi(data->matrix[1]);
-	else if (j == 0)
-		data->exit = 0;
-	free_total(data);
+	free_total_exit(data);
 	exit(data->exit);
 }
 
@@ -80,6 +72,7 @@ static bool	echo_pwd_env(t_data *data)
 	}
 	if (ft_strcmp(data->matrix[0], "exit") == 0)
 	{
+		printf("exit\n");
 		builtins_exit(data);
 	}
 	return (false);
@@ -126,7 +119,7 @@ static
 }
 
 static
-		void	unset_export_export(t_data *data) //começa aqui o problema
+		void	unset_export_export(t_data *data)
 {
 	size_t		i;
 	size_t		j;
@@ -145,7 +138,8 @@ static
 					close(data->stdout_padrao);
 				}
 				g_global = 1;
-				printf("bash: export: '%s': not a valid identifier\n", data->matrix[i]);
+				data->signal_erro = true;
+				printf("bash: export: `%s': not a valid identifier\n", data->matrix[i]);
 			}
 			else
 			{
@@ -191,8 +185,16 @@ bool	checker_builtins(t_data *data)
 	if (data->matrix == NULL || data->matrix[0] == NULL)
 		return (false);
 	else if (echo_pwd_env(data))
+	{
+		if (data->signal_erro == false)
+			g_global = 0;
 		return (false);
+	}
 	else if (unset_export_cd(data))
+	{
+		if (data->signal_erro == false)
+			g_global = 0;
 		return (false);
+	}
 	return (true);
 }
