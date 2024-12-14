@@ -6,14 +6,13 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:04:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/20 14:58:54 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:47:17 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static
-	void	ft_swap(char **a, char **b)
+static void	ft_swap(char **a, char **b)
 {
 	char	*swp;
 
@@ -22,8 +21,7 @@ static
 	*b = swp;
 }
 
-static
-	int	ft_strcmp_params(char *s1, char *s2)
+static int	ft_strcmp_params(char *s1, char *s2)
 {
 	int	i;
 

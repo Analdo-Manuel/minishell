@@ -6,20 +6,19 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:55:51 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:31:53 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:47:20 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static
-		char	*control(char *src, t_valuer *val)
+static char	*control(char *src, t_valuer *val)
 {
 	char	*str;
 	size_t	i;
 
-	i = 0; 
-	str = (char *) malloc(sizeof(char) * 3);
+	i = 0;
+	str = (char *)malloc(sizeof(char) * 3);
 	while (src[val->i] == '>' || src[val->i] == '<')
 		str[i++] = src[val->i++];
 	str[i] = '\0';
@@ -28,10 +27,10 @@ static
 	return (str);
 }
 
-void	exec_filho(t_data *data, char *name)	
+void	exec_filho(t_data *data, char *name)
 {
 	t_valuer	val;
-	char	*str;
+	char		*str;
 
 	signal(SIGINT, handler_process);
 	signal(SIGQUIT, handler_process);
@@ -52,9 +51,9 @@ void	exec_filho(t_data *data, char *name)
 			{
 				if (str)
 					free(str);
-				break;
+				break ;
 			}
-			val.str = (char *) malloc(sizeof(char) * 1);
+			val.str = (char *)malloc(sizeof(char) * 1);
 			val.str[0] = '\0';
 			while (str[val.i])
 			{
@@ -62,7 +61,8 @@ void	exec_filho(t_data *data, char *name)
 				{
 					val.i++;
 					val.str = ft_strjoin_des(val.str, expand_var_heredoc(str));
-					while (str[val.i] && str[val.i] != 32 && str[val.i] != '"' && str[val.i] != 39)
+					while (str[val.i] && str[val.i] != 32 && str[val.i] != '"'
+						&& str[val.i] != 39)
 						val.i++;
 					if (str[val.i] == '"' || str[val.i] == 39)
 						val.str = str_alloc(val.str, str[val.i++]);
@@ -111,8 +111,9 @@ void	create_file(t_data *data, t_valuer *val, char *name, char *index_r)
 		}
 		else
 		{
-			while (data->command[val->i] == ' ' || data->command[val->i] == '\t')
-				 val->i++;
+			while (data->command[val->i] == ' '
+				|| data->command[val->i] == '\t')
+				val->i++;
 			if (data->command[val->i] == '\0')
 				val->str = ft_strjoin_des(val->str, name);
 		}
@@ -159,24 +160,25 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 	t_valuer	val;
 	char		*name;
 	char		*c;
-	char	*temp;
+	char		*temp;
 
 	if (str != NULL)
 		data->command = str;
-	val.str = (char *) malloc(sizeof(char) * 1000);
+	val.str = (char *)malloc(sizeof(char) * 1000);
 	ft_memset(val.str, 0, 1000);
 	val.i = 0;
-	while (data->command[val.i] && (data->command[val.i] == ' ' || data->command[val.i] == '\t'))
+	while (data->command[val.i] && (data->command[val.i] == ' '
+			|| data->command[val.i] == '\t'))
 		val.i++;
 	while (data->command[val.i])
 	{
 		if (data->command[val.i] == '>' || data->command[val.i] == '<')
-		{	
+		{
 			c = control(data->command, &val);
-			name = (char *) malloc(sizeof(char) * 4086);
+			name = (char *)malloc(sizeof(char) * 4086);
 			val.j = 0;
-			while (data->command[val.i] && data->command[val.i] != 32 \
-			&& (data->command[val.i] != '>' || data->command[val.i] != '<'))
+			while (data->command[val.i] && data->command[val.i] != 32
+				&& (data->command[val.i] != '>' || data->command[val.i] != '<'))
 				name[val.j++] = data->command[val.i++];
 			name[val.j] = '\0';
 			if (name[0] == '$')
@@ -192,9 +194,9 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 					if (data->f_pipe == true)
 					{
 						dup2(data->stdout_padrao, STDOUT_FILENO);
-						//dup2(data->stdin_padrao, STDIN_FILENO);
+						// dup2(data->stdin_padrao, STDIN_FILENO);
 						close(data->stdout_padrao);
-						//close(data->stdin_padrao);
+						// close(data->stdin_padrao);
 					}
 					printf("bash: %s: ambiguous redirect\n", name);
 					free(name);
@@ -203,14 +205,16 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 				}
 				else
 					name = expand_var_red(name);
-				free(temp);		
+				free(temp);
 			}
-			while (data->command[val.i] && (data->command[val.i] == ' ' || data->command[val.i] == '\t'))
+			while (data->command[val.i] && (data->command[val.i] == ' '
+					|| data->command[val.i] == '\t'))
 				val.i++;
 			if (val.str)
 			{
 				data->matrix = ft_split_one(data, val1, val.str);
-				if (stat(name, &info) == 0 && (ft_strcmp(c, ">") == 0 || ft_strcmp(c, ">>") == 0))
+				if (stat(name, &info) == 0 && (ft_strcmp(c, ">") == 0
+						|| ft_strcmp(c, ">>") == 0))
 				{
 					if (S_ISDIR(info.st_mode))
 					{
@@ -246,7 +250,7 @@ void	redirections_op(t_data *data, t_valuer *val1, char *str)
 					free(c);
 					free_all(data->matrix);
 				}
-			}	
+			}
 		}
 		else
 			add_valuer(&val, data->command);

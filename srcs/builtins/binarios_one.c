@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:05:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:30:52 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:15:20 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	builtins_echo(t_data *data)
 	size_t	i;
 
 	i = 1;
-	if (data->matrix[i][0] == '-' && data->matrix[i][1] == 'n' && checke_comand(data->matrix[i]))
+	if (data->matrix[i][0] == '-' && data->matrix[i][1] == 'n'
+		&& checke_comand(data->matrix[i]))
 	{
 		i++;
 		while (data->matrix[i])
@@ -53,21 +54,10 @@ void	builtins_echo(t_data *data)
 	}
 }
 
-void	builtins_pwd(t_data *data)
+static void	builtins_pwd_one(t_data *data)
 {
 	char	*str;
 
-	if (data->matrix[1] != NULL)
-	{
-		if (data->f_pipe == true)
-		{
-			dup2(data->stdout_padrao, STDOUT_FILENO);
-			close(data->stdout_padrao);
-		}
-		g_global = 1;
-		printf("pwd: too many arguments\n");
-		return ;
-	}
 	str = getcwd(NULL, 0);
 	if (str == NULL)
 	{
@@ -82,6 +72,22 @@ void	builtins_pwd(t_data *data)
 	}
 	printf("%s\n", str);
 	free(str);
+}
+
+void	builtins_pwd(t_data *data)
+{
+	if (data->matrix[1] != NULL)
+	{
+		if (data->f_pipe == true)
+		{
+			dup2(data->stdout_padrao, STDOUT_FILENO);
+			close(data->stdout_padrao);
+		}
+		g_global = 1;
+		printf("pwd: too many arguments\n");
+		return ;
+	}
+	builtins_pwd_one(data);
 	return ;
 }
 

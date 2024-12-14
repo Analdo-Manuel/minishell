@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:00 by marccarv          #+#    #+#             */
-/*   Updated: 2024/12/13 16:27:53 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:54:42 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	cd_home_copy(char **envp, char *home, t_data *data)
 	}
 }
 
-static void	builtins_cd(t_data *data, char *str)
+static void	builtins_cd_one(t_data *data, char *str)
 {
 	if (chdir(str) == 0)
 		return ;
@@ -73,6 +73,27 @@ static void	builtins_cd(t_data *data, char *str)
 		printf("bash: cd: %s: No such file or directory\n", str);
 	}
 	return ;
+}
+
+static void	builtins_cd(t_data *data)
+{
+	if (ft_strcmp(data->matrix[1], "~") == 0)
+	{
+		if (data->matrix[2] != NULL)
+		{
+			if (data->f_pipe == true)
+			{
+				dup2(data->stdout_padrao, STDOUT_FILENO);
+				close(data->stdout_padrao);
+			}
+			g_global = 1;
+			printf("bash: cd: too many arguments\n");
+		}
+		else
+			builtins_cd_one(data, getenv("HOME"));
+	}
+	else
+		builtins_cd_one(data, data->matrix[1]);
 }
 
 void	builtins_cd_conf(t_data *data)
@@ -91,26 +112,8 @@ void	builtins_cd_conf(t_data *data)
 			printf("bash: cd: HOME not set\n");
 			return ;
 		}
-		builtins_cd(data, data->home);
+		builtins_cd_one(data, data->home);
 	}
 	else
-	{
-		if (ft_strcmp(data->matrix[1], "~") == 0)
-		{
-			if (data->matrix[2] != NULL)
-			{
-				if (data->f_pipe == true)
-				{
-					dup2(data->stdout_padrao, STDOUT_FILENO);
-					close(data->stdout_padrao);
-				}
-				g_global = 1;
-				printf("bash: cd: too many arguments\n");
-			}
-			else	
-				builtins_cd(data, getenv("HOME"));
-		}
-		else
-			builtins_cd(data, data->matrix[1]);
-	}
+		builtins_cd(data);
 }

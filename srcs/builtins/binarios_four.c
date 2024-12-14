@@ -6,49 +6,11 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 16:19:39 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:05:24 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	export_define_2(char **export, t_valuer *val)
-{
-	while (export[val->i][val->j])
-	{
-		if ((export[val->i][val->j] == '='))
-		{
-			val->p[val->i] = str_alloc(val->p[val->i], \
-					export[val->i][val->j++]);
-			val->p[val->i] = str_alloc(val->p[val->i], '"');
-		}
-		else
-			val->p[val->i] = str_alloc(val->p[val->i], \
-					export[val->i][val->j++]);
-	}
-}
-
-char	**export_define(char **export)
-{
-	t_valuer	val;
-
-	val.i = 0;
-	while (export[val.i++])
-		;
-	val.p = (char **) malloc(sizeof(char *) * (val.i + 1));
-	val.i = 0;
-	while (export[val.i])
-	{
-		val.p[val.i] = ft_strdup("declare -x ");
-		val.j = 0;
-		export_define_2(export, &val);
-		val.p[val.i] = str_alloc(val.p[val.i], '"');
-		val.i++;
-	}
-	val.p[val.i] = NULL;
-	free_all(export);
-	return (val.p);
-}
 
 static int	ft_strcmp_export(const char *s1, const char *s2)
 {
@@ -64,8 +26,8 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 	{
 		val.k++;
 	}
-	while (s1[val.j] && s1[val.j] != '=' && s2[val.i] && s2[val.i] != '=' \
-	&& (s1[val.j] == s2[val.i]))
+	while (s1[val.j] && s1[val.j] != '=' && s2[val.i] && s2[val.i] != '='
+		&& (s1[val.j] == s2[val.i]))
 	{
 		if (s1[val.j] == s2[val.i])
 			val.k--;
@@ -77,7 +39,7 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 	return (1);
 }
 
-void	loop_builtins_export_2(t_valuer *val, char *export) // aqui esta o erro
+void	loop_builtins_export_2(t_valuer *val, char *export)
 {
 	bool	signal;
 
@@ -86,22 +48,21 @@ void	loop_builtins_export_2(t_valuer *val, char *export) // aqui esta o erro
 	val->i = -1;
 	while (export[++val->i])
 	{
-		if (export[val->i] == '=' && signal == true) // esta condicao causa o erro
+		if (export[val->i] == '=' && signal == true)
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
-			val->p[val->j] = str_alloc(val->p[val->j], '"'); // aqui esta o erro
+			val->p[val->j] = str_alloc(val->p[val->j], '"');
 			signal = false;
 		}
 		else
-			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]); // e depois aqui
+			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 	}
 	if (signal == false)
 		val->p[val->j] = str_alloc(val->p[val->j], '"');
 	val->signal = true;
 }
 
-static
-		void	loop_builtins_export(t_valuer *val, char **src, char *export)
+static void	loop_builtins_export(t_valuer *val, char **src, char *export)
 {
 	if (ft_strcmp_export(export, src[val->j]) != 0)
 	{

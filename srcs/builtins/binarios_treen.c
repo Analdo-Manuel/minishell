@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 20:45:52 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/07 14:34:19 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:47:07 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static int	verefy_export(const char *s1)
 	return (1);
 }
 
-static
-		void	loop_builtins_export(t_valuer *val, char **src, char *export)
+static void	loop_builtins_export(t_valuer *val, char **src, char *export)
 {
 	val->i = -1;
 	if (ft_strcmp_export(export, src[val->j]) != 0)
@@ -70,7 +69,7 @@ static
 	}
 	val->p[val->j][val->i] = '\0';
 	val->j++;
-}	
+}
 
 char	**builtins_export(char **src, char *export)
 {

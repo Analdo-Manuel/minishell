@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: analdo <analdo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:36:44 by almanuel          #+#    #+#             */
-/*   Updated: 2024/11/10 00:55:50 by analdo           ###   ########.fr       */
+/*   Updated: 2024/12/14 16:47:11 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static
-		int	ft_strcmp_unset(const char *s1, const char *s2)
+static int	ft_strcmp_unset(const char *s1, const char *s2)
 {
 	size_t	i;
 	size_t	k;
@@ -33,8 +32,7 @@ static
 	return (1);
 }
 
-static
-		int	ft_strcmp_unset_export(const char *s1, const char *s2)
+static int	ft_strcmp_unset_export(const char *s1, const char *s2)
 {
 	size_t	i;
 	size_t	j;
