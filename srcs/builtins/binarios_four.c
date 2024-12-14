@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_four.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:21:53 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:34:24 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	ft_strcmp_export(const char *s1, const char *s2)
 	return (1);
 }
 
-void	loop_builtins_export_2(t_valuer *val, char *export)
+void	loop_builtins_export_2(t_valuer *val, char *export) // aqui esta o erro
 {
 	bool	signal;
 
@@ -86,14 +86,14 @@ void	loop_builtins_export_2(t_valuer *val, char *export)
 	val->i = -1;
 	while (export[++val->i])
 	{
-		if (export[val->i] == '=')
+		if (export[val->i] == '=') // esta condicao causa o erro
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
-			val->p[val->j] = str_alloc(val->p[val->j], '"');
+			val->p[val->j] = str_alloc(val->p[val->j], '"'); // aqui esta o erro
 			signal = false;
 		}
 		else
-			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
+			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]); // e depois aqui
 	}
 	if (signal != true)
 		val->p[val->j] = str_alloc(val->p[val->j], '"');

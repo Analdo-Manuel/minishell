@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-make re && make clean && valgrind --leak-check=full ./minishell
+make re && make clean && valgrind --leak-check=full --show-leak-kinds=all ./minishell

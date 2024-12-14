@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:47:27 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 13:34:11 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:28:39 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*str_alloc(char	*s1, char c)
 	p = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 2));
 	while (s1[++i])
 		p[i] = s1[i];
-	p[i++] = c;
+	p[i++] = c; // talvez modificar aqui e ver sem o valor é '"'
 	p[i] = '\0';
 	free(s1);
 	return (p);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 16:31:21 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:40:17 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ static
 	while (str[i])
 	{
 		if (str[i] == '=')
+		{
+			return (false);
 			i++;
+		}
 		else
 		{
 			if (!ft_isalpha_lowercase(str[i]) && !ft_isalpha_uppercase(str[i]) && !ft_isdigit(str[i]))
@@ -123,7 +126,7 @@ static
 }
 
 static
-		void	unset_export_export(t_data *data)
+		void	unset_export_export(t_data *data) //começa aqui o problema
 {
 	size_t		i;
 	size_t		j;

@@ -1,0 +1,70 @@
+minishell% export "zer.o"=./op="dm.pf"
+bash: export: 'zer.o=./op=dm.pf': not a valid identifier
+minishell% export "zero"=./op="dm.pf"
+minishell% export 'zero'=./op="dm.pf"
+==108096== Use of uninitialised value of size 8
+==108096==    at 0x10A899: quotes_simple (ft_split_one.c:62)
+==108096==    by 0x10A9C9: selection_option (ft_split_one.c:77)
+==108096==    by 0x10AD0E: ft_split_one (ft_split_one.c:110)
+==108096==    by 0x10BDA0: loop_prompt (checker_command.c:311)
+==108096==    by 0x109800: main (main.c:78)
+==108096== 
+minishell% export
+declare -x COLORTERM="truecolor"
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path="/run/user/101306/bus,guid="02d2b123e9ed9a0c6247e516675d42ed"
+declare -x DBUS_STARTER_ADDRESS="unix:path="/run/user/101306/bus,guid="02d2b123e9ed9a0c6247e516675d42ed"
+declare -x DBUS_STARTER_BUS_TYPE="session"
+declare -x DESKTOP_SESSION="ubuntu"
+declare -x DISPLAY=":0"
+declare -x DOCKER_HOST="unix:///run/user/101306/docker.sock"
+declare -x GDMSESSION="ubuntu"
+declare -x GLIBCPP_FORCE_NEW="1"
+declare -x GLIBCXX_FORCE_NEW="1"
+declare -x GNOME_DESKTOP_SESSION_ID="this-is-deprecated"
+declare -x GNOME_TERMINAL_SCREEN="/org/gnome/Terminal/screen/61c5cda7_210d_46d4_bbd8_6fc8d9c94c11"
+declare -x GNOME_TERMINAL_SERVICE=":1.87"
+declare -x GPG_AGENT_INFO="/run/user/101306/gnupg/S.gpg-agent:0:1"
+declare -x GTK_IM_MODULE="ibus"
+declare -x GTK_MODULES="gail:atk-bridge"
+declare -x HOME="/nfs/homes/marccarv"
+declare -x KRB5CCNAME="FILE:/tmp/krb5cc_101306_Q8sG2E"
+declare -x LANG="en_US.UTF-8"
+declare -x LD_LIBRARY_PATH="/usr/lib/debug"
+declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
+declare -x LIBVIRT_DEFAULT_URI="qemu:///system"
+declare -x LOGNAME="marccarv"
+declare -x OLDPWD="/nfs/homes/marccarv/Documents/42 Cadete"
+declare -x PATH="/nfs/homes/marccarv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PWD="/nfs/homes/marccarv/Documents/42 Cadete/minishell"
+declare -x QT_ACCESSIBILITY="1"
+declare -x QT_IM_MODULE="ibus"
+declare -x SESSION_MANAGER="local/c1r8s8.42luanda.com:@/tmp/.ICE-unix/99013,unix/c1r8s8.42luanda.com:/tmp/.ICE-unix/99013"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AGENT_LAUNCHER="gnome-keyring"
+declare -x SSH_AUTH_SOCK="/run/user/101306/keyring/ssh"
+declare -x SYSTEMD_EXEC_PID="99013"
+declare -x TERM="xterm-256color"
+declare -x USER="marccarv"
+declare -x VTE_VERSION="6800"
+declare -x XAUTHORITY="/nfs/homes/marccarv/.Xauthority"
+declare -x XDG_CONFIG_DIRS="/etc/xdg/xdg-ubuntu:/etc/xdg"
+declare -x XDG_CURRENT_DESKTOP="ubuntu:GNOME"
+declare -x XDG_DATA_DIRS="/usr/share/ubuntu:/usr/share/gnome:/nfs/homes/marccarv/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop"
+declare -x XDG_GREETER_DATA_DIR="/var/lib/lightdm-data/marccarv"
+declare -x XDG_MENU_PREFIX="gnome-"
+declare -x XDG_RUNTIME_DIR="/run/user/101306"
+declare -x XDG_SEAT_PATH="/org/freedesktop/DisplayManager/Seat0"
+declare -x XDG_SESSION_CLASS="user"
+declare -x XDG_SESSION_DESKTOP="ubuntu"
+declare -x XDG_SESSION_PATH="/org/freedesktop/DisplayManager/Session3"
+declare -x XDG_SESSION_TYPE="x11"
+declare -x XMODIFIERS="@im="ibus"
+declare -x _="/usr/bin/valgrind"
+declare -x zero="./op=""dm.pf""
+minishell% export 'zero'=./op="dm.pf"
+
+
+export "zero"=./op="dm.pf"
+
+
