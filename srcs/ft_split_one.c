@@ -6,7 +6,7 @@
 /*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/13 13:13:18 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:20:32 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 void	quotes_double(t_data *data, t_valuer *val, char *str)
 {
-	if (val->p[val->j])
-		val->i++;
-	else
-	{
-		val->p[val->j][val->k] = '\0';
-		val->i++;
-	}
+	val->i++;
 	while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
 	{
 		while (str[val->i] && str[val->i] != 34)
@@ -49,34 +43,40 @@ void	quotes_double(t_data *data, t_valuer *val, char *str)
 			val->signal = true;
 		}
 		if (str[val->i] == 34)
+		{
 			val->i++;
+			break ;
+		}
 	}
 }
 
 void	quotes_simple(t_valuer *val, char *str)
 {
 	val->i++;
-	while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
+	while (str[val->i])
 	{
-		while (str[val->i] && str[val->i] != 39)
-			val->p[val->j][val->k++] = str[val->i++];
-		if (str[val->i] == 39)
+		if (str[val->i] == ' ' && str[val->i] != 9)
+		{
+			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
+			while (str[val->i] == ' ')
+				val->i++;
+		}
+		else if (str[val->i] == 39)
+		{
 			val->i++;
+			break ;
+		}
+		else
+			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
 	}
 }
 
 void	selection_option(t_data *data, t_valuer *val, char *str)
 {
 	if (str[val->i] == 34)
-	{
 		quotes_double(data, val, str);
-		return ;
-	}
 	else if (str[val->i] == 39)
-	{
 		quotes_simple(val, str);
-		return ;
-	}
 	else if (str[val->i] == '$' && (str[val->i + 1] != 34 && str[val->i + 1] != 32 && str[val->i + 1] != '\0' && str[val->i + 1] != '.'))
 	{
 		val->i++;
@@ -88,9 +88,9 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 		val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
 		while (str[val->i] == 32)
 			val->i++;
-		return ;
 	}
-	val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
+	else
+		val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
 }
 
 char	**ft_split_one(t_data *data, t_valuer *val, char *str)

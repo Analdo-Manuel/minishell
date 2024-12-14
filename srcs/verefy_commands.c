@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verefy_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/12/14 13:29:24 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:26:04 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	loop_verefy_quotes(char *str, t_valuer *val)
 			val->j++;
 		verefy_quotes_cont_2(str, val);
 	}
-	val->i++;
+	else
+		val->i++;
 }
 
 int	verefy_quotes(char *str)

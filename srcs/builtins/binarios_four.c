@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binarios_four.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:06:09 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 11:34:24 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:19:39 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	loop_builtins_export_2(t_valuer *val, char *export) // aqui esta o erro
 	val->i = -1;
 	while (export[++val->i])
 	{
-		if (export[val->i] == '=') // esta condicao causa o erro
+		if (export[val->i] == '=' && signal == true) // esta condicao causa o erro
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 			val->p[val->j] = str_alloc(val->p[val->j], '"'); // aqui esta o erro
@@ -95,7 +95,7 @@ void	loop_builtins_export_2(t_valuer *val, char *export) // aqui esta o erro
 		else
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]); // e depois aqui
 	}
-	if (signal != true)
+	if (signal == false)
 		val->p[val->j] = str_alloc(val->p[val->j], '"');
 	val->signal = true;
 }
@@ -115,9 +115,7 @@ static
 		val->p[val->j][val->i] = '\0';
 	}
 	else
-	{
 		loop_builtins_export_2(val, export);
-	}
 	val->j++;
 }
 
@@ -133,7 +131,7 @@ void	builtins_export_define_2(t_valuer *val, char *export)
 	val->i = -1;
 	while (export[++val->i])
 	{
-		if (export[val->i] == '=')
+		if (export[val->i] == '=' && signal == true)
 		{
 			val->p[val->j] = str_alloc(val->p[val->j], export[val->i]);
 			val->p[val->j] = str_alloc(val->p[val->j], '"');
@@ -160,9 +158,7 @@ char	**builtins_export_define(char **src, char *export)
 	while (src[val.j])
 		loop_builtins_export(&val, src, export);
 	if (val.signal == false)
-	{
 		builtins_export_define_2(&val, export);
-	}
 	val.p[val.j] = NULL;
 	free_all(src);
 	return (val.p);
