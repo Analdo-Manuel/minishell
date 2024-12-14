@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verefy_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/12/14 16:26:04 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:26:55 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,31 @@
 
 static void	verefy_quotes_cont(char *str, t_valuer *val)
 {
-	while (str[val->i] && str[val->i] != 34)
+	while (str[val->i])
 	{
-		val->i++;
 		if (str[val->i] == 34)
 		{
-			val->k++;
+			if (val->j % 2 == 0)
+				val->k++;
+			val->i++;
 			break ;
 		}
+		val->i++;
 	}
 }
 
 static void	verefy_quotes_cont_2(char *str, t_valuer *val)
 {
-	while (str[val->i] && str[val->i] != 39)
+	while (str[val->i])
 	{
-		val->i++;
 		if (str[val->i] == 39)
 		{
-			val->j++;
+			if (val->k % 2 == 0)
+				val->j++;
+			val->i++;
 			break ;
 		}
+		val->i++;
 	}
 }
 
@@ -43,21 +47,29 @@ void	loop_verefy_quotes(char *str, t_valuer *val)
 	if (str[val->i] == 34)
 	{
 		val->i++;
-		val->k++;
+		if (val->j % 2 == 0)
+			val->k++;
 		if (!str[val->i])
 			return ;
-		if (str[val->i] == 34)
+		if (str[val->i] == 34 && val->j % 2 == 0 && val->k % 2 != 0)
+		{
+			val->i++;
 			val->k++;
+		}
 		verefy_quotes_cont(str, val);
 	}
 	else if (str[val->i] == 39)
 	{
 		val->i++;
-		val->j++;
-		if (!str[val->i])
-			return ;
-		if (str[val->i] == 39)
+		if (val->k % 2 == 0)
 			val->j++;
+		if (str[val->i] == '\0')
+			return ;
+		if (str[val->i] == 39 && val->k % 2 == 0 && val->j % 2 != 0)
+		{
+			val->i++;
+			val->j++;
+		}
 		verefy_quotes_cont_2(str, val);
 	}
 	else
