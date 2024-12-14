@@ -67,4 +67,12 @@ minishell% export 'zero'=./op="dm.pf"
 
 export "zero"=./op="dm.pf"
 
+marccarv@c1r8s8:~/Documents/42 Cadete/minishell$ export 'ze$ro'=./''op="dm.pf"
+bash: export: `ze$ro=./op=dm.pf': not a valid identifier
+marccarv@c1r8s8:~/Documents/42 Cadete/minishell$ export 'zero'=./''op="dm.pf"
+marccarv@c1r8s8:~/Documents/42 Cadete/minishell$
 
+marccarv@c1r8s8:~/Documents/42 Cadete/minishell$ export 'ze$ro'=./''op="dm.pf"
+bash: export: `ze$ro=./op=dm.pf': not a valid identifier
+marccarv@c1r8s8:~/Documents/42 Cadete/minishell$ export 'zero'=./''op="dm.pf"
+marccarv@c1r8s8:~/Documents/42 Cadete/minishell$

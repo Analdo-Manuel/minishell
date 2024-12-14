@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verefiy_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:53:18 by marccarv          #+#    #+#             */
-/*   Updated: 2024/12/11 12:44:46 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:27:53 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	verefiy_pipe(char *str)
 		{
 			while (str[i] == 124)
 				i++;
+			g_global = 2;
 			printf("bash: syntax error near unexpected token `%c'\n", str[i - 1]);
 			return (3);
 		}
@@ -39,6 +40,7 @@ int	verefiy_pipe(char *str)
 		{
 			while (str[i] == 124)
 				i++;
+			g_global = 2;
 			printf("bash: syntax error near unexpected token `%c'\n", str[i - 1]);
 			return (3);
 		}
@@ -47,6 +49,7 @@ int	verefiy_pipe(char *str)
 		{
 			while (str[i] == 124)
 				i++;
+			g_global = 2;
 			printf("bash: syntax error near unexpected token `%c'\n", str[i - 1]);
 			return (3);
 		}
@@ -59,6 +62,7 @@ int	verefiy_pipe(char *str)
 				m++;
 			if (str[m] == '\0' || str[m] == 124)
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `|'\n");
 				return (3);
 			}

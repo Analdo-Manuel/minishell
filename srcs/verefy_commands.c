@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verefy_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:59:22 by marccarv          #+#    #+#             */
-/*   Updated: 2024/12/03 12:54:53 by almanuel         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:29:24 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	verefy_quotes(char *str)
 		loop_verefy_quotes(str, &val);
 	if ((val.j % 2 != 0) || (val.k % 2 != 0))
 	{
+		g_global = 1;
 		printf("Error quotes not closed\n");
 		return (1);
 	}

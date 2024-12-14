@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 09:15:00 by marccarv          #+#    #+#             */
-/*   Updated: 2024/11/29 16:18:30 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:23:10 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	verefiy_redirect(char *str)
 		{
 			while (str[i] == 62 || str[i] == 60 || str[i] == 124)
 				i++;
+			g_global = 2;
 			printf("bash: syntax error near unexpected token `%c'\n", str[i - 1]);
 			return (3);
 		}
@@ -44,6 +45,7 @@ int	verefiy_redirect(char *str)
 		{
 			while (str[i] == 62 || str[i] == 60 || str[i] == 32)
 				i++;
+			g_global = 2;
 			printf("bash: syntax error near unexpected token `%c'\n", str[i]);
 			return (3);
 		}
@@ -55,11 +57,13 @@ int	verefiy_redirect(char *str)
 				n++;
 			if (str[n] == '\0')
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `newline'\n");
 				return (3);
 			}
 			if (str[n] == 10 || str[n] == 124 || str[n] == 60 || str[n] == 62)
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `%c'\n", str[n]);
 				return (3);
 			}
@@ -74,11 +78,13 @@ int	verefiy_redirect(char *str)
 				n++;
 			if (str[n] == '\0')
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `newline'\n");
 				return (3);
 			}
 			if (str[n] == 10 || str[n] == 124 || str[n] == 60 || str[n] == 62)
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `%c'\n", str[n]);
 				return (3);
 			}
@@ -93,11 +99,13 @@ int	verefiy_redirect(char *str)
 				n++;
 			if (str[n] == '\0')
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `newline'\n");
 				return (3);
 			}
 			if (str[n] == 10 || str[n] == 124 || str[n] == 60 || str[n] == 62)
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `%c'\n", str[n]);
 				return (3);
 			}
@@ -110,11 +118,13 @@ int	verefiy_redirect(char *str)
 				n++;
 			if (str[n] == '\0')
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `newline'\n");
 				return (3);
 			}
 			if (str[n] == 10 || str[n] == 124 || str[n] == 60 || str[n] == 62)
 			{
+				g_global = 2;
 				printf("bash: syntax error near unexpected token `%c'\n", str[n]);
 				return (3);
 			}
