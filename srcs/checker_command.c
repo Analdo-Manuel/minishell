@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 22:01:46 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/15 02:59:01 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ static
 			free_all(data->matrix);
 		}
 	}
-	else // aqui analizar
+	else
 	{
 		g_global = 127;
 		if (data->fd >= 0 && data->control_padrao == 1)

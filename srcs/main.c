@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:28:55 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 22:35:51 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:16:24 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	inicializador(t_data *data)
 	data->path_main = NULL;
 	g_global = 0;
 	data->fd = -1;
-	data->exit = 0;
 	data->status = 0;
 	data->control_padrao = 000;
 	data->select = true;
 	data->f_pipe = false;
 	data->valuer_aux = false;
+	data->block_error = false;
 	data->signal_erro = false;
 }
 

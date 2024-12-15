@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 21:22:25 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:42:18 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	quotes_double(t_data *data, t_valuer *val, char *str)
 					val->i++;
 				}
 				val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
-//				while (str[val->i] == 32)
-//					val->i++;
 			}
 			else if (str[val->i] == '$' && (str[val->i + 1] == 34 || str[val->i + 1] == 32))
 			{
@@ -54,13 +52,6 @@ void	quotes_simple(t_valuer *val, char *str)
 	val->i++;
 	while (str[val->i])
 	{
-/*		if (str[val->i] == ' ' && str[val->i] != 9)
-		{
-			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
-			while (str[val->i] == ' ')
-				val->i++;
-		}
-*/
 		if (str[val->i] == 39)
 		{
 			val->i++;

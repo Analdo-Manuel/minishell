@@ -6,7 +6,7 @@
 /*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:55:15 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/14 22:38:22 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:12:41 by marccarv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void builtins_exit(t_data *data)
 		if (data->matrix[2] != NULL)
 		{
 			printf("bash: exit: too many arguments\n");
-			data->exit = 1;
+			g_global = 1;
 		}
 		else
 		{
 			while (data->matrix[1][i])
 			{
-				if (ft_isdigit(data->matrix[1][i]) == 0 && data->matrix[1][i] != '-')
+				if (ft_isdigit(data->matrix[1][i]) == 0 && data->matrix[1][i] != '-' && data->matrix[1][i] != '+')
 				{
 					if (data->f_pipe == true)
 					{
@@ -36,20 +36,20 @@ void builtins_exit(t_data *data)
 						close(data->stdout_padrao);
 					}
 					printf("bash: exit: %s: numeric argument required\n", data->matrix[1]);
-					data->exit = 2;
+					g_global = 2;
 					free_total_exit(data);
-					exit(data->exit);
+					exit(g_global);
 				}
 				i++;
 			}
 			if (ft_atoi(data->matrix[1]) > 256 || ft_atoi(data->matrix[1]) < 0)
-				data->exit = ft_atoi(data->matrix[1]) % 256;
+				g_global = ft_atoi(data->matrix[1]) % 256;
 			else
-				data->exit = ft_atoi(data->matrix[1]);
+				g_global = ft_atoi(data->matrix[1]);
 		}
 	}
 	free_total_exit(data);
-	exit(data->exit);
+	exit(g_global);
 }
 
 static bool	echo_pwd_env(t_data *data)
