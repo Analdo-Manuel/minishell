@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:33:37 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/15 02:59:01 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/15 05:32:22 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	*find_executable(t_data *data)
 		}
 		free_all(data->p);
 	}
-	data->valuer_aux = true;
 	return (NULL);
 }
 
@@ -155,15 +154,6 @@ static
 		{
 			dup2(data->stdout_padrao, STDOUT_FILENO);
 			close(data->stdout_padrao);
-		}
-		if (data->valuer_aux == true)
-		{
-			if (data->f_pipe == true)
-			{
-				dup2(data->stdout_padrao, STDOUT_FILENO);
-				close(data->stdout_padrao);
-			}
-			printf("bash: %s: No such file or directory\n", data->matrix[0]);
 		}
 		else
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marccarv <marccarv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almanuel <almanuel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:19:35 by almanuel          #+#    #+#             */
-/*   Updated: 2024/12/15 00:42:18 by marccarv         ###   ########.fr       */
+/*   Updated: 2024/12/15 05:35:27 by almanuel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,27 @@
 void	quotes_double(t_data *data, t_valuer *val, char *str)
 {
 	val->i++;
-	while (str[val->i] && str[val->i] != ' ' && str[val->i] != '\t')
+	while (str[val->i] && str[val->i] != 34)
 	{
-		while (str[val->i] && str[val->i] != 34)
-		{
-			if (str[val->i + 1] && str[val->i] == '$' && str[val->i + 1] != 34 && str[val->i + 1] != 32)
-			{
-				val->i++;
-				if (str[val->i] == '?')
-				{
-					val->p[val->j] = ft_strjoin_des1(val->p[val->j], \
-					ft_itoa(g_global));
-					val->i++;
-				}
-				val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
-			}
-			else if (str[val->i] == '$' && (str[val->i + 1] == 34 || str[val->i + 1] == 32))
-			{
-				val->p[val->j] = str_alloc(val->p[val->j], str[val->i]);
-				val->i++;
-			}
-			if (str[val->i] && str[val->i] != 34 && str[val->i] != '$')
-				val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
-			val->signal = true;
-		}
-		if (str[val->i] == 34)
+		if (str[val->i + 1] && str[val->i] == '$' && str[val->i + 1] != 34 && str[val->i + 1] != 32)
 		{
 			val->i++;
-			break ;
+			if (str[val->i] == '?')
+			{
+				val->p[val->j] = ft_strjoin_des1(val->p[val->j], \
+				ft_itoa(g_global));
+				val->i++;
+			}
+			val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
 		}
+		else if (str[val->i] == '$' && (str[val->i + 1] == 34 || str[val->i + 1] == 32))
+		{
+			val->p[val->j] = str_alloc(val->p[val->j], str[val->i]);
+			val->i++;
+		}
+		if (str[val->i] && str[val->i] != 34 && str[val->i] != '$')
+			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
+		val->signal = true;
 	}
 }
 
@@ -65,7 +57,10 @@ void	quotes_simple(t_valuer *val, char *str)
 void	selection_option(t_data *data, t_valuer *val, char *str)
 {
 	if (str[val->i] == 34)
+	{
 		quotes_double(data, val, str);
+		val->i++;
+	}
 	else if (str[val->i] == 39)
 		quotes_simple(val, str);
 	else if (str[val->i] == '$' && (str[val->i + 1] != 34 && str[val->i + 1] != 32 && str[val->i + 1] != '\0' && str[val->i + 1] != '.'))
@@ -76,7 +71,7 @@ void	selection_option(t_data *data, t_valuer *val, char *str)
 			val->p[val->j] = ft_strjoin_des1(val->p[val->j], ft_itoa(g_global));
 			val->i++;
 		}
-		else
+		else if (str[val->i] != '"')
 			val->p[val->j] = expand_variable(data, val->p[val->j], str, val);
 		if (str[val->i] == 32)
 			val->p[val->j] = str_alloc(val->p[val->j], str[val->i++]);
@@ -94,7 +89,7 @@ char	**ft_split_one(t_data *data, t_valuer *val, char *str)
 	val->p = (char **) malloc(sizeof(char *) * 4096);
 	val->i = 0;
 	val->j = 0;
-	while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n' || str[val->i] == '"')
+	while (str[val->i] == ' ' || str[val->i] == '\t' || str[val->i] == '\n')
 		val->i++;
 	while (str[val->i])
 	{
